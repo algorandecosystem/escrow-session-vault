@@ -4021,7 +4021,7 @@
       ]
     },
     "610": {
-      "op": "ed25519verify",
+      "op": "ed25519verify_bare",
       "defined_out": [
         "signatureIsValid#0"
       ],

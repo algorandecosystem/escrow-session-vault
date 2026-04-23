@@ -112,7 +112,7 @@ export class MppEscrowSessionVaultManager extends Contract {
 
     const message = this.getClaimVoucherMessage(totalAmountClaimed)
     const viewerPublicKey = viewer.bytes
-    const signatureIsValid = op.ed25519verify(message, signature, viewerPublicKey)
+    const signatureIsValid = op.ed25519verifyBare(message, signature, viewerPublicKey)
     assert(signatureIsValid, 'Invalid signature')
   }
 

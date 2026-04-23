@@ -597,10 +597,10 @@ smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSess
     frame_dig -2
     callsub getClaimVoucherMessage
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:115
-    // const signatureIsValid = op.ed25519verify(message, signature, viewerPublicKey)
+    // const signatureIsValid = op.ed25519verifyBare(message, signature, viewerPublicKey)
     frame_dig -1
     frame_dig -3
-    ed25519verify
+    ed25519verify_bare
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:116
     // assert(signatureIsValid, 'Invalid signature')
     assert // Invalid signature
