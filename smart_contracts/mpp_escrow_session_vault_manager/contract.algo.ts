@@ -35,7 +35,7 @@ export class MppEscrowSessionVaultManager extends Contract {
   /**
    * BoxMap for session data.
    */
-  sessions = BoxMap<bytes, SessionInfo>({ keyPrefix: 's' })
+  sessions = BoxMap<bytes, SessionInfo>({ keyPrefix: '' })
 
   private getViewerSession(viewer: Account, host: Account) {
     return this.sessions(viewer.bytes.concat(host.bytes))

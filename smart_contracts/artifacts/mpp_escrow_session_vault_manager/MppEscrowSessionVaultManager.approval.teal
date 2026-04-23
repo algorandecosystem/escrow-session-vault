@@ -4,7 +4,7 @@
 // @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
 main:
     intcblock 32 1 0 40 TMPL_USDC_ASSET_ID
-    bytecblock "s" 0x068101
+    bytecblock 0x068101
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:34
     // export class MppEscrowSessionVaultManager extends Contract {
     txn NumAppArgs
@@ -52,11 +52,6 @@ openSession:
     assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:41
     // return this.sessions(viewer.bytes.concat(host.bytes))
-    concat
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:38
-    // sessions = BoxMap<bytes, SessionInfo>({ keyPrefix: 's' })
-    bytec_0 // "s"
-    swap
     concat
     dup
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:50
@@ -182,11 +177,6 @@ deposit:
     // return this.sessions(viewer.bytes.concat(host.bytes))
     cover 2
     concat
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:38
-    // sessions = BoxMap<bytes, SessionInfo>({ keyPrefix: 's' })
-    bytec_0 // "s"
-    swap
-    concat
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:86
     // assert(viewerSession.exists, 'Session does not exist')
     dup
@@ -280,9 +270,9 @@ claimVoucher_while_top@2:
     itxn_field TypeEnum
     pushint 5 // DeleteApplication
     itxn_field OnCompletion
-    bytec_1 // 0x068101
+    bytec_0 // 0x068101
     itxn_field ApprovalProgram
-    bytec_1 // 0x068101
+    bytec_0 // 0x068101
     itxn_field ClearStateProgram
     intc_2 // 0
     itxn_field Fee
@@ -295,11 +285,6 @@ claimVoucher_after_while@7:
     dig 4
     dup
     dig 5
-    concat
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:38
-    // sessions = BoxMap<bytes, SessionInfo>({ keyPrefix: 's' })
-    bytec_0 // "s"
-    swap
     concat
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:104
     // assert(viewerSession.exists, 'Session does not exist')
@@ -415,11 +400,6 @@ getRemainingBalance:
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:41
     // return this.sessions(viewer.bytes.concat(host.bytes))
     concat
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:38
-    // sessions = BoxMap<bytes, SessionInfo>({ keyPrefix: 's' })
-    bytec_0 // "s"
-    swap
-    concat
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:133
     // assert(viewerSession.exists, 'Session does not exist')
     dup
@@ -468,11 +448,6 @@ refundAndCloseSession:
     assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:41
     // return this.sessions(viewer.bytes.concat(host.bytes))
-    concat
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:38
-    // sessions = BoxMap<bytes, SessionInfo>({ keyPrefix: 's' })
-    bytec_0 // "s"
-    swap
     concat
     dupn 2
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:145
