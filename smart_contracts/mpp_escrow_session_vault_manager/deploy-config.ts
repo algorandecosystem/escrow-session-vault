@@ -31,7 +31,7 @@ export async function deploy() {
 
 
   console.log(`Operation: ${result.operationPerformed}`)
-  console.log(`App ID: ${appClient.appClient.appId}`)
+  console.log(`App ID: ${appClient.appClient.appId}L`)
   console.log(`App Address: ${appClient.appAddress}`)
   console.log(`Admin (creator): ${admin.addr}`)
   console.log(`USDC_ASSET_ID (from TMPL_USDC_ASSET_ID): ${usdcAssetId}`)

@@ -3,7 +3,7 @@
   "sources": [
     "../contract.algo.ts"
   ],
-  "mappings": "AAiCA;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;;;;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAaE;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AANuB;AAAA;AAShB;AAAA;;AAAD;;;AAGc;AAFM;AAAA;;AAAA;;AAAA;AAAA;AAAA;AAAtB;;AAAA;AAAA;AAJJ;AAAA;AAeA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AACS;;;AAAqB;;AAArB;AAAP;AADF;AAAA;AASS;;AAAe;;AAAf;AAAP;AAEA;AACmB;;AACF;;AACF;;;;;;;AAHf;;;;AAAA;;;AAAA;AAHF;AAAA;AAaA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AA1CuB;;AAAA;AA6Cd;AAAA;AAAA;;AAAP;AACO;;AAAA;;;AAA0B;;AAA1B;AAAP;AACO;;AAAA;AAAA;AAA4B;;AAA5B;AAAP;AAE0B;AAAA;AAAA;AAC1B;AAAA;AAA4B;;AAAA;AAAA;AAA5B;AAAA;AAD0B;AAAA;AAAA;AAP5B;AAAA;AAmBA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AACS;;;AADT;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAOA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;;AAEe;;;AAAM;AAAnB;;;AAEgB;AAAA;;;AAET;AAAA;;AAAA;AANT;;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAYA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;;AAEe;;;AAAM;AAAnB;;;AAlFqB;;AAAA;;AAAA;AAsFd;AAAA;AAAA;;AAAP;AAEmB;AAAA;AAAA;AAEZ;;AAAe;;AAAA;;;AAAf;AAAA;;AAAA;AAAP;AAC4B;;AAAA;AAAA;AAArB;;AAAA;;AAAA;AAAP;AAC6B;;AAAA;AAAA;AAAtB;;AAAA;AAAP;AAEgB;;AAAA;;;AAES;;AAAA;;AAAA;AACzB;AAEuB;;AAAA;AAAA;AAEvB;AACmB;;;;;;;;AADnB;;;;AAAA;;;AAAA;AAMA;AAAA;;AAAA;AA3BF;AAAA;AAkCA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAlHuB;AAoHd;AAAA;AAAA;;AAAP;AAEmB;AAAA;AACZ;AAAA;AAAA;AAAoB;AAAA;AAAA;AAApB;AALT;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAWA;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AA7HuB;AAAA;;AAgId;AAAA;;AAAP;AAEmB;AAAA;AAGZ;;AAAe;;AAAA;;;AAAf;AAAP;AAEiC;AAAA;AAAA;AAAoB;AAAA;AAAA;AAApB;AAAA;AAEjC;;;AACE;AACmB;;;;;;;;;;;;AADnB;;;;AAAA;;;AAAA;AAOF;;AAAA;;AApBF;AAAA;AAvEA;;;AACiB;;AAAR;AAAkD;;AAAA;AAAlD;AAA4F;;;;;;;;AAA5F;AAAP",
+  "mappings": "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",
   "op_pc_offset": 2,
   "pc_events": {
     "0": {
@@ -56,7 +56,7 @@
       "stack_out": []
     },
     "12": {
-      "op": "pushbytess 0x2feaf230 0xaa14c4f9 0x7e3f4a68 0x2fabb9f2 0x35209905 0x3e9a4980 0x624e6690 0xea8eb9e5 0xec70fb48 // method \"openSession(address,address)void\", method \"fundMbrPool((address))void\", method \"optInUsdc()void\", method \"deposit(address,address,(address,uint64,uint64))void\", method \"claimVoucherMessage(uint64)byte[]\", method \"verifyClaimVoucherSignature(address,uint64,byte[])bool\", method \"claimVoucher(address,address,uint64,byte[])void\", method \"getRemainingBalance(address,address)uint64\", method \"refundAndCloseSession(address,address)void\"",
+      "op": "pushbytess 0x2feaf230 0xaa14c4f9 0x7e3f4a68 0x2fabb9f2 0x35209905 0x3eb57d95 0x624e6690 0xea8eb9e5 0xec70fb48 // method \"openSession(address,address)void\", method \"fundMbrPool((address))void\", method \"optInUsdc()void\", method \"deposit(address,address,(address,uint64,uint64))void\", method \"claimVoucherMessage(uint64)byte[]\", method \"verifyClaimVoucherSignature(address,uint64,byte[])void\", method \"claimVoucher(address,address,uint64,byte[])void\", method \"getRemainingBalance(address,address)uint64\", method \"refundAndCloseSession(address,address)void\"",
       "defined_out": [
         "Method(claimVoucher(address,address,uint64,byte[])void)",
         "Method(claimVoucherMessage(uint64)byte[])",
@@ -66,7 +66,7 @@
         "Method(openSession(address,address)void)",
         "Method(optInUsdc()void)",
         "Method(refundAndCloseSession(address,address)void)",
-        "Method(verifyClaimVoucherSignature(address,uint64,byte[])bool)"
+        "Method(verifyClaimVoucherSignature(address,uint64,byte[])void)"
       ],
       "stack_out": [
         "Method(openSession(address,address)void)",
@@ -74,7 +74,7 @@
         "Method(optInUsdc()void)",
         "Method(deposit(address,address,(address,uint64,uint64))void)",
         "Method(claimVoucherMessage(uint64)byte[])",
-        "Method(verifyClaimVoucherSignature(address,uint64,byte[])bool)",
+        "Method(verifyClaimVoucherSignature(address,uint64,byte[])void)",
         "Method(claimVoucher(address,address,uint64,byte[])void)",
         "Method(getRemainingBalance(address,address)uint64)",
         "Method(refundAndCloseSession(address,address)void)"
@@ -91,7 +91,7 @@
         "Method(openSession(address,address)void)",
         "Method(optInUsdc()void)",
         "Method(refundAndCloseSession(address,address)void)",
-        "Method(verifyClaimVoucherSignature(address,uint64,byte[])bool)",
+        "Method(verifyClaimVoucherSignature(address,uint64,byte[])void)",
         "tmp%6#0"
       ],
       "stack_out": [
@@ -100,7 +100,7 @@
         "Method(optInUsdc()void)",
         "Method(deposit(address,address,(address,uint64,uint64))void)",
         "Method(claimVoucherMessage(uint64)byte[])",
-        "Method(verifyClaimVoucherSignature(address,uint64,byte[])bool)",
+        "Method(verifyClaimVoucherSignature(address,uint64,byte[])void)",
         "Method(claimVoucher(address,address,uint64,byte[])void)",
         "Method(getRemainingBalance(address,address)uint64)",
         "Method(refundAndCloseSession(address,address)void)",
@@ -171,7 +171,7 @@
       "stack_out": []
     },
     "91": {
-      "op": "intc_2 // 1",
+      "op": "intc_1 // 1",
       "defined_out": [
         "1"
       ],
@@ -184,236 +184,6 @@
       "stack_out": []
     },
     "93": {
-      "subroutine": "_puya_lib.util.ensure_budget",
-      "params": {
-        "required_budget#0": "uint64",
-        "fee_source#0": "uint64"
-      },
-      "block": "ensure_budget",
-      "stack_in": [],
-      "op": "proto 2 0"
-    },
-    "96": {
-      "op": "frame_dig -2",
-      "defined_out": [
-        "required_budget#0 (copy)"
-      ],
-      "stack_out": [
-        "required_budget#0 (copy)"
-      ]
-    },
-    "98": {
-      "op": "pushint 10 // 10",
-      "defined_out": [
-        "10",
-        "required_budget#0 (copy)"
-      ],
-      "stack_out": [
-        "required_budget#0 (copy)",
-        "10"
-      ]
-    },
-    "100": {
-      "op": "+",
-      "defined_out": [
-        "required_budget_with_buffer#0"
-      ],
-      "stack_out": [
-        "required_budget_with_buffer#0"
-      ]
-    },
-    "101": {
-      "block": "ensure_budget_while_top@1",
-      "stack_in": [
-        "required_budget_with_buffer#0"
-      ],
-      "op": "frame_dig 0",
-      "defined_out": [
-        "required_budget_with_buffer#0"
-      ],
-      "stack_out": [
-        "required_budget_with_buffer#0",
-        "required_budget_with_buffer#0"
-      ]
-    },
-    "103": {
-      "op": "global OpcodeBudget",
-      "defined_out": [
-        "required_budget_with_buffer#0",
-        "tmp%1#0"
-      ],
-      "stack_out": [
-        "required_budget_with_buffer#0",
-        "required_budget_with_buffer#0",
-        "tmp%1#0"
-      ]
-    },
-    "105": {
-      "op": ">",
-      "defined_out": [
-        "required_budget_with_buffer#0",
-        "tmp%2#0"
-      ],
-      "stack_out": [
-        "required_budget_with_buffer#0",
-        "tmp%2#0"
-      ]
-    },
-    "106": {
-      "op": "bz ensure_budget_after_while@6",
-      "stack_out": [
-        "required_budget_with_buffer#0"
-      ]
-    },
-    "109": {
-      "op": "itxn_begin"
-    },
-    "110": {
-      "op": "pushint 6 // appl",
-      "defined_out": [
-        "appl",
-        "required_budget_with_buffer#0"
-      ],
-      "stack_out": [
-        "required_budget_with_buffer#0",
-        "appl"
-      ]
-    },
-    "112": {
-      "op": "itxn_field TypeEnum",
-      "stack_out": [
-        "required_budget_with_buffer#0"
-      ]
-    },
-    "114": {
-      "op": "pushint 5 // DeleteApplication",
-      "defined_out": [
-        "DeleteApplication",
-        "required_budget_with_buffer#0"
-      ],
-      "stack_out": [
-        "required_budget_with_buffer#0",
-        "DeleteApplication"
-      ]
-    },
-    "116": {
-      "op": "itxn_field OnCompletion",
-      "stack_out": [
-        "required_budget_with_buffer#0"
-      ]
-    },
-    "118": {
-      "op": "bytec_1 // 0x068101",
-      "defined_out": [
-        "0x068101",
-        "required_budget_with_buffer#0"
-      ],
-      "stack_out": [
-        "required_budget_with_buffer#0",
-        "0x068101"
-      ]
-    },
-    "119": {
-      "op": "itxn_field ApprovalProgram",
-      "stack_out": [
-        "required_budget_with_buffer#0"
-      ]
-    },
-    "121": {
-      "op": "bytec_1 // 0x068101",
-      "stack_out": [
-        "required_budget_with_buffer#0",
-        "0x068101"
-      ]
-    },
-    "122": {
-      "op": "itxn_field ClearStateProgram",
-      "stack_out": [
-        "required_budget_with_buffer#0"
-      ]
-    },
-    "124": {
-      "op": "frame_dig -1",
-      "defined_out": [
-        "fee_source#0 (copy)",
-        "required_budget_with_buffer#0"
-      ],
-      "stack_out": [
-        "required_budget_with_buffer#0",
-        "fee_source#0 (copy)"
-      ]
-    },
-    "126": {
-      "op": "switch ensure_budget_switch_case_0@3 ensure_budget_switch_case_1@4",
-      "stack_out": [
-        "required_budget_with_buffer#0"
-      ]
-    },
-    "132": {
-      "block": "ensure_budget_switch_case_next@5",
-      "stack_in": [
-        "required_budget_with_buffer#0"
-      ],
-      "op": "itxn_submit"
-    },
-    "133": {
-      "op": "b ensure_budget_while_top@1"
-    },
-    "136": {
-      "block": "ensure_budget_switch_case_1@4",
-      "stack_in": [
-        "required_budget_with_buffer#0"
-      ],
-      "op": "global MinTxnFee",
-      "defined_out": [
-        "tmp%3#0"
-      ],
-      "stack_out": [
-        "required_budget_with_buffer#0",
-        "tmp%3#0"
-      ]
-    },
-    "138": {
-      "op": "itxn_field Fee",
-      "stack_out": [
-        "required_budget_with_buffer#0"
-      ]
-    },
-    "140": {
-      "op": "b ensure_budget_switch_case_next@5"
-    },
-    "143": {
-      "block": "ensure_budget_switch_case_0@3",
-      "stack_in": [
-        "required_budget_with_buffer#0"
-      ],
-      "op": "intc_1 // 0",
-      "defined_out": [
-        "0"
-      ],
-      "stack_out": [
-        "required_budget_with_buffer#0",
-        "0"
-      ]
-    },
-    "144": {
-      "op": "itxn_field Fee",
-      "stack_out": [
-        "required_budget_with_buffer#0"
-      ]
-    },
-    "146": {
-      "op": "b ensure_budget_switch_case_next@5"
-    },
-    "149": {
-      "block": "ensure_budget_after_while@6",
-      "stack_in": [
-        "required_budget_with_buffer#0"
-      ],
-      "retsub": true,
-      "op": "retsub"
-    },
-    "150": {
       "subroutine": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.openSession[routing]",
       "params": {},
       "block": "openSession",
@@ -426,7 +196,7 @@
         "viewer#0"
       ]
     },
-    "153": {
+    "96": {
       "op": "dup",
       "defined_out": [
         "viewer#0",
@@ -437,7 +207,7 @@
         "viewer#0 (copy)"
       ]
     },
-    "154": {
+    "97": {
       "op": "len",
       "defined_out": [
         "len%0#0",
@@ -448,7 +218,7 @@
         "len%0#0"
       ]
     },
-    "155": {
+    "98": {
       "op": "intc_0 // 32",
       "defined_out": [
         "32",
@@ -461,7 +231,7 @@
         "32"
       ]
     },
-    "156": {
+    "99": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
@@ -472,17 +242,17 @@
         "eq%0#0"
       ]
     },
-    "157": {
+    "100": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
         "viewer#0"
       ]
     },
-    "158": {
+    "101": {
       "op": "txna ApplicationArgs 2"
     },
-    "161": {
+    "104": {
       "op": "dup",
       "defined_out": [
         "host#0",
@@ -494,7 +264,7 @@
         "host#0"
       ]
     },
-    "162": {
+    "105": {
       "op": "cover 2",
       "defined_out": [
         "host#0",
@@ -506,7 +276,7 @@
         "host#0"
       ]
     },
-    "164": {
+    "107": {
       "op": "dup",
       "defined_out": [
         "host#0",
@@ -520,7 +290,7 @@
         "host#0 (copy)"
       ]
     },
-    "165": {
+    "108": {
       "op": "len",
       "defined_out": [
         "host#0",
@@ -534,7 +304,7 @@
         "len%1#0"
       ]
     },
-    "166": {
+    "109": {
       "op": "intc_0 // 32",
       "stack_out": [
         "host#0",
@@ -544,7 +314,7 @@
         "32"
       ]
     },
-    "167": {
+    "110": {
       "op": "==",
       "defined_out": [
         "eq%1#0",
@@ -558,7 +328,7 @@
         "eq%1#0"
       ]
     },
-    "168": {
+    "111": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
@@ -567,7 +337,7 @@
         "host#0"
       ]
     },
-    "169": {
+    "112": {
       "op": "concat",
       "defined_out": [
         "host#0",
@@ -578,7 +348,7 @@
         "viewerSession#0"
       ]
     },
-    "170": {
+    "113": {
       "op": "dup",
       "defined_out": [
         "host#0",
@@ -590,7 +360,7 @@
         "viewerSession#0"
       ]
     },
-    "171": {
+    "114": {
       "op": "box_len",
       "defined_out": [
         "_%0#0",
@@ -605,7 +375,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "172": {
+    "115": {
       "op": "bury 1",
       "stack_out": [
         "host#0",
@@ -613,22 +383,22 @@
         "maybe_exists%0#0"
       ]
     },
-    "174": {
+    "117": {
       "op": "bnz openSession_after_if_else@3",
       "stack_out": [
         "host#0",
         "viewerSession#0"
       ]
     },
-    "177": {
-      "op": "intc_1 // 0",
+    "120": {
+      "op": "intc_2 // 0",
       "stack_out": [
         "host#0",
         "viewerSession#0",
         "0"
       ]
     },
-    "178": {
+    "121": {
       "op": "itob",
       "defined_out": [
         "aggregate%val_as_bytes%0#0",
@@ -641,7 +411,7 @@
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "179": {
+    "122": {
       "op": "dig 2",
       "stack_out": [
         "host#0",
@@ -650,7 +420,7 @@
         "host#0"
       ]
     },
-    "181": {
+    "124": {
       "op": "dig 1",
       "defined_out": [
         "aggregate%val_as_bytes%0#0",
@@ -666,7 +436,7 @@
         "aggregate%val_as_bytes%0#0 (copy)"
       ]
     },
-    "183": {
+    "126": {
       "op": "concat",
       "defined_out": [
         "aggregate%head%1#0",
@@ -681,7 +451,7 @@
         "aggregate%head%1#0"
       ]
     },
-    "184": {
+    "127": {
       "op": "swap",
       "stack_out": [
         "host#0",
@@ -690,7 +460,7 @@
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "185": {
+    "128": {
       "op": "concat",
       "defined_out": [
         "aggregate%head%2#0",
@@ -703,7 +473,7 @@
         "aggregate%head%2#0"
       ]
     },
-    "186": {
+    "129": {
       "op": "dig 1",
       "stack_out": [
         "host#0",
@@ -712,7 +482,7 @@
         "viewerSession#0"
       ]
     },
-    "188": {
+    "131": {
       "op": "swap",
       "stack_out": [
         "host#0",
@@ -721,20 +491,20 @@
         "aggregate%head%2#0"
       ]
     },
-    "189": {
+    "132": {
       "op": "box_put",
       "stack_out": [
         "host#0",
         "viewerSession#0"
       ]
     },
-    "190": {
+    "133": {
       "block": "openSession_after_if_else@3",
       "stack_in": [
         "host#0",
         "viewerSession#0"
       ],
-      "op": "intc_2 // 1",
+      "op": "intc_1 // 1",
       "defined_out": [
         "1"
       ],
@@ -744,14 +514,14 @@
         "1"
       ]
     },
-    "191": {
+    "134": {
       "op": "return",
       "stack_out": [
         "host#0",
         "viewerSession#0"
       ]
     },
-    "192": {
+    "135": {
       "subroutine": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.fundMbrPool[routing]",
       "params": {},
       "block": "fundMbrPool",
@@ -764,7 +534,7 @@
         "payment#0"
       ]
     },
-    "195": {
+    "138": {
       "op": "dup",
       "defined_out": [
         "payment#0",
@@ -775,7 +545,7 @@
         "payment#0 (copy)"
       ]
     },
-    "196": {
+    "139": {
       "op": "len",
       "defined_out": [
         "len%0#0",
@@ -786,7 +556,7 @@
         "len%0#0"
       ]
     },
-    "197": {
+    "140": {
       "op": "intc_0 // 32",
       "defined_out": [
         "32",
@@ -799,7 +569,7 @@
         "32"
       ]
     },
-    "198": {
+    "141": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
@@ -810,14 +580,14 @@
         "eq%0#0"
       ]
     },
-    "199": {
+    "142": {
       "error": "invalid number of bytes for ObjectAACF8510",
       "op": "assert // invalid number of bytes for ObjectAACF8510",
       "stack_out": [
         "payment#0"
       ]
     },
-    "200": {
+    "143": {
       "op": "extract 0 32",
       "defined_out": [
         "aggregate%extract%0#0"
@@ -826,7 +596,7 @@
         "aggregate%extract%0#0"
       ]
     },
-    "203": {
+    "146": {
       "op": "global CurrentApplicationAddress",
       "defined_out": [
         "aggregate%extract%0#0",
@@ -837,7 +607,7 @@
         "tmp%0#1"
       ]
     },
-    "205": {
+    "148": {
       "op": "==",
       "defined_out": [
         "tmp%1#0"
@@ -846,13 +616,13 @@
         "tmp%1#0"
       ]
     },
-    "206": {
+    "149": {
       "error": "Payment must be to contract",
       "op": "assert // Payment must be to contract",
       "stack_out": []
     },
-    "207": {
-      "op": "intc_2 // 1",
+    "150": {
+      "op": "intc_1 // 1",
       "defined_out": [
         "1"
       ],
@@ -860,11 +630,11 @@
         "1"
       ]
     },
-    "208": {
+    "151": {
       "op": "return",
       "stack_out": []
     },
-    "209": {
+    "152": {
       "subroutine": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.optInUsdc[routing]",
       "params": {},
       "block": "optInUsdc",
@@ -877,7 +647,7 @@
         "tmp%0#0"
       ]
     },
-    "211": {
+    "154": {
       "op": "global CreatorAddress",
       "defined_out": [
         "tmp%0#0",
@@ -888,7 +658,7 @@
         "tmp%1#0"
       ]
     },
-    "213": {
+    "156": {
       "op": "==",
       "defined_out": [
         "tmp%2#0"
@@ -897,15 +667,15 @@
         "tmp%2#0"
       ]
     },
-    "214": {
+    "157": {
       "error": "Only creator can opt in USDC",
       "op": "assert // Only creator can opt in USDC",
       "stack_out": []
     },
-    "215": {
+    "158": {
       "op": "itxn_begin"
     },
-    "216": {
+    "159": {
       "op": "intc 4 // TMPL_USDC_ASSET_ID",
       "defined_out": [
         "inner_txn_params%0%%param_XferAsset_idx_0#0"
@@ -914,7 +684,7 @@
         "inner_txn_params%0%%param_XferAsset_idx_0#0"
       ]
     },
-    "218": {
+    "161": {
       "op": "global CurrentApplicationAddress",
       "defined_out": [
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
@@ -925,8 +695,8 @@
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0"
       ]
     },
-    "220": {
-      "op": "intc_1 // 0",
+    "163": {
+      "op": "intc_2 // 0",
       "defined_out": [
         "0",
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0",
@@ -938,24 +708,24 @@
         "0"
       ]
     },
-    "221": {
+    "164": {
       "op": "itxn_field AssetAmount",
       "stack_out": [
         "inner_txn_params%0%%param_XferAsset_idx_0#0",
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0"
       ]
     },
-    "223": {
+    "166": {
       "op": "itxn_field AssetReceiver",
       "stack_out": [
         "inner_txn_params%0%%param_XferAsset_idx_0#0"
       ]
     },
-    "225": {
+    "168": {
       "op": "itxn_field XferAsset",
       "stack_out": []
     },
-    "227": {
+    "170": {
       "op": "pushint 4 // 4",
       "defined_out": [
         "4"
@@ -964,25 +734,25 @@
         "4"
       ]
     },
-    "229": {
+    "172": {
       "op": "itxn_field TypeEnum",
       "stack_out": []
     },
-    "231": {
-      "op": "intc_1 // 0",
+    "174": {
+      "op": "intc_2 // 0",
       "stack_out": [
         "0"
       ]
     },
-    "232": {
+    "175": {
       "op": "itxn_field Fee",
       "stack_out": []
     },
-    "234": {
+    "177": {
       "op": "itxn_submit"
     },
-    "235": {
-      "op": "intc_2 // 1",
+    "178": {
+      "op": "intc_1 // 1",
       "defined_out": [
         "1"
       ],
@@ -990,11 +760,11 @@
         "1"
       ]
     },
-    "236": {
+    "179": {
       "op": "return",
       "stack_out": []
     },
-    "237": {
+    "180": {
       "subroutine": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.deposit[routing]",
       "params": {},
       "block": "deposit",
@@ -1007,7 +777,7 @@
         "viewer#0"
       ]
     },
-    "240": {
+    "183": {
       "op": "dup",
       "defined_out": [
         "viewer#0",
@@ -1018,7 +788,7 @@
         "viewer#0 (copy)"
       ]
     },
-    "241": {
+    "184": {
       "op": "len",
       "defined_out": [
         "len%0#0",
@@ -1029,7 +799,7 @@
         "len%0#0"
       ]
     },
-    "242": {
+    "185": {
       "op": "intc_0 // 32",
       "defined_out": [
         "32",
@@ -1042,7 +812,7 @@
         "32"
       ]
     },
-    "243": {
+    "186": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
@@ -1053,14 +823,14 @@
         "eq%0#0"
       ]
     },
-    "244": {
+    "187": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
         "viewer#0"
       ]
     },
-    "245": {
+    "188": {
       "op": "txna ApplicationArgs 2",
       "defined_out": [
         "host#0",
@@ -1071,7 +841,7 @@
         "host#0"
       ]
     },
-    "248": {
+    "191": {
       "op": "dup",
       "defined_out": [
         "host#0",
@@ -1084,7 +854,7 @@
         "host#0 (copy)"
       ]
     },
-    "249": {
+    "192": {
       "op": "len",
       "defined_out": [
         "host#0",
@@ -1097,7 +867,7 @@
         "len%1#0"
       ]
     },
-    "250": {
+    "193": {
       "op": "intc_0 // 32",
       "stack_out": [
         "viewer#0",
@@ -1106,7 +876,7 @@
         "32"
       ]
     },
-    "251": {
+    "194": {
       "op": "==",
       "defined_out": [
         "eq%1#0",
@@ -1119,7 +889,7 @@
         "eq%1#0"
       ]
     },
-    "252": {
+    "195": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
@@ -1127,7 +897,7 @@
         "host#0"
       ]
     },
-    "253": {
+    "196": {
       "op": "txna ApplicationArgs 3",
       "defined_out": [
         "host#0",
@@ -1140,7 +910,7 @@
         "payment#0"
       ]
     },
-    "256": {
+    "199": {
       "op": "dup",
       "defined_out": [
         "host#0",
@@ -1155,7 +925,7 @@
         "payment#0 (copy)"
       ]
     },
-    "257": {
+    "200": {
       "op": "len",
       "defined_out": [
         "host#0",
@@ -1170,7 +940,7 @@
         "len%2#0"
       ]
     },
-    "258": {
+    "201": {
       "op": "pushint 48 // 48",
       "defined_out": [
         "48",
@@ -1187,7 +957,7 @@
         "48"
       ]
     },
-    "260": {
+    "203": {
       "op": "==",
       "defined_out": [
         "eq%2#0",
@@ -1202,7 +972,7 @@
         "eq%2#0"
       ]
     },
-    "261": {
+    "204": {
       "error": "invalid number of bytes for ObjectC0D6902C",
       "op": "assert // invalid number of bytes for ObjectC0D6902C",
       "stack_out": [
@@ -1211,7 +981,7 @@
         "payment#0"
       ]
     },
-    "262": {
+    "205": {
       "op": "cover 2",
       "stack_out": [
         "payment#0",
@@ -1219,7 +989,7 @@
         "host#0"
       ]
     },
-    "264": {
+    "207": {
       "op": "concat",
       "defined_out": [
         "payment#0",
@@ -1230,7 +1000,7 @@
         "viewerSession#0"
       ]
     },
-    "265": {
+    "208": {
       "op": "dup",
       "defined_out": [
         "payment#0",
@@ -1243,7 +1013,7 @@
         "viewerSession#0 (copy)"
       ]
     },
-    "266": {
+    "209": {
       "op": "box_len",
       "defined_out": [
         "_%0#0",
@@ -1258,7 +1028,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "267": {
+    "210": {
       "op": "bury 1",
       "stack_out": [
         "payment#0",
@@ -1266,7 +1036,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "269": {
+    "212": {
       "error": "Session does not exist",
       "op": "assert // Session does not exist",
       "stack_out": [
@@ -1274,7 +1044,7 @@
         "viewerSession#0"
       ]
     },
-    "270": {
+    "213": {
       "op": "dig 1",
       "stack_out": [
         "payment#0",
@@ -1282,7 +1052,7 @@
         "payment#0 (copy)"
       ]
     },
-    "272": {
+    "215": {
       "op": "extract 0 32",
       "defined_out": [
         "aggregate%extract%0#0",
@@ -1295,7 +1065,7 @@
         "aggregate%extract%0#0"
       ]
     },
-    "275": {
+    "218": {
       "op": "global CurrentApplicationAddress",
       "defined_out": [
         "aggregate%extract%0#0",
@@ -1310,7 +1080,7 @@
         "tmp%1#1"
       ]
     },
-    "277": {
+    "220": {
       "op": "==",
       "defined_out": [
         "payment#0",
@@ -1323,7 +1093,7 @@
         "tmp%2#1"
       ]
     },
-    "278": {
+    "221": {
       "error": "Asset transfer must be to contract",
       "op": "assert // Asset transfer must be to contract",
       "stack_out": [
@@ -1331,7 +1101,7 @@
         "viewerSession#0"
       ]
     },
-    "279": {
+    "222": {
       "op": "dig 1",
       "stack_out": [
         "payment#0",
@@ -1339,7 +1109,7 @@
         "payment#0 (copy)"
       ]
     },
-    "281": {
+    "224": {
       "op": "intc_3 // 40",
       "defined_out": [
         "40",
@@ -1354,7 +1124,7 @@
         "40"
       ]
     },
-    "282": {
+    "225": {
       "op": "extract_uint64",
       "defined_out": [
         "payment#0",
@@ -1367,7 +1137,7 @@
         "values%1#0"
       ]
     },
-    "283": {
+    "226": {
       "op": "intc 4 // TMPL_USDC_ASSET_ID",
       "defined_out": [
         "TMPL_USDC_ASSET_ID",
@@ -1382,7 +1152,7 @@
         "TMPL_USDC_ASSET_ID"
       ]
     },
-    "285": {
+    "228": {
       "op": "==",
       "defined_out": [
         "payment#0",
@@ -1395,7 +1165,7 @@
         "tmp%3#1"
       ]
     },
-    "286": {
+    "229": {
       "error": "Only configured USDC accepted",
       "op": "assert // Only configured USDC accepted",
       "stack_out": [
@@ -1403,7 +1173,7 @@
         "viewerSession#0"
       ]
     },
-    "287": {
+    "230": {
       "op": "dup",
       "stack_out": [
         "payment#0",
@@ -1411,7 +1181,7 @@
         "viewerSession#0 (copy)"
       ]
     },
-    "288": {
+    "231": {
       "op": "box_get",
       "defined_out": [
         "aggregate%box_get%1#0",
@@ -1426,7 +1196,7 @@
         "aggregate%box_get%1#0"
       ]
     },
-    "289": {
+    "232": {
       "op": "pop",
       "stack_out": [
         "payment#0",
@@ -1434,7 +1204,7 @@
         "currentData#0"
       ]
     },
-    "290": {
+    "233": {
       "op": "intc_0 // 32",
       "stack_out": [
         "payment#0",
@@ -1443,7 +1213,7 @@
         "32"
       ]
     },
-    "291": {
+    "234": {
       "op": "extract_uint64",
       "defined_out": [
         "payment#0",
@@ -1456,7 +1226,7 @@
         "values%2#0"
       ]
     },
-    "292": {
+    "235": {
       "op": "uncover 2",
       "stack_out": [
         "viewerSession#0",
@@ -1464,7 +1234,7 @@
         "payment#0"
       ]
     },
-    "294": {
+    "237": {
       "op": "intc_0 // 32",
       "stack_out": [
         "viewerSession#0",
@@ -1473,7 +1243,7 @@
         "32"
       ]
     },
-    "295": {
+    "238": {
       "op": "extract_uint64",
       "defined_out": [
         "values%2#0",
@@ -1486,7 +1256,7 @@
         "values%3#0"
       ]
     },
-    "296": {
+    "239": {
       "op": "+",
       "defined_out": [
         "tmp%4#1",
@@ -1497,7 +1267,7 @@
         "tmp%4#1"
       ]
     },
-    "297": {
+    "240": {
       "op": "itob",
       "defined_out": [
         "aggregate%val_as_bytes%0#0",
@@ -1508,10 +1278,10 @@
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "298": {
+    "241": {
       "op": "intc_0 // 32"
     },
-    "299": {
+    "242": {
       "op": "swap",
       "stack_out": [
         "viewerSession#0",
@@ -1519,12 +1289,12 @@
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "300": {
+    "243": {
       "op": "box_replace",
       "stack_out": []
     },
-    "301": {
-      "op": "intc_2 // 1",
+    "244": {
+      "op": "intc_1 // 1",
       "defined_out": [
         "1"
       ],
@@ -1532,11 +1302,11 @@
         "1"
       ]
     },
-    "302": {
+    "245": {
       "op": "return",
       "stack_out": []
     },
-    "303": {
+    "246": {
       "subroutine": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.claimVoucherMessage[routing]",
       "params": {},
       "block": "claimVoucherMessage",
@@ -1549,7 +1319,7 @@
         "tmp%0#0"
       ]
     },
-    "306": {
+    "249": {
       "op": "dup",
       "defined_out": [
         "tmp%0#0",
@@ -1560,7 +1330,7 @@
         "tmp%0#0 (copy)"
       ]
     },
-    "307": {
+    "250": {
       "op": "len",
       "defined_out": [
         "len%0#0",
@@ -1571,7 +1341,7 @@
         "len%0#0"
       ]
     },
-    "308": {
+    "251": {
       "op": "pushint 8 // 8",
       "defined_out": [
         "8",
@@ -1584,7 +1354,7 @@
         "8"
       ]
     },
-    "310": {
+    "253": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
@@ -1595,14 +1365,14 @@
         "eq%0#0"
       ]
     },
-    "311": {
+    "254": {
       "error": "invalid number of bytes for arc4.uint64",
       "op": "assert // invalid number of bytes for arc4.uint64",
       "stack_out": [
         "tmp%0#0"
       ]
     },
-    "312": {
+    "255": {
       "op": "btoi",
       "defined_out": [
         "totalAmountClaimed#0"
@@ -1611,21 +1381,21 @@
         "totalAmountClaimed#0"
       ]
     },
-    "313": {
+    "256": {
       "callsub": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.getClaimVoucherMessage",
       "op": "callsub getClaimVoucherMessage",
       "stack_out": [
         "tmp%0#0"
       ]
     },
-    "316": {
+    "259": {
       "op": "dup",
       "stack_out": [
         "tmp%0#0",
         "tmp%0#0 (copy)"
       ]
     },
-    "317": {
+    "260": {
       "op": "len",
       "defined_out": [
         "aggregate%length%0#0",
@@ -1636,7 +1406,7 @@
         "aggregate%length%0#0"
       ]
     },
-    "318": {
+    "261": {
       "op": "itob",
       "defined_out": [
         "aggregate%as_bytes%0#0",
@@ -1647,7 +1417,7 @@
         "aggregate%as_bytes%0#0"
       ]
     },
-    "319": {
+    "262": {
       "op": "extract 6 2",
       "defined_out": [
         "aggregate%length_uint16%0#0",
@@ -1658,14 +1428,14 @@
         "aggregate%length_uint16%0#0"
       ]
     },
-    "322": {
+    "265": {
       "op": "swap",
       "stack_out": [
         "aggregate%length_uint16%0#0",
         "tmp%0#0"
       ]
     },
-    "323": {
+    "266": {
       "op": "concat",
       "defined_out": [
         "aggregate%encoded_value%0#0"
@@ -1674,7 +1444,7 @@
         "aggregate%encoded_value%0#0"
       ]
     },
-    "324": {
+    "267": {
       "op": "bytec_0 // 0x151f7c75",
       "defined_out": [
         "0x151f7c75",
@@ -1685,14 +1455,14 @@
         "0x151f7c75"
       ]
     },
-    "325": {
+    "268": {
       "op": "swap",
       "stack_out": [
         "0x151f7c75",
         "aggregate%encoded_value%0#0"
       ]
     },
-    "326": {
+    "269": {
       "op": "concat",
       "defined_out": [
         "tmp%4#0"
@@ -1701,12 +1471,12 @@
         "tmp%4#0"
       ]
     },
-    "327": {
+    "270": {
       "op": "log",
       "stack_out": []
     },
-    "328": {
-      "op": "intc_2 // 1",
+    "271": {
+      "op": "intc_1 // 1",
       "defined_out": [
         "1"
       ],
@@ -1714,467 +1484,324 @@
         "1"
       ]
     },
-    "329": {
+    "272": {
       "op": "return",
       "stack_out": []
     },
-    "330": {
+    "273": {
       "subroutine": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.verifyClaimVoucherSignature[routing]",
       "params": {},
       "block": "verifyClaimVoucherSignature",
       "stack_in": [],
       "op": "txna ApplicationArgs 1",
       "defined_out": [
-        "viewer#0"
+        "tmp%0#0"
       ],
       "stack_out": [
-        "viewer#0"
+        "tmp%0#0"
       ]
     },
-    "333": {
+    "276": {
       "op": "dup",
       "defined_out": [
-        "viewer#0",
-        "viewer#0 (copy)"
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
       ],
       "stack_out": [
-        "viewer#0",
-        "viewer#0 (copy)"
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
       ]
     },
-    "334": {
+    "277": {
       "op": "len",
       "defined_out": [
         "len%0#0",
-        "viewer#0"
+        "tmp%0#0"
       ],
       "stack_out": [
-        "viewer#0",
+        "tmp%0#0",
         "len%0#0"
       ]
     },
-    "335": {
+    "278": {
       "op": "intc_0 // 32",
       "defined_out": [
         "32",
         "len%0#0",
-        "viewer#0"
+        "tmp%0#0"
       ],
       "stack_out": [
-        "viewer#0",
+        "tmp%0#0",
         "len%0#0",
         "32"
       ]
     },
-    "336": {
+    "279": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
-        "viewer#0"
+        "tmp%0#0"
       ],
       "stack_out": [
-        "viewer#0",
+        "tmp%0#0",
         "eq%0#0"
       ]
     },
-    "337": {
+    "280": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
-        "viewer#0"
+        "tmp%0#0"
       ]
     },
-    "338": {
+    "281": {
       "op": "txna ApplicationArgs 2",
       "defined_out": [
-        "tmp%2#0",
-        "viewer#0"
+        "tmp%0#0",
+        "tmp%2#0"
       ],
       "stack_out": [
-        "viewer#0",
+        "tmp%0#0",
         "tmp%2#0"
       ]
     },
-    "341": {
+    "284": {
       "op": "dup",
       "defined_out": [
+        "tmp%0#0",
         "tmp%2#0",
-        "tmp%2#0 (copy)",
-        "viewer#0"
+        "tmp%2#0 (copy)"
       ],
       "stack_out": [
-        "viewer#0",
+        "tmp%0#0",
         "tmp%2#0",
         "tmp%2#0 (copy)"
       ]
     },
-    "342": {
+    "285": {
       "op": "len",
       "defined_out": [
         "len%1#0",
-        "tmp%2#0",
-        "viewer#0"
+        "tmp%0#0",
+        "tmp%2#0"
       ],
       "stack_out": [
-        "viewer#0",
+        "tmp%0#0",
         "tmp%2#0",
         "len%1#0"
       ]
     },
-    "343": {
+    "286": {
       "op": "pushint 8 // 8",
       "defined_out": [
         "8",
         "len%1#0",
-        "tmp%2#0",
-        "viewer#0"
+        "tmp%0#0",
+        "tmp%2#0"
       ],
       "stack_out": [
-        "viewer#0",
+        "tmp%0#0",
         "tmp%2#0",
         "len%1#0",
         "8"
       ]
     },
-    "345": {
+    "288": {
       "op": "==",
       "defined_out": [
         "eq%1#0",
-        "tmp%2#0",
-        "viewer#0"
+        "tmp%0#0",
+        "tmp%2#0"
       ],
       "stack_out": [
-        "viewer#0",
+        "tmp%0#0",
         "tmp%2#0",
         "eq%1#0"
       ]
     },
-    "346": {
+    "289": {
       "error": "invalid number of bytes for arc4.uint64",
       "op": "assert // invalid number of bytes for arc4.uint64",
       "stack_out": [
-        "viewer#0",
+        "tmp%0#0",
         "tmp%2#0"
       ]
     },
-    "347": {
+    "290": {
       "op": "btoi",
       "defined_out": [
-        "totalAmountClaimed#0",
-        "viewer#0"
+        "tmp%0#0",
+        "tmp%3#0"
       ],
       "stack_out": [
-        "viewer#0",
-        "totalAmountClaimed#0"
+        "tmp%0#0",
+        "tmp%3#0"
       ]
     },
-    "348": {
+    "291": {
       "op": "txna ApplicationArgs 3",
       "defined_out": [
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "viewer#0"
+        "tmp%0#0",
+        "tmp%3#0",
+        "tmp%4#0"
       ],
       "stack_out": [
-        "viewer#0",
-        "totalAmountClaimed#0",
+        "tmp%0#0",
+        "tmp%3#0",
         "tmp%4#0"
       ]
     },
-    "351": {
+    "294": {
       "op": "dup",
       "defined_out": [
+        "tmp%0#0",
+        "tmp%3#0",
         "tmp%4#0",
-        "tmp%4#0 (copy)",
-        "totalAmountClaimed#0",
-        "viewer#0"
+        "tmp%4#0 (copy)"
       ],
       "stack_out": [
-        "viewer#0",
-        "totalAmountClaimed#0",
+        "tmp%0#0",
+        "tmp%3#0",
         "tmp%4#0",
         "tmp%4#0 (copy)"
       ]
     },
-    "352": {
-      "op": "intc_1 // 0",
+    "295": {
+      "op": "intc_2 // 0",
       "defined_out": [
         "0",
+        "tmp%0#0",
+        "tmp%3#0",
         "tmp%4#0",
-        "tmp%4#0 (copy)",
-        "totalAmountClaimed#0",
-        "viewer#0"
+        "tmp%4#0 (copy)"
       ],
       "stack_out": [
-        "viewer#0",
-        "totalAmountClaimed#0",
+        "tmp%0#0",
+        "tmp%3#0",
         "tmp%4#0",
         "tmp%4#0 (copy)",
         "0"
       ]
     },
-    "353": {
+    "296": {
       "error": "invalid array length header",
       "op": "extract_uint16 // on error: invalid array length header",
       "defined_out": [
         "aggregate%array_length%0#0",
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "viewer#0"
+        "tmp%0#0",
+        "tmp%3#0",
+        "tmp%4#0"
       ],
       "stack_out": [
-        "viewer#0",
-        "totalAmountClaimed#0",
+        "tmp%0#0",
+        "tmp%3#0",
         "tmp%4#0",
         "aggregate%array_length%0#0"
       ]
     },
-    "354": {
+    "297": {
       "op": "pushint 2 // 2",
       "defined_out": [
         "2",
         "aggregate%array_length%0#0",
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "viewer#0"
+        "tmp%0#0",
+        "tmp%3#0",
+        "tmp%4#0"
       ],
       "stack_out": [
-        "viewer#0",
-        "totalAmountClaimed#0",
+        "tmp%0#0",
+        "tmp%3#0",
         "tmp%4#0",
         "aggregate%array_length%0#0",
         "2"
       ]
     },
-    "356": {
+    "299": {
       "op": "+",
       "defined_out": [
         "add%0#0",
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "viewer#0"
+        "tmp%0#0",
+        "tmp%3#0",
+        "tmp%4#0"
       ],
       "stack_out": [
-        "viewer#0",
-        "totalAmountClaimed#0",
+        "tmp%0#0",
+        "tmp%3#0",
         "tmp%4#0",
         "add%0#0"
       ]
     },
-    "357": {
+    "300": {
       "op": "dig 1",
       "stack_out": [
-        "viewer#0",
-        "totalAmountClaimed#0",
+        "tmp%0#0",
+        "tmp%3#0",
         "tmp%4#0",
         "add%0#0",
         "tmp%4#0 (copy)"
       ]
     },
-    "359": {
+    "302": {
       "op": "len",
       "defined_out": [
         "add%0#0",
         "len%2#0",
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "viewer#0"
+        "tmp%0#0",
+        "tmp%3#0",
+        "tmp%4#0"
       ],
       "stack_out": [
-        "viewer#0",
-        "totalAmountClaimed#0",
+        "tmp%0#0",
+        "tmp%3#0",
         "tmp%4#0",
         "add%0#0",
         "len%2#0"
       ]
     },
-    "360": {
+    "303": {
       "op": "==",
       "defined_out": [
         "eq%2#0",
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "viewer#0"
+        "tmp%0#0",
+        "tmp%3#0",
+        "tmp%4#0"
       ],
       "stack_out": [
-        "viewer#0",
-        "totalAmountClaimed#0",
+        "tmp%0#0",
+        "tmp%3#0",
         "tmp%4#0",
         "eq%2#0"
       ]
     },
-    "361": {
+    "304": {
       "error": "invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
       "op": "assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
       "stack_out": [
-        "viewer#0",
-        "totalAmountClaimed#0",
+        "tmp%0#0",
+        "tmp%3#0",
         "tmp%4#0"
       ]
     },
-    "362": {
+    "305": {
       "op": "extract 2 0",
       "defined_out": [
-        "signature#0",
-        "totalAmountClaimed#0",
-        "viewer#0"
+        "tmp%0#0",
+        "tmp%3#0",
+        "tmp%5#0"
       ],
       "stack_out": [
-        "viewer#0",
-        "totalAmountClaimed#0",
-        "signature#0"
+        "tmp%0#0",
+        "tmp%3#0",
+        "tmp%5#0"
       ]
     },
-    "365": {
-      "op": "pushint 5000 // 5000",
-      "defined_out": [
-        "5000",
-        "signature#0",
-        "totalAmountClaimed#0",
-        "viewer#0"
-      ],
-      "stack_out": [
-        "viewer#0",
-        "totalAmountClaimed#0",
-        "signature#0",
-        "5000"
-      ]
-    },
-    "368": {
-      "op": "intc_1 // 0",
-      "stack_out": [
-        "viewer#0",
-        "totalAmountClaimed#0",
-        "signature#0",
-        "5000",
-        "0"
-      ]
-    },
-    "369": {
-      "callsub": "_puya_lib.util.ensure_budget",
-      "op": "callsub ensure_budget",
-      "stack_out": [
-        "viewer#0",
-        "totalAmountClaimed#0",
-        "signature#0"
-      ]
-    },
-    "372": {
-      "op": "swap",
-      "stack_out": [
-        "viewer#0",
-        "signature#0",
-        "totalAmountClaimed#0"
-      ]
-    },
-    "373": {
-      "callsub": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.getClaimVoucherMessage",
-      "op": "callsub getClaimVoucherMessage",
-      "defined_out": [
-        "message#0",
-        "signature#0",
-        "viewer#0"
-      ],
-      "stack_out": [
-        "viewer#0",
-        "signature#0",
-        "message#0"
-      ]
-    },
-    "376": {
-      "op": "swap",
-      "stack_out": [
-        "viewer#0",
-        "message#0",
-        "signature#0"
-      ]
-    },
-    "377": {
-      "op": "uncover 2",
-      "stack_out": [
-        "message#0",
-        "signature#0",
-        "viewer#0"
-      ]
-    },
-    "379": {
-      "op": "ed25519verify",
-      "defined_out": [
-        "tmp%1#1"
-      ],
-      "stack_out": [
-        "tmp%1#1"
-      ]
-    },
-    "380": {
-      "op": "pushbytes 0x00",
-      "defined_out": [
-        "0x00",
-        "tmp%1#1"
-      ],
-      "stack_out": [
-        "tmp%1#1",
-        "0x00"
-      ]
-    },
-    "383": {
-      "op": "intc_1 // 0",
-      "stack_out": [
-        "tmp%1#1",
-        "0x00",
-        "0"
-      ]
-    },
-    "384": {
-      "op": "uncover 2",
-      "stack_out": [
-        "0x00",
-        "0",
-        "tmp%1#1"
-      ]
-    },
-    "386": {
-      "op": "setbit",
-      "defined_out": [
-        "aggregate%encoded_bool%0#0"
-      ],
-      "stack_out": [
-        "aggregate%encoded_bool%0#0"
-      ]
-    },
-    "387": {
-      "op": "bytec_0 // 0x151f7c75",
-      "defined_out": [
-        "0x151f7c75",
-        "aggregate%encoded_bool%0#0"
-      ],
-      "stack_out": [
-        "aggregate%encoded_bool%0#0",
-        "0x151f7c75"
-      ]
-    },
-    "388": {
-      "op": "swap",
-      "stack_out": [
-        "0x151f7c75",
-        "aggregate%encoded_bool%0#0"
-      ]
-    },
-    "389": {
-      "op": "concat",
-      "defined_out": [
-        "tmp%8#0"
-      ],
-      "stack_out": [
-        "tmp%8#0"
-      ]
-    },
-    "390": {
-      "op": "log",
+    "308": {
+      "callsub": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.verifyClaimVoucherSignature",
+      "op": "callsub smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.verifyClaimVoucherSignature",
       "stack_out": []
     },
-    "391": {
-      "op": "intc_2 // 1",
+    "311": {
+      "op": "intc_1 // 1",
       "defined_out": [
         "1"
       ],
@@ -2182,11 +1809,11 @@
         "1"
       ]
     },
-    "392": {
+    "312": {
       "op": "return",
       "stack_out": []
     },
-    "393": {
+    "313": {
       "subroutine": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.claimVoucher[routing]",
       "params": {},
       "block": "claimVoucher",
@@ -2199,7 +1826,7 @@
         "viewer#0"
       ]
     },
-    "396": {
+    "316": {
       "op": "dup",
       "defined_out": [
         "viewer#0",
@@ -2210,7 +1837,7 @@
         "viewer#0 (copy)"
       ]
     },
-    "397": {
+    "317": {
       "op": "len",
       "defined_out": [
         "len%0#0",
@@ -2221,7 +1848,7 @@
         "len%0#0"
       ]
     },
-    "398": {
+    "318": {
       "op": "intc_0 // 32",
       "defined_out": [
         "32",
@@ -2234,7 +1861,7 @@
         "32"
       ]
     },
-    "399": {
+    "319": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
@@ -2245,14 +1872,14 @@
         "eq%0#0"
       ]
     },
-    "400": {
+    "320": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
         "viewer#0"
       ]
     },
-    "401": {
+    "321": {
       "op": "txna ApplicationArgs 2",
       "defined_out": [
         "host#0",
@@ -2263,7 +1890,7 @@
         "host#0"
       ]
     },
-    "404": {
+    "324": {
       "op": "dup",
       "defined_out": [
         "host#0",
@@ -2276,7 +1903,7 @@
         "host#0 (copy)"
       ]
     },
-    "405": {
+    "325": {
       "op": "len",
       "defined_out": [
         "host#0",
@@ -2289,7 +1916,7 @@
         "len%1#0"
       ]
     },
-    "406": {
+    "326": {
       "op": "intc_0 // 32",
       "stack_out": [
         "viewer#0",
@@ -2298,7 +1925,7 @@
         "32"
       ]
     },
-    "407": {
+    "327": {
       "op": "==",
       "defined_out": [
         "eq%1#0",
@@ -2311,7 +1938,7 @@
         "eq%1#0"
       ]
     },
-    "408": {
+    "328": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
@@ -2319,7 +1946,7 @@
         "host#0"
       ]
     },
-    "409": {
+    "329": {
       "op": "txna ApplicationArgs 3",
       "defined_out": [
         "host#0",
@@ -2332,7 +1959,7 @@
         "tmp%4#0"
       ]
     },
-    "412": {
+    "332": {
       "op": "dup",
       "defined_out": [
         "host#0",
@@ -2347,7 +1974,7 @@
         "tmp%4#0 (copy)"
       ]
     },
-    "413": {
+    "333": {
       "op": "len",
       "defined_out": [
         "host#0",
@@ -2362,7 +1989,7 @@
         "len%2#0"
       ]
     },
-    "414": {
+    "334": {
       "op": "pushint 8 // 8",
       "defined_out": [
         "8",
@@ -2379,7 +2006,7 @@
         "8"
       ]
     },
-    "416": {
+    "336": {
       "op": "==",
       "defined_out": [
         "eq%2#0",
@@ -2394,7 +2021,7 @@
         "eq%2#0"
       ]
     },
-    "417": {
+    "337": {
       "error": "invalid number of bytes for arc4.uint64",
       "op": "assert // invalid number of bytes for arc4.uint64",
       "stack_out": [
@@ -2403,7 +2030,7 @@
         "tmp%4#0"
       ]
     },
-    "418": {
+    "338": {
       "op": "dup",
       "stack_out": [
         "viewer#0",
@@ -2412,7 +2039,7 @@
         "tmp%4#0 (copy)"
       ]
     },
-    "419": {
+    "339": {
       "op": "btoi",
       "defined_out": [
         "host#0",
@@ -2427,7 +2054,7 @@
         "totalAmountClaimed#0"
       ]
     },
-    "420": {
+    "340": {
       "op": "txna ApplicationArgs 4",
       "defined_out": [
         "host#0",
@@ -2444,7 +2071,7 @@
         "tmp%6#0"
       ]
     },
-    "423": {
+    "343": {
       "op": "dup",
       "defined_out": [
         "host#0",
@@ -2463,8 +2090,8 @@
         "tmp%6#0 (copy)"
       ]
     },
-    "424": {
-      "op": "intc_1 // 0",
+    "344": {
+      "op": "intc_2 // 0",
       "defined_out": [
         "0",
         "host#0",
@@ -2484,7 +2111,7 @@
         "0"
       ]
     },
-    "425": {
+    "345": {
       "error": "invalid array length header",
       "op": "extract_uint16 // on error: invalid array length header",
       "defined_out": [
@@ -2504,7 +2131,7 @@
         "aggregate%array_length%0#0"
       ]
     },
-    "426": {
+    "346": {
       "op": "pushint 2 // 2",
       "defined_out": [
         "2",
@@ -2525,7 +2152,7 @@
         "2"
       ]
     },
-    "428": {
+    "348": {
       "op": "+",
       "defined_out": [
         "add%0#0",
@@ -2544,7 +2171,7 @@
         "add%0#0"
       ]
     },
-    "429": {
+    "349": {
       "op": "dig 1",
       "stack_out": [
         "viewer#0",
@@ -2556,7 +2183,7 @@
         "tmp%6#0 (copy)"
       ]
     },
-    "431": {
+    "351": {
       "op": "len",
       "defined_out": [
         "add%0#0",
@@ -2577,7 +2204,7 @@
         "len%3#0"
       ]
     },
-    "432": {
+    "352": {
       "op": "==",
       "defined_out": [
         "eq%3#0",
@@ -2596,7 +2223,7 @@
         "eq%3#0"
       ]
     },
-    "433": {
+    "353": {
       "error": "invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
       "op": "assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
       "stack_out": [
@@ -2607,7 +2234,7 @@
         "tmp%6#0"
       ]
     },
-    "434": {
+    "354": {
       "op": "extract 2 0",
       "defined_out": [
         "host#0",
@@ -2624,49 +2251,7 @@
         "signature#0"
       ]
     },
-    "437": {
-      "op": "pushint 5000 // 5000",
-      "defined_out": [
-        "5000",
-        "host#0",
-        "signature#0",
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "viewer#0"
-      ],
-      "stack_out": [
-        "viewer#0",
-        "host#0",
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "signature#0",
-        "5000"
-      ]
-    },
-    "440": {
-      "op": "intc_1 // 0",
-      "stack_out": [
-        "viewer#0",
-        "host#0",
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "signature#0",
-        "5000",
-        "0"
-      ]
-    },
-    "441": {
-      "callsub": "_puya_lib.util.ensure_budget",
-      "op": "callsub ensure_budget",
-      "stack_out": [
-        "viewer#0",
-        "host#0",
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "signature#0"
-      ]
-    },
-    "444": {
+    "357": {
       "op": "dig 4",
       "stack_out": [
         "viewer#0",
@@ -2677,237 +2262,245 @@
         "viewer#0 (copy)"
       ]
     },
-    "446": {
-      "op": "uncover 4",
+    "359": {
+      "op": "dig 2",
+      "defined_out": [
+        "host#0",
+        "signature#0",
+        "tmp%4#0",
+        "totalAmountClaimed#0",
+        "totalAmountClaimed#0 (copy)",
+        "viewer#0",
+        "viewer#0 (copy)"
+      ],
       "stack_out": [
         "viewer#0",
+        "host#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
         "signature#0",
         "viewer#0 (copy)",
+        "totalAmountClaimed#0 (copy)"
+      ]
+    },
+    "361": {
+      "op": "uncover 2",
+      "stack_out": [
+        "viewer#0",
+        "host#0",
+        "tmp%4#0",
+        "totalAmountClaimed#0",
+        "viewer#0 (copy)",
+        "totalAmountClaimed#0 (copy)",
+        "signature#0"
+      ]
+    },
+    "363": {
+      "callsub": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.verifyClaimVoucherSignature",
+      "op": "callsub smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.verifyClaimVoucherSignature",
+      "stack_out": [
+        "viewer#0",
+        "host#0",
+        "tmp%4#0",
+        "totalAmountClaimed#0"
+      ]
+    },
+    "366": {
+      "op": "uncover 3",
+      "stack_out": [
+        "host#0",
+        "tmp%4#0",
+        "totalAmountClaimed#0",
+        "viewer#0"
+      ]
+    },
+    "368": {
+      "op": "uncover 3",
+      "stack_out": [
+        "tmp%4#0",
+        "totalAmountClaimed#0",
+        "viewer#0",
         "host#0"
       ]
     },
-    "448": {
+    "370": {
       "op": "concat",
       "defined_out": [
-        "signature#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "viewer#0",
         "viewerSession#0"
       ],
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0"
       ]
     },
-    "449": {
+    "371": {
       "op": "dup",
       "defined_out": [
-        "signature#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "viewer#0",
         "viewerSession#0",
         "viewerSession#0 (copy)"
       ],
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "viewerSession#0 (copy)"
       ]
     },
-    "450": {
+    "372": {
       "op": "box_len",
       "defined_out": [
         "_%0#0",
         "maybe_exists%0#0",
-        "signature#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "viewer#0",
         "viewerSession#0"
       ],
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "_%0#0",
         "maybe_exists%0#0"
       ]
     },
-    "451": {
+    "373": {
       "op": "bury 1",
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "maybe_exists%0#0"
       ]
     },
-    "453": {
+    "375": {
       "error": "Session does not exist",
       "op": "assert // Session does not exist",
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0"
       ]
     },
-    "454": {
+    "376": {
       "op": "dup",
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "viewerSession#0 (copy)"
       ]
     },
-    "455": {
+    "377": {
       "op": "box_get",
       "defined_out": [
         "aggregate%box_get%1#0",
         "data#0",
-        "signature#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "viewer#0",
         "viewerSession#0"
       ],
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "data#0",
         "aggregate%box_get%1#0"
       ]
     },
-    "456": {
+    "378": {
       "op": "pop",
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "data#0"
       ]
     },
-    "457": {
+    "379": {
       "op": "txn Sender",
       "defined_out": [
         "data#0",
-        "signature#0",
         "tmp%1#1",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "viewer#0",
         "viewerSession#0"
       ],
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "data#0",
         "tmp%1#1"
       ]
     },
-    "459": {
+    "381": {
       "op": "dig 1",
       "defined_out": [
         "data#0",
         "data#0 (copy)",
-        "signature#0",
         "tmp%1#1",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "viewer#0",
         "viewerSession#0"
       ],
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "data#0",
         "tmp%1#1",
         "data#0 (copy)"
       ]
     },
-    "461": {
+    "383": {
       "op": "extract 0 32",
       "defined_out": [
         "aggregate%extract%0#0",
         "data#0",
-        "signature#0",
         "tmp%1#1",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "viewer#0",
         "viewerSession#0"
       ],
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "data#0",
         "tmp%1#1",
         "aggregate%extract%0#0"
       ]
     },
-    "464": {
+    "386": {
       "op": "swap",
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "data#0",
         "aggregate%extract%0#0",
         "tmp%1#1"
       ]
     },
-    "465": {
+    "387": {
       "op": "dig 1",
       "defined_out": [
         "aggregate%extract%0#0",
         "aggregate%extract%0#0 (copy)",
         "data#0",
-        "signature#0",
         "tmp%1#1",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "viewer#0",
         "viewerSession#0"
       ],
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "data#0",
         "aggregate%extract%0#0",
@@ -2915,73 +2508,61 @@
         "aggregate%extract%0#0 (copy)"
       ]
     },
-    "467": {
+    "389": {
       "op": "==",
       "defined_out": [
         "aggregate%extract%0#0",
         "data#0",
-        "signature#0",
         "tmp%2#1",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "viewer#0",
         "viewerSession#0"
       ],
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "data#0",
         "aggregate%extract%0#0",
         "tmp%2#1"
       ]
     },
-    "468": {
+    "390": {
       "error": "Only host can claim",
       "op": "assert // Only host can claim",
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "data#0",
         "aggregate%extract%0#0"
       ]
     },
-    "469": {
+    "391": {
       "op": "dig 1",
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "data#0",
         "aggregate%extract%0#0",
         "data#0 (copy)"
       ]
     },
-    "471": {
+    "393": {
       "op": "intc_3 // 40",
       "defined_out": [
         "40",
         "aggregate%extract%0#0",
         "data#0",
         "data#0 (copy)",
-        "signature#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "viewer#0",
         "viewerSession#0"
       ],
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "data#0",
         "aggregate%extract%0#0",
@@ -2989,47 +2570,30 @@
         "40"
       ]
     },
-    "472": {
+    "394": {
       "op": "extract_uint64",
       "defined_out": [
         "aggregate%extract%0#0",
         "data#0",
-        "signature#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
         "values%1#0",
-        "viewer#0",
         "viewerSession#0"
       ],
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "data#0",
         "aggregate%extract%0#0",
         "values%1#0"
       ]
     },
-    "473": {
-      "op": "dig 5",
-      "defined_out": [
-        "aggregate%extract%0#0",
-        "data#0",
-        "signature#0",
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "totalAmountClaimed#0 (copy)",
-        "values%1#0",
-        "viewer#0",
-        "viewerSession#0"
-      ],
+    "395": {
+      "op": "dig 4",
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "data#0",
         "aggregate%extract%0#0",
@@ -3037,25 +2601,21 @@
         "totalAmountClaimed#0 (copy)"
       ]
     },
-    "475": {
+    "397": {
       "op": "dig 1",
       "defined_out": [
         "aggregate%extract%0#0",
         "data#0",
-        "signature#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
         "totalAmountClaimed#0 (copy)",
         "values%1#0",
         "values%1#0 (copy)",
-        "viewer#0",
         "viewerSession#0"
       ],
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "data#0",
         "aggregate%extract%0#0",
@@ -3064,24 +2624,20 @@
         "values%1#0 (copy)"
       ]
     },
-    "477": {
+    "399": {
       "op": ">",
       "defined_out": [
         "aggregate%extract%0#0",
         "data#0",
-        "signature#0",
         "tmp%3#1",
         "tmp%4#0",
         "totalAmountClaimed#0",
         "values%1#0",
-        "viewer#0",
         "viewerSession#0"
       ],
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "data#0",
         "aggregate%extract%0#0",
@@ -3089,40 +2645,34 @@
         "tmp%3#1"
       ]
     },
-    "478": {
+    "400": {
       "error": "Nothing new to claim",
       "op": "assert // Nothing new to claim",
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "data#0",
         "aggregate%extract%0#0",
         "values%1#0"
       ]
     },
-    "479": {
+    "401": {
       "op": "uncover 2",
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "aggregate%extract%0#0",
         "values%1#0",
         "data#0"
       ]
     },
-    "481": {
+    "403": {
       "op": "intc_0 // 32",
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "aggregate%extract%0#0",
         "values%1#0",
@@ -3130,36 +2680,30 @@
         "32"
       ]
     },
-    "482": {
+    "404": {
       "op": "extract_uint64",
       "defined_out": [
         "aggregate%extract%0#0",
-        "signature#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
         "values%1#0",
         "values%2#0",
-        "viewer#0",
         "viewerSession#0"
       ],
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "aggregate%extract%0#0",
         "values%1#0",
         "values%2#0"
       ]
     },
-    "483": {
-      "op": "dig 5",
+    "405": {
+      "op": "dig 4",
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "aggregate%extract%0#0",
         "values%1#0",
@@ -3167,128 +2711,29 @@
         "totalAmountClaimed#0 (copy)"
       ]
     },
-    "485": {
+    "407": {
       "op": ">=",
       "defined_out": [
         "aggregate%extract%0#0",
-        "signature#0",
         "tmp%4#0",
         "tmp%4#1",
         "totalAmountClaimed#0",
         "values%1#0",
-        "viewer#0",
         "viewerSession#0"
       ],
       "stack_out": [
-        "viewer#0",
         "tmp%4#0",
         "totalAmountClaimed#0",
-        "signature#0",
         "viewerSession#0",
         "aggregate%extract%0#0",
         "values%1#0",
         "tmp%4#1"
       ]
     },
-    "486": {
+    "408": {
       "error": "Claim exceeds deposit",
       "op": "assert // Claim exceeds deposit",
       "stack_out": [
-        "viewer#0",
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "signature#0",
-        "viewerSession#0",
-        "aggregate%extract%0#0",
-        "values%1#0"
-      ]
-    },
-    "487": {
-      "op": "dig 4",
-      "stack_out": [
-        "viewer#0",
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "signature#0",
-        "viewerSession#0",
-        "aggregate%extract%0#0",
-        "values%1#0",
-        "totalAmountClaimed#0 (copy)"
-      ]
-    },
-    "489": {
-      "callsub": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.getClaimVoucherMessage",
-      "op": "callsub getClaimVoucherMessage",
-      "defined_out": [
-        "aggregate%extract%0#0",
-        "message#0",
-        "signature#0",
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "values%1#0",
-        "viewer#0",
-        "viewerSession#0"
-      ],
-      "stack_out": [
-        "viewer#0",
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "signature#0",
-        "viewerSession#0",
-        "aggregate%extract%0#0",
-        "values%1#0",
-        "message#0"
-      ]
-    },
-    "492": {
-      "op": "uncover 4",
-      "stack_out": [
-        "viewer#0",
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "viewerSession#0",
-        "aggregate%extract%0#0",
-        "values%1#0",
-        "message#0",
-        "signature#0"
-      ]
-    },
-    "494": {
-      "op": "uncover 7",
-      "stack_out": [
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "viewerSession#0",
-        "aggregate%extract%0#0",
-        "values%1#0",
-        "message#0",
-        "signature#0",
-        "viewer#0"
-      ]
-    },
-    "496": {
-      "op": "ed25519verify",
-      "defined_out": [
-        "aggregate%extract%0#0",
-        "signatureIsValid#0",
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "values%1#0",
-        "viewerSession#0"
-      ],
-      "stack_out": [
-        "tmp%4#0",
-        "totalAmountClaimed#0",
-        "viewerSession#0",
-        "aggregate%extract%0#0",
-        "values%1#0",
-        "signatureIsValid#0"
-      ]
-    },
-    "497": {
-      "error": "Invalid signature",
-      "op": "assert // Invalid signature",
-      "stack_out": [
         "tmp%4#0",
         "totalAmountClaimed#0",
         "viewerSession#0",
@@ -3296,7 +2741,7 @@
         "values%1#0"
       ]
     },
-    "498": {
+    "409": {
       "op": "uncover 3",
       "stack_out": [
         "tmp%4#0",
@@ -3306,7 +2751,7 @@
         "totalAmountClaimed#0"
       ]
     },
-    "500": {
+    "411": {
       "op": "swap",
       "stack_out": [
         "tmp%4#0",
@@ -3316,7 +2761,7 @@
         "values%1#0"
       ]
     },
-    "501": {
+    "412": {
       "op": "-",
       "defined_out": [
         "aggregate%extract%0#0",
@@ -3331,10 +2776,10 @@
         "payout#0"
       ]
     },
-    "502": {
+    "413": {
       "op": "itxn_begin"
     },
-    "503": {
+    "414": {
       "op": "intc 4 // TMPL_USDC_ASSET_ID",
       "defined_out": [
         "aggregate%extract%0#0",
@@ -3351,10 +2796,10 @@
         "inner_txn_params%0%%param_XferAsset_idx_0#0"
       ]
     },
-    "505": {
+    "416": {
       "op": "itxn_field XferAsset"
     },
-    "507": {
+    "418": {
       "op": "itxn_field AssetAmount",
       "stack_out": [
         "tmp%4#0",
@@ -3363,14 +2808,14 @@
         "inner_txn_params%0%%param_XferAsset_idx_0#0"
       ]
     },
-    "509": {
+    "420": {
       "op": "itxn_field AssetReceiver",
       "stack_out": [
         "tmp%4#0",
         "viewerSession#0"
       ]
     },
-    "511": {
+    "422": {
       "op": "pushint 4 // 4",
       "defined_out": [
         "4",
@@ -3383,32 +2828,32 @@
         "4"
       ]
     },
-    "513": {
+    "424": {
       "op": "itxn_field TypeEnum",
       "stack_out": [
         "tmp%4#0",
         "viewerSession#0"
       ]
     },
-    "515": {
-      "op": "intc_1 // 0",
+    "426": {
+      "op": "intc_2 // 0",
       "stack_out": [
         "tmp%4#0",
         "viewerSession#0",
         "0"
       ]
     },
-    "516": {
+    "427": {
       "op": "itxn_field Fee",
       "stack_out": [
         "tmp%4#0",
         "viewerSession#0"
       ]
     },
-    "518": {
+    "429": {
       "op": "itxn_submit"
     },
-    "519": {
+    "430": {
       "op": "intc_3 // 40",
       "stack_out": [
         "tmp%4#0",
@@ -3416,7 +2861,7 @@
         "40"
       ]
     },
-    "520": {
+    "431": {
       "op": "uncover 2",
       "stack_out": [
         "viewerSession#0",
@@ -3424,12 +2869,12 @@
         "tmp%4#0"
       ]
     },
-    "522": {
+    "433": {
       "op": "box_replace",
       "stack_out": []
     },
-    "523": {
-      "op": "intc_2 // 1",
+    "434": {
+      "op": "intc_1 // 1",
       "defined_out": [
         "1"
       ],
@@ -3437,11 +2882,11 @@
         "1"
       ]
     },
-    "524": {
+    "435": {
       "op": "return",
       "stack_out": []
     },
-    "525": {
+    "436": {
       "subroutine": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.getRemainingBalance[routing]",
       "params": {},
       "block": "getRemainingBalance",
@@ -3454,7 +2899,7 @@
         "viewer#0"
       ]
     },
-    "528": {
+    "439": {
       "op": "dup",
       "defined_out": [
         "viewer#0",
@@ -3465,7 +2910,7 @@
         "viewer#0 (copy)"
       ]
     },
-    "529": {
+    "440": {
       "op": "len",
       "defined_out": [
         "len%0#0",
@@ -3476,7 +2921,7 @@
         "len%0#0"
       ]
     },
-    "530": {
+    "441": {
       "op": "intc_0 // 32",
       "defined_out": [
         "32",
@@ -3489,7 +2934,7 @@
         "32"
       ]
     },
-    "531": {
+    "442": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
@@ -3500,14 +2945,14 @@
         "eq%0#0"
       ]
     },
-    "532": {
+    "443": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
         "viewer#0"
       ]
     },
-    "533": {
+    "444": {
       "op": "txna ApplicationArgs 2",
       "defined_out": [
         "host#0",
@@ -3518,7 +2963,7 @@
         "host#0"
       ]
     },
-    "536": {
+    "447": {
       "op": "dup",
       "defined_out": [
         "host#0",
@@ -3531,7 +2976,7 @@
         "host#0 (copy)"
       ]
     },
-    "537": {
+    "448": {
       "op": "len",
       "defined_out": [
         "host#0",
@@ -3544,7 +2989,7 @@
         "len%1#0"
       ]
     },
-    "538": {
+    "449": {
       "op": "intc_0 // 32",
       "stack_out": [
         "viewer#0",
@@ -3553,7 +2998,7 @@
         "32"
       ]
     },
-    "539": {
+    "450": {
       "op": "==",
       "defined_out": [
         "eq%1#0",
@@ -3566,7 +3011,7 @@
         "eq%1#0"
       ]
     },
-    "540": {
+    "451": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
@@ -3574,7 +3019,7 @@
         "host#0"
       ]
     },
-    "541": {
+    "452": {
       "op": "concat",
       "defined_out": [
         "viewerSession#0"
@@ -3583,7 +3028,7 @@
         "viewerSession#0"
       ]
     },
-    "542": {
+    "453": {
       "op": "dup",
       "defined_out": [
         "viewerSession#0",
@@ -3594,7 +3039,7 @@
         "viewerSession#0 (copy)"
       ]
     },
-    "543": {
+    "454": {
       "op": "box_len",
       "defined_out": [
         "_%0#0",
@@ -3607,21 +3052,21 @@
         "maybe_exists%0#0"
       ]
     },
-    "544": {
+    "455": {
       "op": "bury 1",
       "stack_out": [
         "viewerSession#0",
         "maybe_exists%0#0"
       ]
     },
-    "546": {
+    "457": {
       "error": "Session does not exist",
       "op": "assert // Session does not exist",
       "stack_out": [
         "viewerSession#0"
       ]
     },
-    "547": {
+    "458": {
       "op": "box_get",
       "defined_out": [
         "aggregate%box_get%1#0",
@@ -3632,13 +3077,13 @@
         "aggregate%box_get%1#0"
       ]
     },
-    "548": {
+    "459": {
       "op": "pop",
       "stack_out": [
         "data#0"
       ]
     },
-    "549": {
+    "460": {
       "op": "dup",
       "defined_out": [
         "data#0",
@@ -3649,7 +3094,7 @@
         "data#0 (copy)"
       ]
     },
-    "550": {
+    "461": {
       "op": "intc_0 // 32",
       "stack_out": [
         "data#0",
@@ -3657,7 +3102,7 @@
         "32"
       ]
     },
-    "551": {
+    "462": {
       "op": "extract_uint64",
       "defined_out": [
         "data#0",
@@ -3668,14 +3113,14 @@
         "values%0#0"
       ]
     },
-    "552": {
+    "463": {
       "op": "swap",
       "stack_out": [
         "values%0#0",
         "data#0"
       ]
     },
-    "553": {
+    "464": {
       "op": "intc_3 // 40",
       "defined_out": [
         "40",
@@ -3688,7 +3133,7 @@
         "40"
       ]
     },
-    "554": {
+    "465": {
       "op": "extract_uint64",
       "defined_out": [
         "values%0#0",
@@ -3699,7 +3144,7 @@
         "values%1#0"
       ]
     },
-    "555": {
+    "466": {
       "op": "-",
       "defined_out": [
         "tmp%1#1"
@@ -3708,7 +3153,7 @@
         "tmp%1#1"
       ]
     },
-    "556": {
+    "467": {
       "op": "itob",
       "defined_out": [
         "aggregate%val_as_bytes%0#0"
@@ -3717,7 +3162,7 @@
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "557": {
+    "468": {
       "op": "bytec_0 // 0x151f7c75",
       "defined_out": [
         "0x151f7c75",
@@ -3728,14 +3173,14 @@
         "0x151f7c75"
       ]
     },
-    "558": {
+    "469": {
       "op": "swap",
       "stack_out": [
         "0x151f7c75",
         "aggregate%val_as_bytes%0#0"
       ]
     },
-    "559": {
+    "470": {
       "op": "concat",
       "defined_out": [
         "tmp%6#0"
@@ -3744,12 +3189,12 @@
         "tmp%6#0"
       ]
     },
-    "560": {
+    "471": {
       "op": "log",
       "stack_out": []
     },
-    "561": {
-      "op": "intc_2 // 1",
+    "472": {
+      "op": "intc_1 // 1",
       "defined_out": [
         "1"
       ],
@@ -3757,18 +3202,18 @@
         "1"
       ]
     },
-    "562": {
+    "473": {
       "op": "return",
       "stack_out": []
     },
-    "563": {
+    "474": {
       "subroutine": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.refundAndCloseSession[routing]",
       "params": {},
       "block": "refundAndCloseSession",
       "stack_in": [],
       "op": "txna ApplicationArgs 1"
     },
-    "566": {
+    "477": {
       "op": "dupn 2",
       "defined_out": [
         "viewer#0",
@@ -3780,7 +3225,7 @@
         "viewer#0 (copy)"
       ]
     },
-    "568": {
+    "479": {
       "op": "len",
       "defined_out": [
         "len%0#0",
@@ -3792,7 +3237,7 @@
         "len%0#0"
       ]
     },
-    "569": {
+    "480": {
       "op": "intc_0 // 32",
       "defined_out": [
         "32",
@@ -3806,7 +3251,7 @@
         "32"
       ]
     },
-    "570": {
+    "481": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
@@ -3818,7 +3263,7 @@
         "eq%0#0"
       ]
     },
-    "571": {
+    "482": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
@@ -3826,7 +3271,7 @@
         "viewer#0"
       ]
     },
-    "572": {
+    "483": {
       "op": "txna ApplicationArgs 2",
       "defined_out": [
         "host#0",
@@ -3838,7 +3283,7 @@
         "host#0"
       ]
     },
-    "575": {
+    "486": {
       "op": "dup",
       "defined_out": [
         "host#0",
@@ -3852,7 +3297,7 @@
         "host#0 (copy)"
       ]
     },
-    "576": {
+    "487": {
       "op": "len",
       "defined_out": [
         "host#0",
@@ -3866,7 +3311,7 @@
         "len%1#0"
       ]
     },
-    "577": {
+    "488": {
       "op": "intc_0 // 32",
       "stack_out": [
         "viewer#0",
@@ -3876,7 +3321,7 @@
         "32"
       ]
     },
-    "578": {
+    "489": {
       "op": "==",
       "defined_out": [
         "eq%1#0",
@@ -3890,7 +3335,7 @@
         "eq%1#0"
       ]
     },
-    "579": {
+    "490": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
@@ -3899,7 +3344,7 @@
         "host#0"
       ]
     },
-    "580": {
+    "491": {
       "op": "concat",
       "defined_out": [
         "viewer#0",
@@ -3910,7 +3355,7 @@
         "viewerSession#0"
       ]
     },
-    "581": {
+    "492": {
       "op": "dupn 2",
       "defined_out": [
         "viewer#0",
@@ -3924,7 +3369,7 @@
         "viewerSession#0 (copy)"
       ]
     },
-    "583": {
+    "494": {
       "op": "box_len",
       "defined_out": [
         "_%0#0",
@@ -3940,7 +3385,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "584": {
+    "495": {
       "op": "bury 1",
       "stack_out": [
         "viewer#0",
@@ -3949,7 +3394,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "586": {
+    "497": {
       "error": "Session does not exist",
       "op": "assert // Session does not exist",
       "stack_out": [
@@ -3958,7 +3403,7 @@
         "viewerSession#0"
       ]
     },
-    "587": {
+    "498": {
       "op": "box_get",
       "defined_out": [
         "aggregate%box_get%1#0",
@@ -3973,7 +3418,7 @@
         "aggregate%box_get%1#0"
       ]
     },
-    "588": {
+    "499": {
       "op": "pop",
       "stack_out": [
         "viewer#0",
@@ -3981,7 +3426,7 @@
         "data#0"
       ]
     },
-    "589": {
+    "500": {
       "op": "txn Sender",
       "defined_out": [
         "data#0",
@@ -3996,7 +3441,7 @@
         "tmp%1#1"
       ]
     },
-    "591": {
+    "502": {
       "op": "dig 1",
       "defined_out": [
         "data#0",
@@ -4013,7 +3458,7 @@
         "data#0 (copy)"
       ]
     },
-    "593": {
+    "504": {
       "op": "extract 0 32",
       "defined_out": [
         "aggregate%extract%0#0",
@@ -4030,7 +3475,7 @@
         "aggregate%extract%0#0"
       ]
     },
-    "596": {
+    "507": {
       "op": "==",
       "defined_out": [
         "data#0",
@@ -4045,7 +3490,7 @@
         "tmp%2#1"
       ]
     },
-    "597": {
+    "508": {
       "error": "Only host can close",
       "op": "assert // Only host can close",
       "stack_out": [
@@ -4054,7 +3499,7 @@
         "data#0"
       ]
     },
-    "598": {
+    "509": {
       "op": "dup",
       "stack_out": [
         "viewer#0",
@@ -4063,7 +3508,7 @@
         "data#0 (copy)"
       ]
     },
-    "599": {
+    "510": {
       "op": "intc_0 // 32",
       "stack_out": [
         "viewer#0",
@@ -4073,7 +3518,7 @@
         "32"
       ]
     },
-    "600": {
+    "511": {
       "op": "extract_uint64",
       "defined_out": [
         "data#0",
@@ -4088,7 +3533,7 @@
         "values%1#0"
       ]
     },
-    "601": {
+    "512": {
       "op": "swap",
       "stack_out": [
         "viewer#0",
@@ -4097,7 +3542,7 @@
         "data#0"
       ]
     },
-    "602": {
+    "513": {
       "op": "intc_3 // 40",
       "defined_out": [
         "40",
@@ -4114,7 +3559,7 @@
         "40"
       ]
     },
-    "603": {
+    "514": {
       "op": "extract_uint64",
       "defined_out": [
         "values%1#0",
@@ -4129,7 +3574,7 @@
         "values%2#0"
       ]
     },
-    "604": {
+    "515": {
       "op": "-",
       "defined_out": [
         "remainingBalance#0",
@@ -4142,7 +3587,7 @@
         "remainingBalance#0"
       ]
     },
-    "605": {
+    "516": {
       "op": "dup",
       "defined_out": [
         "remainingBalance#0",
@@ -4156,7 +3601,7 @@
         "remainingBalance#0"
       ]
     },
-    "606": {
+    "517": {
       "op": "bz refundAndCloseSession_after_if_else@4",
       "stack_out": [
         "viewer#0",
@@ -4164,10 +3609,10 @@
         "remainingBalance#0"
       ]
     },
-    "609": {
+    "520": {
       "op": "itxn_begin"
     },
-    "610": {
+    "521": {
       "op": "intc 4 // TMPL_USDC_ASSET_ID",
       "defined_out": [
         "inner_txn_params%0%%param_XferAsset_idx_0#0",
@@ -4182,7 +3627,7 @@
         "inner_txn_params%0%%param_XferAsset_idx_0#0"
       ]
     },
-    "612": {
+    "523": {
       "op": "dig 1",
       "stack_out": [
         "viewer#0",
@@ -4192,7 +3637,7 @@
         "remainingBalance#0"
       ]
     },
-    "614": {
+    "525": {
       "op": "itxn_field AssetAmount",
       "stack_out": [
         "viewer#0",
@@ -4201,7 +3646,7 @@
         "inner_txn_params%0%%param_XferAsset_idx_0#0"
       ]
     },
-    "616": {
+    "527": {
       "op": "dig 3",
       "stack_out": [
         "viewer#0",
@@ -4211,7 +3656,7 @@
         "viewer#0"
       ]
     },
-    "618": {
+    "529": {
       "op": "itxn_field AssetReceiver",
       "stack_out": [
         "viewer#0",
@@ -4220,7 +3665,7 @@
         "inner_txn_params%0%%param_XferAsset_idx_0#0"
       ]
     },
-    "620": {
+    "531": {
       "op": "itxn_field XferAsset",
       "stack_out": [
         "viewer#0",
@@ -4228,7 +3673,7 @@
         "remainingBalance#0"
       ]
     },
-    "622": {
+    "533": {
       "op": "pushint 4 // 4",
       "defined_out": [
         "4",
@@ -4243,7 +3688,7 @@
         "4"
       ]
     },
-    "624": {
+    "535": {
       "op": "itxn_field TypeEnum",
       "stack_out": [
         "viewer#0",
@@ -4251,8 +3696,8 @@
         "remainingBalance#0"
       ]
     },
-    "626": {
-      "op": "intc_1 // 0",
+    "537": {
+      "op": "intc_2 // 0",
       "stack_out": [
         "viewer#0",
         "viewerSession#0",
@@ -4260,7 +3705,7 @@
         "0"
       ]
     },
-    "627": {
+    "538": {
       "op": "itxn_field Fee",
       "stack_out": [
         "viewer#0",
@@ -4268,10 +3713,10 @@
         "remainingBalance#0"
       ]
     },
-    "629": {
+    "540": {
       "op": "itxn_submit"
     },
-    "630": {
+    "541": {
       "block": "refundAndCloseSession_after_if_else@4",
       "stack_in": [
         "viewer#0",
@@ -4289,7 +3734,7 @@
         "viewerSession#0"
       ]
     },
-    "632": {
+    "543": {
       "op": "box_del",
       "defined_out": [
         "viewerSession#0",
@@ -4302,7 +3747,7 @@
         "{box_del}"
       ]
     },
-    "633": {
+    "544": {
       "op": "pop",
       "stack_out": [
         "viewer#0",
@@ -4310,8 +3755,8 @@
         "remainingBalance#0"
       ]
     },
-    "634": {
-      "op": "intc_2 // 1",
+    "545": {
+      "op": "intc_1 // 1",
       "defined_out": [
         "1",
         "viewerSession#0"
@@ -4323,7 +3768,7 @@
         "1"
       ]
     },
-    "635": {
+    "546": {
       "op": "return",
       "stack_out": [
         "viewer#0",
@@ -4331,7 +3776,7 @@
         "remainingBalance#0"
       ]
     },
-    "636": {
+    "547": {
       "subroutine": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.getClaimVoucherMessage",
       "params": {
         "totalAmountClaimed#0": "uint64"
@@ -4340,7 +3785,7 @@
       "stack_in": [],
       "op": "proto 1 1"
     },
-    "639": {
+    "550": {
       "op": "global CurrentApplicationID",
       "defined_out": [
         "tmp%0#0"
@@ -4349,7 +3794,7 @@
         "tmp%0#0"
       ]
     },
-    "641": {
+    "552": {
       "op": "itob",
       "defined_out": [
         "tmp%1#0"
@@ -4358,7 +3803,7 @@
         "tmp%1#0"
       ]
     },
-    "642": {
+    "553": {
       "op": "frame_dig -1",
       "defined_out": [
         "tmp%1#0",
@@ -4369,7 +3814,7 @@
         "totalAmountClaimed#0 (copy)"
       ]
     },
-    "644": {
+    "555": {
       "op": "itob",
       "defined_out": [
         "tmp%1#0",
@@ -4380,7 +3825,7 @@
         "tmp%2#0"
       ]
     },
-    "645": {
+    "556": {
       "op": "concat",
       "defined_out": [
         "tmp%3#0"
@@ -4389,7 +3834,7 @@
         "tmp%3#0"
       ]
     },
-    "646": {
+    "557": {
       "op": "pushbytes \"settle\"",
       "defined_out": [
         "\"settle\"",
@@ -4400,7 +3845,7 @@
         "\"settle\""
       ]
     },
-    "654": {
+    "565": {
       "op": "concat",
       "defined_out": [
         "tmp%4#0"
@@ -4409,7 +3854,187 @@
         "tmp%4#0"
       ]
     },
-    "655": {
+    "566": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "567": {
+      "subroutine": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.verifyClaimVoucherSignature",
+      "params": {
+        "viewer#0": "bytes",
+        "totalAmountClaimed#0": "uint64",
+        "signature#0": "bytes"
+      },
+      "block": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.verifyClaimVoucherSignature",
+      "stack_in": [],
+      "op": "proto 3 0"
+    },
+    "570": {
+      "block": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.verifyClaimVoucherSignature_while_top@2",
+      "stack_in": [],
+      "op": "pushint 5010 // 5010",
+      "defined_out": [
+        "5010"
+      ],
+      "stack_out": [
+        "5010"
+      ]
+    },
+    "573": {
+      "op": "global OpcodeBudget",
+      "defined_out": [
+        "5010",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "5010",
+        "tmp%1#1"
+      ]
+    },
+    "575": {
+      "op": ">",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "576": {
+      "op": "bz smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.verifyClaimVoucherSignature_after_while@7",
+      "stack_out": []
+    },
+    "579": {
+      "op": "itxn_begin"
+    },
+    "580": {
+      "op": "pushint 6 // appl",
+      "defined_out": [
+        "appl"
+      ],
+      "stack_out": [
+        "appl"
+      ]
+    },
+    "582": {
+      "op": "itxn_field TypeEnum",
+      "stack_out": []
+    },
+    "584": {
+      "op": "pushint 5 // DeleteApplication",
+      "defined_out": [
+        "DeleteApplication"
+      ],
+      "stack_out": [
+        "DeleteApplication"
+      ]
+    },
+    "586": {
+      "op": "itxn_field OnCompletion",
+      "stack_out": []
+    },
+    "588": {
+      "op": "bytec_1 // 0x068101",
+      "defined_out": [
+        "0x068101"
+      ],
+      "stack_out": [
+        "0x068101"
+      ]
+    },
+    "589": {
+      "op": "itxn_field ApprovalProgram",
+      "stack_out": []
+    },
+    "591": {
+      "op": "bytec_1 // 0x068101",
+      "stack_out": [
+        "0x068101"
+      ]
+    },
+    "592": {
+      "op": "itxn_field ClearStateProgram",
+      "stack_out": []
+    },
+    "594": {
+      "op": "intc_2 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "595": {
+      "op": "itxn_field Fee",
+      "stack_out": []
+    },
+    "597": {
+      "op": "itxn_submit"
+    },
+    "598": {
+      "op": "b smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.verifyClaimVoucherSignature_while_top@2"
+    },
+    "601": {
+      "block": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.verifyClaimVoucherSignature_after_while@7",
+      "stack_in": [],
+      "op": "frame_dig -2",
+      "defined_out": [
+        "totalAmountClaimed#0 (copy)"
+      ],
+      "stack_out": [
+        "totalAmountClaimed#0 (copy)"
+      ]
+    },
+    "603": {
+      "callsub": "smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.getClaimVoucherMessage",
+      "op": "callsub getClaimVoucherMessage",
+      "defined_out": [
+        "message#0"
+      ],
+      "stack_out": [
+        "message#0"
+      ]
+    },
+    "606": {
+      "op": "frame_dig -1",
+      "defined_out": [
+        "message#0",
+        "signature#0 (copy)"
+      ],
+      "stack_out": [
+        "message#0",
+        "signature#0 (copy)"
+      ]
+    },
+    "608": {
+      "op": "frame_dig -3",
+      "defined_out": [
+        "message#0",
+        "signature#0 (copy)",
+        "viewer#0 (copy)"
+      ],
+      "stack_out": [
+        "message#0",
+        "signature#0 (copy)",
+        "viewer#0 (copy)"
+      ]
+    },
+    "610": {
+      "op": "ed25519verify",
+      "defined_out": [
+        "signatureIsValid#0"
+      ],
+      "stack_out": [
+        "signatureIsValid#0"
+      ]
+    },
+    "611": {
+      "error": "Invalid signature",
+      "op": "assert // Invalid signature",
+      "stack_out": []
+    },
+    "612": {
       "retsub": true,
       "op": "retsub"
     }

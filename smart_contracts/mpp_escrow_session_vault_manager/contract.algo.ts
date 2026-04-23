@@ -106,24 +106,23 @@ export class MppEscrowSessionVaultManager extends Contract {
   /**
    * Read-only helper for clients: verifies claim signature exactly as claimVoucher does.
    */
-  verifyClaimVoucherSignature(viewer: Account, totalAmountClaimed: uint64, signature: bytes): boolean {
+  verifyClaimVoucherSignature(viewer: Account, totalAmountClaimed: uint64, signature: bytes): void {
     // Ensure enough opcode budget for ed25519 verification in this helper path too
     ensureBudget(5000, OpUpFeeSource.GroupCredit)
 
     const message = this.getClaimVoucherMessage(totalAmountClaimed)
     const viewerPublicKey = viewer.bytes
-    return op.ed25519verify(message, signature, viewerPublicKey)
+    const signatureIsValid = op.ed25519verify(message, signature, viewerPublicKey)
+    assert(signatureIsValid, 'Invalid signature')
   }
 
   /**
    * Host claims settled USDC amount.  Non-Falcon accounts right now.
    */
   claimVoucher(viewer: Account, host: Account, totalAmountClaimed: uint64, signature: bytes): void {
-    // Ensure enough opcode budget for ed25519 verification and settlement logic
-    ensureBudget(5000, OpUpFeeSource.GroupCredit)
+    this.verifyClaimVoucherSignature(viewer, totalAmountClaimed, signature)
 
     const viewerSession = this.getViewerSession(viewer, host)
-
     assert(viewerSession.exists, 'Session does not exist')
 
     const data = clone(viewerSession.value)
@@ -131,11 +130,6 @@ export class MppEscrowSessionVaultManager extends Contract {
     assert(Txn.sender === data.host, 'Only host can claim')
     assert(totalAmountClaimed > data.lastSettled, 'Nothing new to claim')
     assert(totalAmountClaimed <= data.totalDeposit, 'Claim exceeds deposit')
-
-    const message = this.getClaimVoucherMessage(totalAmountClaimed)
-    const viewerPublicKey = viewer.bytes
-    const signatureIsValid = op.ed25519verify(message, signature, viewerPublicKey)
-    assert(signatureIsValid, 'Invalid signature')
 
     const payout: uint64 = totalAmountClaimed - data.lastSettled
 

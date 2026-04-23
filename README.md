@@ -2,9 +2,9 @@
 
 This project is a placeholder session vault for machine payment protocol (MPP) escrow session until GoPlausible version is ready
 
-testnet app id: 759289872L 
+testnet app id: 759324425L 
 
-testnet app address: RCWCTB6P47HZ6OHAYQQ5PHDTPU6JODCBFPC5PSUV657WUTSSGXS2NKEYJI
+testnet app address: YZHVBHBAFQC3Y667VAQ7OYWWDYYRQF6RS2T6G4FKSHSUXVGY66YABUHOPI
 
 # Setup
 
