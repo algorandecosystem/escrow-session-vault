@@ -107,6 +107,9 @@ export class MppEscrowSessionVaultManager extends Contract {
    * Read-only helper for clients: verifies claim signature exactly as claimVoucher does.
    */
   verifyClaimVoucherSignature(viewer: Account, totalAmountClaimed: uint64, signature: bytes): boolean {
+    // Ensure enough opcode budget for ed25519 verification in this helper path too
+    ensureBudget(5000, OpUpFeeSource.GroupCredit)
+
     const message = this.getClaimVoucherMessage(totalAmountClaimed)
     const viewerPublicKey = viewer.bytes
     return op.ed25519verify(message, signature, viewerPublicKey)
@@ -117,7 +120,7 @@ export class MppEscrowSessionVaultManager extends Contract {
    */
   claimVoucher(viewer: Account, host: Account, totalAmountClaimed: uint64, signature: bytes): void {
     // Ensure enough opcode budget for ed25519 verification and settlement logic
-    ensureBudget(3000, OpUpFeeSource.GroupCredit)
+    ensureBudget(5000, OpUpFeeSource.GroupCredit)
 
     const viewerSession = this.getViewerSession(viewer, host)
 

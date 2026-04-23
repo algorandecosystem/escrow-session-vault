@@ -3,7 +3,7 @@
 
 // @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
 main:
-    intcblock 32 1 0 40 TMPL_USDC_ASSET_ID
+    intcblock 32 0 1 40 TMPL_USDC_ASSET_ID
     bytecblock 0x151f7c75 0x068101
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:34
     // export class MppEscrowSessionVaultManager extends Contract {
@@ -28,8 +28,50 @@ main___algots__.defaultCreate@16:
     !
     &&
     assert // OnCompletion must be NoOp && can only call when creating
-    intc_1 // 1
+    intc_2 // 1
     return
+
+
+// _puya_lib.util.ensure_budget(required_budget: uint64, fee_source: uint64) -> void:
+ensure_budget:
+    proto 2 0
+    frame_dig -2
+    pushint 10 // 10
+    +
+
+ensure_budget_while_top@1:
+    frame_dig 0
+    global OpcodeBudget
+    >
+    bz ensure_budget_after_while@6
+    itxn_begin
+    pushint 6 // appl
+    itxn_field TypeEnum
+    pushint 5 // DeleteApplication
+    itxn_field OnCompletion
+    bytec_1 // 0x068101
+    itxn_field ApprovalProgram
+    bytec_1 // 0x068101
+    itxn_field ClearStateProgram
+    frame_dig -1
+    switch ensure_budget_switch_case_0@3 ensure_budget_switch_case_1@4
+
+ensure_budget_switch_case_next@5:
+    itxn_submit
+    b ensure_budget_while_top@1
+
+ensure_budget_switch_case_1@4:
+    global MinTxnFee
+    itxn_field Fee
+    b ensure_budget_switch_case_next@5
+
+ensure_budget_switch_case_0@3:
+    intc_1 // 0
+    itxn_field Fee
+    b ensure_budget_switch_case_next@5
+
+ensure_budget_after_while@6:
+    retsub
 
 
 // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.openSession[routing]() -> void:
@@ -61,7 +103,7 @@ openSession:
     bnz openSession_after_if_else@3
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:53
     // totalDeposit: 0,
-    intc_2 // 0
+    intc_1 // 0
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:51-55
     // viewerSession.value = {
     //   host,
@@ -81,7 +123,7 @@ openSession:
 openSession_after_if_else@3:
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:47
     // openSession(viewer: Account, host: Account): void {
-    intc_1 // 1
+    intc_2 // 1
     return
 
 
@@ -103,7 +145,7 @@ fundMbrPool:
     assert // Payment must be to contract
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:62
     // fundMbrPool(payment: { receiver: Account }): void {
-    intc_1 // 1
+    intc_2 // 1
     return
 
 
@@ -130,7 +172,7 @@ optInUsdc:
     global CurrentApplicationAddress
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:76
     // assetAmount: 0,
-    intc_2 // 0
+    intc_1 // 0
     itxn_field AssetAmount
     itxn_field AssetReceiver
     itxn_field XferAsset
@@ -142,12 +184,12 @@ optInUsdc:
     // }).submit()
     pushint 4 // 4
     itxn_field TypeEnum
-    intc_2 // 0
+    intc_1 // 0
     itxn_field Fee
     itxn_submit
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:70
     // optInUsdc(): void {
-    intc_1 // 1
+    intc_2 // 1
     return
 
 
@@ -221,7 +263,7 @@ deposit:
     box_replace
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:83
     // deposit(viewer: Account, host: Account, payment: { assetReceiver: Account; assetAmount: uint64; xferAsset: Asset }): void {
-    intc_1 // 1
+    intc_2 // 1
     return
 
 
@@ -251,7 +293,7 @@ claimVoucherMessage:
     swap
     concat
     log
-    intc_1 // 1
+    intc_2 // 1
     return
 
 
@@ -274,7 +316,7 @@ verifyClaimVoucherSignature:
     btoi
     txna ApplicationArgs 3
     dup
-    intc_2 // 0
+    intc_1 // 0
     extract_uint16 // on error: invalid array length header
     pushint 2 // 2
     +
@@ -283,11 +325,16 @@ verifyClaimVoucherSignature:
     ==
     assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
     extract 2 0
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:110
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:111
+    // ensureBudget(5000, OpUpFeeSource.GroupCredit)
+    pushint 5000 // 5000
+    intc_1 // 0
+    callsub ensure_budget
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:113
     // const message = this.getClaimVoucherMessage(totalAmountClaimed)
     swap
     callsub getClaimVoucherMessage
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:112
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:115
     // return op.ed25519verify(message, signature, viewerPublicKey)
     swap
     uncover 2
@@ -295,20 +342,20 @@ verifyClaimVoucherSignature:
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:109
     // verifyClaimVoucherSignature(viewer: Account, totalAmountClaimed: uint64, signature: bytes): boolean {
     pushbytes 0x00
-    intc_2 // 0
+    intc_1 // 0
     uncover 2
     setbit
     bytec_0 // 0x151f7c75
     swap
     concat
     log
-    intc_1 // 1
+    intc_2 // 1
     return
 
 
 // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.claimVoucher[routing]() -> void:
 claimVoucher:
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:118
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:121
     // claimVoucher(viewer: Account, host: Account, totalAmountClaimed: uint64, signature: bytes): void {
     txna ApplicationArgs 1
     dup
@@ -323,15 +370,16 @@ claimVoucher:
     ==
     assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>
     txna ApplicationArgs 3
-    dupn 2
+    dup
     len
     pushint 8 // 8
     ==
     assert // invalid number of bytes for arc4.uint64
+    dup
     btoi
     txna ApplicationArgs 4
     dup
-    intc_2 // 0
+    intc_1 // 0
     extract_uint16 // on error: invalid array length header
     pushint 2 // 2
     +
@@ -340,45 +388,28 @@ claimVoucher:
     ==
     assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
     extract 2 0
-
-claimVoucher_while_top@2:
-    pushint 3010 // 3010
-    global OpcodeBudget
-    >
-    bz claimVoucher_after_while@7
-    itxn_begin
-    pushint 6 // appl
-    itxn_field TypeEnum
-    pushint 5 // DeleteApplication
-    itxn_field OnCompletion
-    bytec_1 // 0x068101
-    itxn_field ApprovalProgram
-    bytec_1 // 0x068101
-    itxn_field ClearStateProgram
-    intc_2 // 0
-    itxn_field Fee
-    itxn_submit
-    b claimVoucher_while_top@2
-
-claimVoucher_after_while@7:
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:123
+    // ensureBudget(5000, OpUpFeeSource.GroupCredit)
+    pushint 5000 // 5000
+    intc_1 // 0
+    callsub ensure_budget
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:41
     // return this.sessions(viewer.bytes.concat(host.bytes))
     dig 4
-    dup
-    dig 5
+    uncover 4
     concat
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:124
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:127
     // assert(viewerSession.exists, 'Session does not exist')
     dup
     box_len
     bury 1
     assert // Session does not exist
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:126
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:129
     // const data = clone(viewerSession.value)
     dup
     box_get
     pop
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:128
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:131
     // assert(Txn.sender === data.host, 'Only host can claim')
     txn Sender
     dig 1
@@ -387,56 +418,54 @@ claimVoucher_after_while@7:
     dig 1
     ==
     assert // Only host can claim
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:129
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:132
     // assert(totalAmountClaimed > data.lastSettled, 'Nothing new to claim')
     dig 1
     intc_3 // 40
     extract_uint64
-    dig 6
-    dup
-    cover 3
+    dig 5
     dig 1
     >
     assert // Nothing new to claim
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:130
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:133
     // assert(totalAmountClaimed <= data.totalDeposit, 'Claim exceeds deposit')
-    uncover 3
+    uncover 2
     intc_0 // 32
     extract_uint64
-    dig 3
+    dig 5
     >=
     assert // Claim exceeds deposit
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:132
-    // const message = this.getClaimVoucherMessage(totalAmountClaimed)
-    dig 2
-    callsub getClaimVoucherMessage
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:134
-    // const signatureIsValid = op.ed25519verify(message, signature, viewerPublicKey)
-    dig 6
-    uncover 6
-    ed25519verify
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:135
+    // const message = this.getClaimVoucherMessage(totalAmountClaimed)
+    dig 4
+    callsub getClaimVoucherMessage
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:137
+    // const signatureIsValid = op.ed25519verify(message, signature, viewerPublicKey)
+    uncover 4
+    uncover 7
+    ed25519verify
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:138
     // assert(signatureIsValid, 'Invalid signature')
     assert // Invalid signature
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:137
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:140
     // const payout: uint64 = totalAmountClaimed - data.lastSettled
-    uncover 2
+    uncover 3
     swap
     -
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:139-143
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:142-146
     // itxn.assetTransfer({
     //   xferAsset: Asset(USDC_ASSET_ID),
     //   assetReceiver: data.host,
     //   assetAmount: payout,
     // }).submit()
     itxn_begin
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:140
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:143
     // xferAsset: Asset(USDC_ASSET_ID),
     intc 4 // TMPL_USDC_ASSET_ID
     itxn_field XferAsset
     itxn_field AssetAmount
     itxn_field AssetReceiver
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:139-143
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:142-146
     // itxn.assetTransfer({
     //   xferAsset: Asset(USDC_ASSET_ID),
     //   assetReceiver: data.host,
@@ -444,24 +473,24 @@ claimVoucher_after_while@7:
     // }).submit()
     pushint 4 // 4
     itxn_field TypeEnum
-    intc_2 // 0
+    intc_1 // 0
     itxn_field Fee
     itxn_submit
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:145-146
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:148-149
     // data.lastSettled = totalAmountClaimed
     // viewerSession.value = clone(data)
     intc_3 // 40
-    dig 4
+    uncover 2
     box_replace
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:118
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:121
     // claimVoucher(viewer: Account, host: Account, totalAmountClaimed: uint64, signature: bytes): void {
-    intc_1 // 1
+    intc_2 // 1
     return
 
 
 // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.getRemainingBalance[routing]() -> void:
 getRemainingBalance:
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:152
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:155
     // getRemainingBalance(viewer: Account, host: Account): uint64 {
     txna ApplicationArgs 1
     dup
@@ -478,17 +507,17 @@ getRemainingBalance:
     // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:41
     // return this.sessions(viewer.bytes.concat(host.bytes))
     concat
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:154
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:157
     // assert(viewerSession.exists, 'Session does not exist')
     dup
     box_len
     bury 1
     assert // Session does not exist
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:156
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:159
     // const data = clone(viewerSession.value)
     box_get
     pop
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:157
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:160
     // return data.totalDeposit - data.lastSettled
     dup
     intc_0 // 32
@@ -497,20 +526,20 @@ getRemainingBalance:
     intc_3 // 40
     extract_uint64
     -
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:152
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:155
     // getRemainingBalance(viewer: Account, host: Account): uint64 {
     itob
     bytec_0 // 0x151f7c75
     swap
     concat
     log
-    intc_1 // 1
+    intc_2 // 1
     return
 
 
 // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts::MppEscrowSessionVaultManager.refundAndCloseSession[routing]() -> void:
 refundAndCloseSession:
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:163
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:166
     // refundAndCloseSession(viewer: Account, host: Account): void {
     txna ApplicationArgs 1
     dupn 2
@@ -528,23 +557,23 @@ refundAndCloseSession:
     // return this.sessions(viewer.bytes.concat(host.bytes))
     concat
     dupn 2
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:166
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:169
     // assert(viewerSession.exists, 'Session does not exist')
     box_len
     bury 1
     assert // Session does not exist
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:168
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:171
     // const data = clone(viewerSession.value)
     box_get
     pop
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:171
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:174
     // assert(Txn.sender === data.host, 'Only host can close')
     txn Sender
     dig 1
     extract 0 32
     ==
     assert // Only host can close
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:173
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:176
     // const remainingBalance: uint64 = data.totalDeposit - data.lastSettled
     dup
     intc_0 // 32
@@ -554,17 +583,17 @@ refundAndCloseSession:
     extract_uint64
     -
     dup
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:175
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:178
     // if (remainingBalance > 0) {
     bz refundAndCloseSession_after_if_else@4
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:176-180
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:179-183
     // itxn.assetTransfer({
     //   xferAsset: Asset(USDC_ASSET_ID),
     //   assetReceiver: viewer,
     //   assetAmount: remainingBalance,
     // }).submit()
     itxn_begin
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:177
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:180
     // xferAsset: Asset(USDC_ASSET_ID),
     intc 4 // TMPL_USDC_ASSET_ID
     dig 1
@@ -572,7 +601,7 @@ refundAndCloseSession:
     dig 3
     itxn_field AssetReceiver
     itxn_field XferAsset
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:176-180
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:179-183
     // itxn.assetTransfer({
     //   xferAsset: Asset(USDC_ASSET_ID),
     //   assetReceiver: viewer,
@@ -580,19 +609,19 @@ refundAndCloseSession:
     // }).submit()
     pushint 4 // 4
     itxn_field TypeEnum
-    intc_2 // 0
+    intc_1 // 0
     itxn_field Fee
     itxn_submit
 
 refundAndCloseSession_after_if_else@4:
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:183
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:186
     // viewerSession.delete()
     dig 1
     box_del
     pop
-    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:163
+    // smart_contracts/mpp_escrow_session_vault_manager/contract.algo.ts:166
     // refundAndCloseSession(viewer: Account, host: Account): void {
-    intc_1 // 1
+    intc_2 // 1
     return
 
 
