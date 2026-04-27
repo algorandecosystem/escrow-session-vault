@@ -32,6 +32,9 @@ export interface ChannelInfo {
   authorizedSigner: Account
   totalDeposit: uint64
   lastSettled: uint64
+  latestVoucherAmount: uint64
+  startRound: uint64
+  startTimestamp: uint64
   closeRequestedAt: uint64
 }
 
@@ -58,6 +61,9 @@ export class EscrowSessionVaultManager extends Contract {
         authorizedSigner,
         totalDeposit: deposit,
         lastSettled: 0,
+        latestVoucherAmount: 0,
+        startRound: op.Global.round,
+        startTimestamp: op.Global.latestTimestamp,
         closeRequestedAt: 0,
       }
       return channelId
@@ -76,21 +82,57 @@ export class EscrowSessionVaultManager extends Contract {
   }
 
   /**
-   * Payee settles voucher delta without closing channel.
+   * Adds funds to an existing channel.
    */
-  settle(channelId: bytes, cumulativeAmount: uint64, signature: bytes): void {
+  topUp(channelId: bytes, additionalDeposit: uint64): void {
+    assert(additionalDeposit > 0, 'Deposit must be > 0')
+
+    const channel = this.getChannel(channelId)
+    assert(channel.exists, 'Channel does not exist')
+
+    const data = clone(channel.value)
+    assert(Txn.sender === data.payer, 'Only payer can top up')
+
+    data.totalDeposit += additionalDeposit
+    // Per spec: top-up cancels pending close request.
+    data.closeRequestedAt = 0
+    channel.value = clone(data)
+  }
+
+  /**
+   * Stores latest cumulative voucher amount on-chain.
+   * Can be called by payer or payee with a valid authorized-signer signature.
+   */
+  updateVoucher(channelId: bytes, cumulativeAmount: uint64, signature: bytes): void {
+    const channel = this.getChannel(channelId)
+    assert(channel.exists, 'Channel does not exist')
+
+    const data = clone(channel.value)
+
+    assert(Txn.sender === data.payer, 'Only payer can update voucher')
+    assert(cumulativeAmount >= data.lastSettled, 'Voucher below settled amount')
+    assert(cumulativeAmount > data.latestVoucherAmount, 'Voucher not increasing')
+    assert(cumulativeAmount <= data.totalDeposit, 'Voucher exceeds deposit')
+
+    this.verifySettleSignature(channelId, cumulativeAmount, signature)
+
+    data.latestVoucherAmount = cumulativeAmount
+    channel.value = clone(data)
+  }
+
+  /**
+   * Payee settles latest on-chain voucher delta without closing channel.
+   */
+  settle(channelId: bytes): void {
     const channel = this.getChannel(channelId)
     assert(channel.exists, 'Channel does not exist')
 
     const data = clone(channel.value)
 
     assert(Txn.sender === data.payee, 'Only payee can settle')
-    assert(cumulativeAmount > data.lastSettled, 'Nothing new to settle')
-    assert(cumulativeAmount <= data.totalDeposit, 'Settle exceeds deposit')
+    assert(data.latestVoucherAmount > data.lastSettled, 'Nothing new to settle')
 
-    this.verifySettleSignature(channelId, cumulativeAmount, signature)
-
-    const payout: uint64 = cumulativeAmount - data.lastSettled
+    const payout: uint64 = data.latestVoucherAmount - data.lastSettled
 
     itxn.assetTransfer({
       xferAsset: Asset(USDC_ASSET_ID),
@@ -98,53 +140,54 @@ export class EscrowSessionVaultManager extends Contract {
       assetAmount: payout,
     }).submit()
 
-    data.lastSettled = cumulativeAmount
+    data.lastSettled = data.latestVoucherAmount
     channel.value = clone(data)
   }
 
+  // /**
+  //  * Legacy one-step settle path (deprecated): verify+settle in one call.
+  //  */
+  // settleWithVoucher(channelId: bytes, cumulativeAmount: uint64, signature: bytes): void {
+  //   const channel = this.getChannel(channelId)
+  //   assert(channel.exists, 'Channel does not exist')
+  //
+  //   const data = clone(channel.value)
+  //
+  //   assert(Txn.sender === data.payee, 'Only payee can settle')
+  //   assert(cumulativeAmount > data.lastSettled, 'Nothing new to settle')
+  //   assert(cumulativeAmount <= data.totalDeposit, 'Settle exceeds deposit')
+  //
+  //   this.verifySettleSignature(channelId, cumulativeAmount, signature)
+  //
+  //   const payout: uint64 = cumulativeAmount - data.lastSettled
+  //
+  //   itxn.assetTransfer({
+  //     xferAsset: Asset(USDC_ASSET_ID),
+  //     assetReceiver: data.payee,
+  //     assetAmount: payout,
+  //   }).submit()
+  //
+  //   data.lastSettled = cumulativeAmount
+  //   if (data.latestVoucherAmount < cumulativeAmount) {
+  //     data.latestVoucherAmount = cumulativeAmount
+  //   }
+  //   channel.value = clone(data)
+  // }
+
   /**
-     * Adds funds to an existing channel.
-     */
-    topUp(channelId: bytes, additionalDeposit: uint64): void {
-      assert(additionalDeposit > 0, 'Deposit must be > 0')
-
-      const channel = this.getChannel(channelId)
-      assert(channel.exists, 'Channel does not exist')
-
-      const data = clone(channel.value)
-      assert(Txn.sender === data.payer, 'Only payer can top up')
-
-      data.totalDeposit += additionalDeposit
-      data.closeRequestedAt = 0
-      channel.value = clone(data)
-    }
-
-  /**
-   * Payee closes channel with final voucher.
-   * Settles any delta to payee and refunds remainder to payer.
+   * Payee closes channel after all voucher obligations are settled.
+   * Refunds remainder to payer.
    */
-  close(channelId: bytes, cumulativeAmount: uint64, signature: bytes): void {
+  close(channelId: bytes): void {
     const channel = this.getChannel(channelId)
     assert(channel.exists, 'Channel does not exist')
 
     const data = clone(channel.value)
 
     assert(Txn.sender === data.payee, 'Only payee can close')
-    assert(cumulativeAmount >= data.lastSettled, 'Close amount below settled')
-    assert(cumulativeAmount <= data.totalDeposit, 'Close exceeds deposit')
+    assert(data.latestVoucherAmount === data.lastSettled, 'Unclaimed voucher funds remain')
 
-    this.verifySettleSignature(channelId, cumulativeAmount, signature)
-
-    const payeeDelta: uint64 = cumulativeAmount - data.lastSettled
-    if (payeeDelta > 0) {
-      itxn.assetTransfer({
-        xferAsset: Asset(USDC_ASSET_ID),
-        assetReceiver: data.payee,
-        assetAmount: payeeDelta,
-      }).submit()
-    }
-
-    const payerRefund: uint64 = data.totalDeposit - cumulativeAmount
+    const payerRefund: uint64 = data.totalDeposit - data.lastSettled
     if (payerRefund > 0) {
       itxn.assetTransfer({
         xferAsset: Asset(USDC_ASSET_ID),
@@ -198,39 +241,84 @@ export class EscrowSessionVaultManager extends Contract {
     channel.delete()
   }
 
+  /**
+   * Funds MBR/fees pool using ALGO.
+   */
+  fundMbrPool(payment: { receiver: Account }): void {
+    assert(payment.receiver === op.Global.currentApplicationAddress, 'Payment must be to contract')
+  }
+
+  /**
+   * Opt app account into configured USDC ASA so it can receive deposits.
+   * Should be called once by admin/creator.
+   */
+  optInUsdc(): void {
+    assert(Txn.sender === op.Global.creatorAddress, 'Only creator can opt in USDC')
+
+    itxn.assetTransfer({
+      xferAsset: Asset(USDC_ASSET_ID),
+      assetReceiver: op.Global.currentApplicationAddress,
+      assetAmount: 0,
+    }).submit()
+  }
+
+  /**
+   * Returns latest session static data tuple:
+   * [startRound, startTimestamp]
+   */
+  getSessionStaticData(channelId: bytes): [uint64, uint64] {
+    const channel = this.getChannel(channelId)
+    assert(channel.exists, 'Channel does not exist')
+
+    const data = clone(channel.value)
+    return [data.startRound, data.startTimestamp]
+  }
+
+  /**
+   * Returns latest session dynamic data tuple:
+   * [totalDeposit, lastSettled, latestVoucherAmount]
+   * availableBalance = totalDeposit - lastSettled
+   * unclaimedVoucherBalance = latestVoucherAmount - lastSettled
+   */
+  getSessionDynamicData(channelId: bytes): [uint64, uint64, uint64] {
+    const channel = this.getChannel(channelId)
+    assert(channel.exists, 'Channel does not exist')
+
+    const data = clone(channel.value)
+    return [data.totalDeposit, data.lastSettled, data.latestVoucherAmount]
+  }
+
+  /**
+   * Read-only helper for clients: deterministic channelId derivation.
+   */
+  computeChannelId(payer: Account, payee: Account, authorizedSigner: Account, salt: bytes): bytes {
+    return this.deriveChannelId(payer, payee, authorizedSigner, salt)
+  }
+
+  /**
+   * Read-only helper for clients: exact bytes signed for settle/updateVoucher.
+   */
+  settleMessage(channelId: bytes, cumulativeAmount: uint64): bytes {
+    return this.getSettleMessage(channelId, cumulativeAmount)
+  }
+
+  /**
+   * Read-only helper for clients: verifies settle signature exactly as settle/updateVoucher do.
+   * Aborts when signature is invalid.
+   */
+  verifySettleSignature(channelId: bytes, cumulativeAmount: uint64, signature: bytes): void {
+    ensureBudget(5000, OpUpFeeSource.AppAccount)
+
+    const channel = this.getChannel(channelId)
+    assert(channel.exists, 'Channel does not exist')
+
+    const data = clone(channel.value)
+    const message = this.getSettleMessage(channelId, cumulativeAmount)
+    const signatureIsValid = op.ed25519verifyBare(message, signature, data.authorizedSigner.bytes)
+    assert(signatureIsValid, 'Invalid signature')
+  }
+
   // Helper functions
-
-  /**
-     * Funds MBR/fees pool using ALGO.
-     */
-    fundMbrPool(payment: { receiver: Account }): void {
-      assert(payment.receiver === op.Global.currentApplicationAddress, 'Payment must be to contract')
-    }
-
-    /**
-     * Opt app account into configured USDC ASA so it can receive deposits.
-     * Should be called once by admin/creator.
-     */
-    optInUsdc(): void {
-      assert(Txn.sender === op.Global.creatorAddress, 'Only creator can opt in USDC')
-
-      itxn.assetTransfer({
-        xferAsset: Asset(USDC_ASSET_ID),
-        assetReceiver: op.Global.currentApplicationAddress,
-        assetAmount: 0,
-      }).submit()
-    }
-
-  /**
-     * Returns remaining unsettled USDC balance for a channel.
-     */
-    getAvailableBalance(channelId: bytes): uint64 {
-      const channel = this.getChannel(channelId)
-      assert(channel.exists, 'Channel does not exist')
-
-      const data = clone(channel.value)
-      return data.totalDeposit - data.lastSettled
-    }
 
   private getChannel(channelId: bytes) {
     return this.channels(channelId)
@@ -251,13 +339,6 @@ export class EscrowSessionVaultManager extends Contract {
       )
   }
 
-  /**
-     * Read-only helper for clients: deterministic channelId derivation.
-     */
-    computeChannelId(payer: Account, payee: Account, authorizedSigner: Account, salt: bytes): bytes {
-      return this.deriveChannelId(payer, payee, authorizedSigner, salt)
-    }
-
   private getSettleMessage(channelId: bytes, cumulativeAmount: uint64): bytes {
     return op
       .itob(op.Global.currentApplicationId.id)
@@ -265,27 +346,4 @@ export class EscrowSessionVaultManager extends Contract {
       .concat(op.itob(cumulativeAmount))
       .concat(Bytes('settle'))
   }
-
-  /**
-     * Read-only helper for clients: exact bytes signed for settle/close.
-     */
-    settleMessage(channelId: bytes, cumulativeAmount: uint64): bytes {
-      return this.getSettleMessage(channelId, cumulativeAmount)
-    }
-
-    /**
-     * Read-only helper for clients: verifies settle signature exactly as settle/close do.
-     * Aborts when signature is invalid.
-     */
-    verifySettleSignature(channelId: bytes, cumulativeAmount: uint64, signature: bytes): void {
-      ensureBudget(5000, OpUpFeeSource.GroupCredit)
-
-      const channel = this.getChannel(channelId)
-      assert(channel.exists, 'Channel does not exist')
-
-      const data = clone(channel.value)
-      const message = this.getSettleMessage(channelId, cumulativeAmount)
-      const signatureIsValid = op.ed25519verifyBare(message, signature, data.authorizedSigner.bytes)
-      assert(signatureIsValid, 'Invalid signature')
-    }
 }
