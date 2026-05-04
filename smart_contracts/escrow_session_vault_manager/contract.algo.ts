@@ -121,9 +121,36 @@ export class EscrowSessionVaultManager extends Contract {
   }
 
   /**
-   * Payee settles latest on-chain voucher delta without closing channel.
+   * Payee settles voucher funds, with support for partial settlement.
    */
-  settle(channelId: bytes): void {
+  settle(channelId: bytes, cumulativeAmount: uint64, signature: bytes): void {
+    const channel = this.getChannel(channelId)
+    assert(channel.exists, 'Channel does not exist')
+
+    const data = clone(channel.value)
+
+    assert(Txn.sender === data.payee, 'Only payee can settle')
+    assert(cumulativeAmount > data.lastSettled, 'Nothing new to settle')
+    assert(cumulativeAmount <= data.latestVoucherAmount, 'Settle exceeds latest voucher')
+
+    this.verifySettleSignature(channelId, cumulativeAmount, signature)
+
+    const payout: uint64 = cumulativeAmount - data.lastSettled
+
+    itxn.assetTransfer({
+      xferAsset: Asset(USDC_ASSET_ID),
+      assetReceiver: data.payee,
+      assetAmount: payout,
+    }).submit()
+
+    data.lastSettled = cumulativeAmount
+    channel.value = clone(data)
+  }
+
+  /**
+   * Helper for payee: settle all currently unclaimed voucher amount.
+   */
+  settleLatest(channelId: bytes): void {
     const channel = this.getChannel(channelId)
     assert(channel.exists, 'Channel does not exist')
 
@@ -325,17 +352,15 @@ export class EscrowSessionVaultManager extends Contract {
   }
 
   private deriveChannelId(payer: Account, payee: Account, authorizedSigner: Account, salt: bytes): bytes {
-    // Algorand channel-id derivation (network + app scoped):
-    // sha256(payer || payee || authorizedSigner || usdcAssetId || salt || appId || genesisHash)
+    // Algorand channel-id derivation:
+    // sha256(payer || payee || assetId || salt || authorizedSigner)
     return op
       .sha256(
         payer.bytes
           .concat(payee.bytes)
-          .concat(authorizedSigner.bytes)
           .concat(op.itob(USDC_ASSET_ID))
           .concat(salt)
-          .concat(op.itob(op.Global.currentApplicationId.id))
-          .concat(op.Global.genesisHash),
+          .concat(authorizedSigner.bytes)
       )
   }
 
