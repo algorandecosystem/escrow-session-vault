@@ -1,5 +1,5 @@
 import { AlgorandClient, microAlgo } from '@algorandfoundation/algokit-utils'
-import { EscrowSessionVaultManagerFactory } from '../artifacts/escrow_session_vault_manager/EscrowSessionVaultManagerClient.ts'
+import { EscrowSessionVaultManagerFactory } from '../artifacts/escrow_session_vault_manager/EscrowSessionVaultManagerClient'
 
 export async function deploy() {
   console.log('=== Deploying EscrowSessionVaultManager ===')
@@ -57,6 +57,7 @@ export async function deploy() {
   // Creator-only USDC opt-in for app account; safe to run each deploy
   try {
     await appClient.send.optInUsdc({
+      args: [],
       sender: admin.addr,
       assetReferences: [usdcAssetId],
       coverAppCallInnerTransactionFees: true,

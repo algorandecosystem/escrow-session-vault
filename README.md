@@ -2,9 +2,9 @@
 
 This project is a placeholder MPP escrow session vault until the GoPlausible version is ready.
 
-testnet app id: 761868656L 
+testnet app id: 764211178L 
 
-testnet app address: KCXTP4557H2RO3FBPEWKDBVAICV432LYDU5LTNZR3NW5T3HCVZSHLSHTS4
+testnet app address: FT4XUEP2XZEFHDSOTZC3AVFX2DTT6UHJ2TH2LZ7TBS33TTGO7QG72J5L2Q
 
 # Setup
 
