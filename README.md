@@ -1,10 +1,12 @@
 # escrow-session-vault
 
-This project is a placeholder MPP escrow session vault until the GoPlausible version is ready.
+This project is a placeholder MPP escrow session vault until the GoPlausible version is ready. It is currently based on
+the [MPP session smart contract draft spec](https://paymentauth.org/draft-tempo-session-00#name-contract-functions).
 
-testnet app id: 764211178L 
+testnet app id: 764929040L 
 
-testnet app address: FT4XUEP2XZEFHDSOTZC3AVFX2DTT6UHJ2TH2LZ7TBS33TTGO7QG72J5L2Q
+testnet app address: 5SA4TIRCE2Y7XVJS2ZNXMWIGXGB4R5DK43TPUNSJST5EXPVABIQRKWXU2U
+
 
 # Setup
 
