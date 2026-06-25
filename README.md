@@ -1,12 +1,18 @@
 # escrow-session-vault
 
-This project is a placeholder MPP escrow session vault until the GoPlausible version is ready. It is currently based on
+This project is a placeholder escrow MPP session vault until the GoPlausible [version](https://github.com/GoPlausible/webrtc-micropayments-sdk/blob/main/specs/draft-algorand-session-00.md) is ready. It is currently based on
 the [MPP session smart contract draft spec](https://paymentauth.org/draft-tempo-session-00#name-contract-functions).
+
 
 testnet app id: 764929040L 
 
 testnet app address: 5SA4TIRCE2Y7XVJS2ZNXMWIGXGB4R5DK43TPUNSJST5EXPVABIQRKWXU2U
 
+mainnet app id: 3617483943L
+
+mainnet app address: 26XC5GSRN42CGA4JTX5GQULHONBTWGHIABRY3R4L6ZI3YPXRZIPN3BXDMQ
+
+(these are not audited and are for demonstration purposes only)
 
 # Setup
 
@@ -26,7 +32,8 @@ To generate a new `.env` or `.env.{target_network}` file, run `algokit generate 
 
 ```javascript
 algokit compile ts ./smart_contracts/escrow_session_vault_manager/contract.algo.ts
-npm run deploy:ci -- escrow_session_vault_manager
+npm run deploy:testnet -- escrow_session_vault_manager
+npm run deploy:mainnet -- escrow_session_vault_manager
 ```
 
 ### Debugging Smart Contracts
@@ -44,7 +51,6 @@ This project makes use of Algorand TypeScript to build Algorand smart contracts.
 - [Algorand](https://www.algorand.com/) - Layer 1 Blockchain; [Developer portal](https://dev.algorand.co/), [Why Algorand?](https://dev.algorand.co/getting-started/why-algorand/)
 - [AlgoKit](https://github.com/algorandfoundation/algokit-cli) - One-stop shop tool for developers building on the Algorand network; [docs](https://github.com/algorandfoundation/algokit-cli/blob/main/docs/algokit.md), [intro tutorial](https://github.com/algorandfoundation/algokit-cli/blob/main/docs/tutorials/intro.md)
 - [Algorand TypeScript](https://github.com/algorandfoundation/puya-ts/) - A semantically and syntactically compatible, typed TypeScript language that works with standard TypeScript tooling and allows you to express smart contracts (apps) and smart signatures (logic signatures) for deployment on the Algorand Virtual Machine (AVM); [docs](https://github.com/algorandfoundation/puya-ts/), [examples](https://github.com/algorandfoundation/puya-ts/tree/main/examples)
-- [AlgoKit Utils](https://github.com/algorandfoundation/algokit-utils-ts) - A set of core Algorand utilities that make it easier to build solutions on Algorand.
 - [NPM](https://www.npmjs.com/): TypeScript packaging and dependency management.
 - [TypeScript](https://www.typescriptlang.org/): Strongly typed programming language that builds on JavaScript
 - [ts-node-dev](https://github.com/wclr/ts-node-dev): TypeScript development execution environment
