@@ -1,7 +1,6 @@
 # escrow-session-vault
 
-This project is a placeholder escrow MPP session vault until the GoPlausible [version](https://github.com/GoPlausible/webrtc-micropayments-sdk/blob/main/specs/draft-algorand-session-00.md) is ready. It is currently based on
-the [MPP session smart contract draft spec](https://paymentauth.org/draft-tempo-session-00#name-contract-functions).
+This project is an escrow session vault inspired by [https://paymentauth.org/draft-tempo-session-00#name-contract-functions](https://paymentauth.org/draft-tempo-session-00#name-contract-functions).
 
 
 testnet app id: 764929040L 
@@ -12,7 +11,7 @@ mainnet app id: 3617483943L
 
 mainnet app address: 26XC5GSRN42CGA4JTX5GQULHONBTWGHIABRY3R4L6ZI3YPXRZIPN3BXDMQ
 
-(these are not audited and are for demonstration purposes only)
+(These are not audited or verified and are for demonstration purposes only)
 
 # Setup
 
