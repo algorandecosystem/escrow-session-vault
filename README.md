@@ -3,9 +3,9 @@
 This project is an escrow session vault inspired by [https://paymentauth.org/draft-tempo-session-00#name-contract-functions](https://paymentauth.org/draft-tempo-session-00#name-contract-functions).
 
 
-testnet app id: 764929040L 
+testnet app id: 766375249L 
 
-testnet app address: 5SA4TIRCE2Y7XVJS2ZNXMWIGXGB4R5DK43TPUNSJST5EXPVABIQRKWXU2U
+testnet app address: 3VPDN27EUFKI3M7W2RTHNUMP7OF6H6EHON4RW7CPFO6OJDCHYT2F5RXGM4
 
 mainnet app id: 3617483943L
 

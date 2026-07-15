@@ -62,11 +62,10 @@ export class EscrowSessionVaultManager extends Contract {
     payee: Account,
     deposit: gtxn.AssetTransferTxn,
     salt: bytes,
-    authorizedSigner: bytes,
     authorizedSignerPublicKey: bytes,
-
   ): bytes {
-    assert(authorizedSigner.length === 32, 'Signer hash must be 32 bytes')
+
+    const authorizedSigner = sha512_256(authorizedSignerPublicKey)
 
     const channelId = this.deriveChannelId(Txn.sender, payee, authorizedSigner, salt)
     const channel = this.getChannel(channelId)
@@ -75,7 +74,7 @@ export class EscrowSessionVaultManager extends Contract {
       const data: ChannelInfo = {
         payer: Txn.sender,
         payee,
-        authorizedSigner,
+        authorizedSigner: authorizedSigner,
         totalDeposit: 0,
         lastSettled: 0,
         latestVoucherAmount: 0,
@@ -332,7 +331,7 @@ export class EscrowSessionVaultManager extends Contract {
 
     const authorizedSigner = authorizedSignerPublicKey.value
 
-    ensureBudget(5000, OpUpFeeSource.AppAccount)
+    ensureBudget(2100, OpUpFeeSource.AppAccount)
     assert(sha512_256(authorizedSigner) === data.authorizedSigner, 'Invalid signer pubkey')
 
     if (signature.length > 64) {
