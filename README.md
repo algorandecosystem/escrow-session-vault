@@ -2,6 +2,9 @@
 
 This project is an escrow session vault inspired by [https://paymentauth.org/draft-tempo-session-00#name-contract-functions](https://paymentauth.org/draft-tempo-session-00#name-contract-functions).
 
+futurenet app id: 17611410L
+
+futurenet app address: UL7AX7JBAU6EXRXYRVNKKHGZXNHTMDBUUNH7AX7KI3XLF5Q5VESIIV7I6I
 
 testnet app id: 766375249L 
 
@@ -31,6 +34,7 @@ To generate a new `.env` or `.env.{target_network}` file, run `algokit generate 
 
 ```javascript
 algokit compile ts ./smart_contracts/escrow_session_vault_manager/contract.algo.ts
+npm run deploy:futurenet -- escrow_session_vault_manager
 npm run deploy:testnet -- escrow_session_vault_manager
 npm run deploy:mainnet -- escrow_session_vault_manager
 ```
