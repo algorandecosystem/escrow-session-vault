@@ -62,10 +62,11 @@ export class EscrowSessionVaultManager extends Contract {
     payee: Account,
     deposit: gtxn.AssetTransferTxn,
     salt: bytes,
+    authorizedSigner: bytes,
     authorizedSignerPublicKey: bytes,
   ): bytes {
 
-    const authorizedSigner = sha512_256(authorizedSignerPublicKey)
+    const authorizedSignerHash = sha512_256(authorizedSigner)
 
     const channelId = this.deriveChannelId(Txn.sender, payee, authorizedSigner, salt)
     const channel = this.getChannel(channelId)
@@ -74,7 +75,7 @@ export class EscrowSessionVaultManager extends Contract {
       const data: ChannelInfo = {
         payer: Txn.sender,
         payee,
-        authorizedSigner: authorizedSigner,
+        authorizedSigner: authorizedSignerHash,
         totalDeposit: 0,
         lastSettled: 0,
         latestVoucherAmount: 0,

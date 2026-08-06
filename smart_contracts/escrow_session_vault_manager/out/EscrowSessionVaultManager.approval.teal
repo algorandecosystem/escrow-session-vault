@@ -14,7 +14,7 @@ main:
     assert // OnCompletion must be NoOp
     txn ApplicationID
     assert
-    pushbytess 0x1163c513 0xbdcfac58 0x4b1dbb67 0xa98d82da 0xf7df8de2 0x6e872789 0xe86ae9e9 0x34685050 0x5905d4f4 0xaa14c4f9 0x7e3f4a68 0xa8704903 0x1e9c0090 0x8c4cfcf7 0x6720d8ff 0x27049289 0x2bf609e0 // method "open(address,axfer,byte[],byte[])byte[]", method "topUp(byte[],axfer)void", method "setAuthorizedSignerPublicKey(byte[],byte[])void", method "updateVoucher(byte[],uint64,byte[])void", method "settle(byte[],uint64,byte[])void", method "settleLatest(byte[])void", method "close(byte[])void", method "requestClose(byte[])void", method "withdraw(byte[])void", method "fundMbrPool((address))void", method "optInUsdc()void", method "getSessionStaticData(byte[])(uint64,uint64)", method "getSessionDynamicData(byte[])(uint64,uint64,uint64)", method "computeChannelId(address,address,byte[],byte[])byte[]", method "settleMessage(byte[],uint64)byte[]", method "verifySettleSignature(byte[],uint64,byte[])void", method "deriveChannelId(address,address,byte[],byte[])byte[]"
+    pushbytess 0x48d53e32 0xbdcfac58 0x4b1dbb67 0xa98d82da 0xf7df8de2 0x6e872789 0xe86ae9e9 0x34685050 0x5905d4f4 0xaa14c4f9 0x7e3f4a68 0xa8704903 0x1e9c0090 0x8c4cfcf7 0x6720d8ff 0x27049289 0x2bf609e0 // method "open(address,axfer,byte[],byte[],byte[])byte[]", method "topUp(byte[],axfer)void", method "setAuthorizedSignerPublicKey(byte[],byte[])void", method "updateVoucher(byte[],uint64,byte[])void", method "settle(byte[],uint64,byte[])void", method "settleLatest(byte[])void", method "close(byte[])void", method "requestClose(byte[])void", method "withdraw(byte[])void", method "fundMbrPool((address))void", method "optInUsdc()void", method "getSessionStaticData(byte[])(uint64,uint64)", method "getSessionDynamicData(byte[])(uint64,uint64,uint64)", method "computeChannelId(address,address,byte[],byte[])byte[]", method "settleMessage(byte[],uint64)byte[]", method "verifySettleSignature(byte[],uint64,byte[])void", method "deriveChannelId(address,address,byte[],byte[])byte[]"
     txna ApplicationArgs 0
     match open topUp setAuthorizedSignerPublicKey updateVoucher settle settleLatest close requestClose withdraw fundMbrPool optInUsdc getSessionStaticData getSessionDynamicData computeChannelId settleMessage verifySettleSignature deriveChannelId
     err
@@ -34,11 +34,12 @@ main___algots__.defaultCreate@24:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.open[routing]() -> void:
 open:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:61-66
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:61-67
     // open(
     //   payee: Account,
     //   deposit: gtxn.AssetTransferTxn,
     //   salt: bytes,
+    //   authorizedSigner: bytes,
     //   authorizedSignerPublicKey: bytes,
     // ): bytes {
     txna ApplicationArgs 1
@@ -80,15 +81,27 @@ open:
     extract 2 0
     dup
     cover 4
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:68
-    // const authorizedSigner = sha512_256(authorizedSignerPublicKey)
-    sha512_256
+    txna ApplicationArgs 4
     dup
+    intc_0 // 0
+    extract_uint16 // on error: invalid array length header
+    intc_1 // 2
+    +
+    dig 1
+    len
+    ==
+    assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
+    extract 2 0
+    cover 4
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:69
+    // const authorizedSignerHash = sha512_256(authorizedSigner)
+    dup
+    sha512_256
     cover 5
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:70
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:71
     // const channelId = this.deriveChannelId(Txn.sender, payee, authorizedSigner, salt)
     txn Sender
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:354
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:355
     // return op.sha256(payer.bytes.concat(payee.bytes).concat(op.itob(USDC_ASSET_ID)).concat(salt).concat(authorizedSigner))
     uncover 3
     concat
@@ -102,25 +115,25 @@ open:
     sha256
     dup
     cover 3
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:73
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:74
     // if (!channel.exists) {
     box_len
     bury 1
     bnz open_after_if_else@3
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:81
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:82
     // startRound: op.Global.round,
     global Round
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:82
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:83
     // startTimestamp: op.Global.latestTimestamp,
     global LatestTimestamp
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:75
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:76
     // payer: Txn.sender,
     txn Sender
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:74-84
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:75-85
     // const data: ChannelInfo = {
     //   payer: Txn.sender,
     //   payee,
-    //   authorizedSigner: authorizedSigner,
+    //   authorizedSigner: authorizedSignerHash,
     //   totalDeposit: 0,
     //   lastSettled: 0,
     //   latestVoucherAmount: 0,
@@ -128,24 +141,22 @@ open:
     //   startTimestamp: op.Global.latestTimestamp,
     //   closeRequestedAt: 0,
     // }
-    dig 7
+    dig 8
     concat
     bytec_2 // 0x0020
     dig 7
-    dup
-    cover 5
     concat
     swap
     pushbytes 0x0072
     concat
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:78
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:79
     // totalDeposit: 0,
     intc_0 // 0
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:74-84
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:75-85
     // const data: ChannelInfo = {
     //   payer: Txn.sender,
     //   payee,
-    //   authorizedSigner: authorizedSigner,
+    //   authorizedSigner: authorizedSignerHash,
     //   totalDeposit: 0,
     //   lastSettled: 0,
     //   latestVoucherAmount: 0,
@@ -171,19 +182,19 @@ open:
     concat
     swap
     concat
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:85
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:86
     // this.setAuthorizedSignerPublicKeyIfProvided(channelId, authorizedSignerPublicKey, authorizedSigner)
-    dig 4
+    dig 3
     dup
     cover 2
-    uncover 5
     uncover 4
+    dig 7
     callsub setAuthorizedSignerPublicKeyIfProvided
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:86
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:87
     // this.applyTopUp(data, deposit)
     uncover 2
     callsub applyTopUp
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:87
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:88
     // channel.value = clone(data)
     dig 1
     box_del
@@ -191,11 +202,12 @@ open:
     box_put
 
 open_after_inlined_smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.open@4:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:61-66
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:61-67
     // open(
     //   payee: Account,
     //   deposit: gtxn.AssetTransferTxn,
     //   salt: bytes,
+    //   authorizedSigner: bytes,
     //   authorizedSignerPublicKey: bytes,
     // ): bytes {
     bytec_0 // 0x151f7c750020
@@ -206,36 +218,36 @@ open_after_inlined_smart_contracts/escrow_session_vault_manager/contract.algo.ts
     return
 
 open_after_if_else@3:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:91
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:92
     // const data = clone(channel.value)
     dig 2
     dup
     box_get
     assert // Box must have value
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:92
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:93
     // assert(Txn.sender === data.payer, 'Only payer can reopen channel')
     txn Sender
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:91-92
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:92-93
     // const data = clone(channel.value)
     // assert(Txn.sender === data.payer, 'Only payer can reopen channel')
     dig 2
     intc_0 // 0
     pushint 32 // 32
     box_extract
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:92
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:93
     // assert(Txn.sender === data.payer, 'Only payer can reopen channel')
     ==
     assert // Only payer can reopen channel
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:93
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:94
     // assert(payee === data.payee, 'Payee mismatch')
     dig 1
     pushint 32 // 32
     dup
     box_extract
-    dig 7
+    dig 8
     ==
     assert // Payee mismatch
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:94
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:95
     // assert(authorizedSigner === data.authorizedSigner, 'Authorized signer hash mismatch')
     dup
     pushint 64 // 64
@@ -246,31 +258,32 @@ open_after_if_else@3:
     cover 2
     substring3
     extract 2 0
-    dig 6
+    dig 7
     dig 1
     ==
     assert // Authorized signer hash mismatch
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:96
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:97
     // this.setAuthorizedSignerPublicKeyIfProvided(channelId, authorizedSignerPublicKey, data.authorizedSigner)
     dig 2
     uncover 5
     uncover 2
     callsub setAuthorizedSignerPublicKeyIfProvided
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:97
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:98
     // this.applyTopUp(data, deposit)
     uncover 2
     callsub applyTopUp
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:98
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:99
     // channel.value = clone(data)
     dig 1
     box_del
     pop
     box_put
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:61-66
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:61-67
     // open(
     //   payee: Account,
     //   deposit: gtxn.AssetTransferTxn,
     //   salt: bytes,
+    //   authorizedSigner: bytes,
     //   authorizedSignerPublicKey: bytes,
     // ): bytes {
     b open_after_inlined_smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.open@4
@@ -278,7 +291,7 @@ open_after_if_else@3:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.topUp[routing]() -> void:
 topUp:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:106
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:107
     // topUp(channelId: bytes, cumulativeAmount: gtxn.AssetTransferTxn): void {
     txna ApplicationArgs 1
     dup
@@ -299,42 +312,42 @@ topUp:
     pushint 4 // axfer
     ==
     assert // transaction type is axfer
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:108
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:109
     // assert(channel.exists, 'Channel does not exist')
     dig 1
     box_len
     bury 1
     assert // Channel does not exist
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:110
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:111
     // const data = clone(channel.value)
     dig 1
     box_get
     pop
     swap
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:111
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:112
     // assert(Txn.sender === data.payer, 'Only payer can top up')
     txn Sender
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:110-111
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:111-112
     // const data = clone(channel.value)
     // assert(Txn.sender === data.payer, 'Only payer can top up')
     dig 3
     intc_0 // 0
     pushint 32 // 32
     box_extract
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:111
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:112
     // assert(Txn.sender === data.payer, 'Only payer can top up')
     ==
     assert // Only payer can top up
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:113
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:114
     // this.applyTopUp(data, cumulativeAmount)
     callsub applyTopUp
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:114
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:115
     // channel.value = clone(data)
     dig 1
     box_del
     pop
     box_put
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:106
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:107
     // topUp(channelId: bytes, cumulativeAmount: gtxn.AssetTransferTxn): void {
     intc_2 // 1
     return
@@ -342,7 +355,7 @@ topUp:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.setAuthorizedSignerPublicKey[routing]() -> void:
 setAuthorizedSignerPublicKey:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:120
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:121
     // setAuthorizedSignerPublicKey(channelId: bytes, authorizedSignerPublicKey: bytes): void {
     txna ApplicationArgs 1
     dup
@@ -366,48 +379,48 @@ setAuthorizedSignerPublicKey:
     ==
     assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
     extract 2 0
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:122
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:123
     // assert(channel.exists, 'Channel does not exist')
     dig 1
     box_len
     bury 1
     assert // Channel does not exist
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:124
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:125
     // const data = clone(channel.value)
     dig 1
     box_get
     pop
     cover 2
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:125
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:126
     // assert(Txn.sender === data.payer, 'Only payer can set authorized signer')
     txn Sender
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:124-125
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:125-126
     // const data = clone(channel.value)
     // assert(Txn.sender === data.payer, 'Only payer can set authorized signer')
     dig 2
     intc_0 // 0
     pushint 32 // 32
     box_extract
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:125
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:126
     // assert(Txn.sender === data.payer, 'Only payer can set authorized signer')
     ==
     assert // Only payer can set authorized signer
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:126
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:127
     // assert(authorizedSignerPublicKey.length > 0, 'Authorized signer pubkey required')
     dup
     len
     assert // Authorized signer pubkey required
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:128
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:129
     // const authorizedSignerHash = sha512_256(authorizedSignerPublicKey)
     dup
     sha512_256
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:129
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:130
     // this.setAuthorizedSignerPublicKeyIfProvided(channelId, authorizedSignerPublicKey, authorizedSignerHash)
     dig 2
     uncover 2
     dig 2
     callsub setAuthorizedSignerPublicKeyIfProvided
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:131
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:132
     // data.authorizedSigner = authorizedSignerHash
     bytec_2 // 0x0020
     swap
@@ -421,13 +434,13 @@ setAuthorizedSignerPublicKey:
     extract3
     swap
     concat
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:132
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:133
     // channel.value = clone(data)
     dig 1
     box_del
     pop
     box_put
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:120
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:121
     // setAuthorizedSignerPublicKey(channelId: bytes, authorizedSignerPublicKey: bytes): void {
     intc_2 // 1
     return
@@ -435,7 +448,7 @@ setAuthorizedSignerPublicKey:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.updateVoucher[routing]() -> void:
 updateVoucher:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:138
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:139
     // updateVoucher(channelId: bytes, cumulativeAmount: uint64, signature: bytes): void {
     txna ApplicationArgs 1
     dup
@@ -467,13 +480,13 @@ updateVoucher:
     ==
     assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
     extract 2 0
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:140
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:141
     // assert(channel.exists, 'Channel does not exist')
     dig 3
     box_len
     bury 1
     assert // Channel does not exist
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:144
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:145
     // assert(Txn.sender === data.payer, 'Only payer can update voucher')
     txn Sender
     dig 4
@@ -482,7 +495,7 @@ updateVoucher:
     box_extract
     ==
     assert // Only payer can update voucher
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:145
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:146
     // assert(cumulativeAmount >= data.lastSettled, 'Voucher below settled amount')
     dig 3
     pushint 74 // 74
@@ -492,7 +505,7 @@ updateVoucher:
     dig 2
     <=
     assert // Voucher below settled amount
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:146
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:147
     // assert(cumulativeAmount > data.latestVoucherAmount, 'Voucher not increasing')
     dig 3
     pushint 82 // 82
@@ -502,7 +515,7 @@ updateVoucher:
     dig 2
     <
     assert // Voucher not increasing
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:147
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:148
     // assert(cumulativeAmount <= data.totalDeposit, 'Voucher exceeds deposit')
     dig 3
     pushint 66 // 66
@@ -512,18 +525,18 @@ updateVoucher:
     dig 2
     >=
     assert // Voucher exceeds deposit
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:149
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:150
     // this.verifySettleSignature(channelId, cumulativeAmount, signature)
     dig 3
     cover 2
     callsub smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.verifySettleSignature
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:151-152
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:152-153
     // data.latestVoucherAmount = cumulativeAmount
     // channel.value = clone(data)
     pushint 82 // 82
     swap
     box_replace
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:138
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:139
     // updateVoucher(channelId: bytes, cumulativeAmount: uint64, signature: bytes): void {
     intc_2 // 1
     return
@@ -531,7 +544,7 @@ updateVoucher:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.settle[routing]() -> void:
 settle:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:159
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:160
     // settle(channelId: bytes, cumulativeAmount: uint64, signature: bytes): void {
     txna ApplicationArgs 1
     dup
@@ -566,19 +579,19 @@ settle:
     ==
     assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
     extract 2 0
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:161
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:162
     // assert(channel.exists, 'Channel does not exist')
     dig 3
     box_len
     bury 1
     assert // Channel does not exist
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:163
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:164
     // const data = clone(channel.value)
     dig 3
     box_get
     pop
     cover 3
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:165
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:166
     // assert(Txn.sender === data.payee, 'Only payee can settle')
     txn Sender
     dig 5
@@ -589,7 +602,7 @@ settle:
     dig 1
     ==
     assert // Only payee can settle
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:166
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:167
     // assert(cumulativeAmount > data.lastSettled, 'Nothing new to settle')
     dig 5
     pushint 74 // 74
@@ -600,7 +613,7 @@ settle:
     dig 1
     >
     assert // Nothing new to settle
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:167
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:168
     // assert(cumulativeAmount <= data.totalDeposit, 'Voucher exceeds deposit')
     dig 6
     pushint 66 // 66
@@ -610,31 +623,31 @@ settle:
     dig 4
     >=
     assert // Voucher exceeds deposit
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:169
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:170
     // this.verifySettleSignature(channelId, cumulativeAmount, signature)
     uncover 6
     dig 4
     uncover 4
     callsub smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.verifySettleSignature
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:171
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:172
     // const payout: uint64 = cumulativeAmount - data.lastSettled
     dig 2
     swap
     -
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:173-177
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:174-178
     // itxn.assetTransfer({
     //   xferAsset: Asset(USDC_ASSET_ID),
     //   assetReceiver: data.payee,
     //   assetAmount: payout,
     // }).submit()
     itxn_begin
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:174
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:175
     // xferAsset: Asset(USDC_ASSET_ID),
     intc 4 // TMPL_USDC_ASSET_ID
     itxn_field XferAsset
     itxn_field AssetAmount
     itxn_field AssetReceiver
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:173-177
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:174-178
     // itxn.assetTransfer({
     //   xferAsset: Asset(USDC_ASSET_ID),
     //   assetReceiver: data.payee,
@@ -645,25 +658,25 @@ settle:
     intc_0 // 0
     itxn_field Fee
     itxn_submit
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:179
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:180
     // data.lastSettled = cumulativeAmount
     cover 2
     replace2 74
     dup
     cover 2
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:180
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:181
     // if (cumulativeAmount > data.latestVoucherAmount) {
     pushint 82 // 82
     extract_uint64
     >
     bz settle_after_if_else@4
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:181
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:182
     // data.latestVoucherAmount = cumulativeAmount
     dig 1
     replace2 82
 
 settle_after_if_else@4:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:183
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:184
     // channel.value = clone(data)
     dig 2
     dup
@@ -671,7 +684,7 @@ settle_after_if_else@4:
     pop
     swap
     box_put
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:159
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:160
     // settle(channelId: bytes, cumulativeAmount: uint64, signature: bytes): void {
     intc_2 // 1
     return
@@ -679,7 +692,7 @@ settle_after_if_else@4:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.settleLatest[routing]() -> void:
 settleLatest:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:189
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:190
     // settleLatest(channelId: bytes): void {
     txna ApplicationArgs 1
     dup
@@ -692,13 +705,13 @@ settleLatest:
     ==
     assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
     extract 2 0
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:191
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:192
     // assert(channel.exists, 'Channel does not exist')
     dup
     box_len
     bury 1
     assert // Channel does not exist
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:195
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:196
     // assert(Txn.sender === data.payee, 'Only payee can settle')
     txn Sender
     dig 1
@@ -709,7 +722,7 @@ settleLatest:
     dig 1
     ==
     assert // Only payee can settle
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:196
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:197
     // assert(data.latestVoucherAmount > data.lastSettled, 'Nothing new to settle')
     dig 1
     pushint 82 // 82
@@ -725,17 +738,17 @@ settleLatest:
     dup2
     >
     assert // Nothing new to settle
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:198
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:199
     // const payout: uint64 = data.latestVoucherAmount - data.lastSettled
     -
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:200-204
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:201-205
     // itxn.assetTransfer({
     //   xferAsset: Asset(USDC_ASSET_ID),
     //   assetReceiver: data.payee,
     //   assetAmount: payout,
     // }).submit()
     itxn_begin
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:201
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:202
     // xferAsset: Asset(USDC_ASSET_ID),
     intc 4 // TMPL_USDC_ASSET_ID
     swap
@@ -743,7 +756,7 @@ settleLatest:
     uncover 2
     itxn_field AssetReceiver
     itxn_field XferAsset
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:200-204
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:201-205
     // itxn.assetTransfer({
     //   xferAsset: Asset(USDC_ASSET_ID),
     //   assetReceiver: data.payee,
@@ -754,13 +767,13 @@ settleLatest:
     intc_0 // 0
     itxn_field Fee
     itxn_submit
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:206-207
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:207-208
     // data.lastSettled = data.latestVoucherAmount
     // channel.value = clone(data)
     pushint 74 // 74
     swap
     box_replace
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:189
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:190
     // settleLatest(channelId: bytes): void {
     intc_2 // 1
     return
@@ -768,7 +781,7 @@ settleLatest:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.close[routing]() -> void:
 close:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:214
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:215
     // close(channelId: bytes): void {
     txna ApplicationArgs 1
     dup
@@ -781,19 +794,19 @@ close:
     ==
     assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
     extract 2 0
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:216
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:217
     // assert(channel.exists, 'Channel does not exist')
     dup
     box_len
     bury 1
     assert // Channel does not exist
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:218
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:219
     // const data = clone(channel.value)
     dup
     box_get
     pop
     swap
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:220
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:221
     // assert(Txn.sender === data.payee, 'Only payee can close')
     txn Sender
     dig 1
@@ -802,12 +815,12 @@ close:
     box_extract
     ==
     assert // Only payee can close
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:222
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:223
     // this.finalizeChannel(channelId, data)
     swap
     callsub finalizeChannel
     pop
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:214
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:215
     // close(channelId: bytes): void {
     intc_2 // 1
     return
@@ -815,7 +828,7 @@ close:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.requestClose[routing]() -> void:
 requestClose:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:228
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:229
     // requestClose(channelId: bytes): void {
     txna ApplicationArgs 1
     dup
@@ -828,37 +841,37 @@ requestClose:
     ==
     assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
     extract 2 0
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:230
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:231
     // assert(channel.exists, 'Channel does not exist')
     dup
     box_len
     bury 1
     assert // Channel does not exist
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:233
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:234
     // assert(Txn.sender === data.payer, 'Only payer can request close')
     txn Sender
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:232-233
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:233-234
     // const data = clone(channel.value)
     // assert(Txn.sender === data.payer, 'Only payer can request close')
     dig 1
     intc_0 // 0
     pushint 32 // 32
     box_extract
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:233
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:234
     // assert(Txn.sender === data.payer, 'Only payer can request close')
     ==
     assert // Only payer can request close
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:235
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:236
     // data.closeRequestedAt = op.Global.latestTimestamp
     global LatestTimestamp
     itob
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:235-236
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:236-237
     // data.closeRequestedAt = op.Global.latestTimestamp
     // channel.value = clone(data)
     pushint 106 // 106
     swap
     box_replace
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:228
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:229
     // requestClose(channelId: bytes): void {
     intc_2 // 1
     return
@@ -866,7 +879,7 @@ requestClose:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.withdraw[routing]() -> void:
 withdraw:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:243
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:244
     // withdraw(channelId: bytes): void {
     txna ApplicationArgs 1
     dup
@@ -879,33 +892,33 @@ withdraw:
     ==
     assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
     extract 2 0
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:245
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:246
     // assert(channel.exists, 'Channel does not exist')
     dup
     box_len
     bury 1
     assert // Channel does not exist
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:247
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:248
     // const data = clone(channel.value)
     dup
     box_get
     pop
     swap
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:248
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:249
     // assert(Txn.sender === data.payer, 'Only payer can withdraw')
     txn Sender
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:247-248
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:248-249
     // const data = clone(channel.value)
     // assert(Txn.sender === data.payer, 'Only payer can withdraw')
     dig 1
     intc_0 // 0
     pushint 32 // 32
     box_extract
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:248
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:249
     // assert(Txn.sender === data.payer, 'Only payer can withdraw')
     ==
     assert // Only payer can withdraw
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:249
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:250
     // assert(data.closeRequestedAt > 0, 'Close not requested')
     dup
     pushint 106 // 106
@@ -914,25 +927,25 @@ withdraw:
     btoi
     dup
     assert // Close not requested
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:251
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:252
     // op.Global.latestTimestamp >= data.closeRequestedAt + CLOSE_GRACE_PERIOD_SECONDS,
     global LatestTimestamp
     swap
     pushint 888 // 888
     +
     >=
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:250-253
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:251-254
     // assert(
     //   op.Global.latestTimestamp >= data.closeRequestedAt + CLOSE_GRACE_PERIOD_SECONDS,
     //   'Close grace period not elapsed',
     // )
     assert // Close grace period not elapsed
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:255
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:256
     // this.finalizeChannel(channelId, data)
     swap
     callsub finalizeChannel
     pop
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:243
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:244
     // withdraw(channelId: bytes): void {
     intc_2 // 1
     return
@@ -940,7 +953,7 @@ withdraw:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.fundMbrPool[routing]() -> void:
 fundMbrPool:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:261
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:262
     // fundMbrPool(payment: { receiver: Account }): void {
     txna ApplicationArgs 1
     dup
@@ -948,13 +961,13 @@ fundMbrPool:
     pushint 32 // 32
     ==
     assert // invalid number of bytes for ObjectAACF8510
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:262
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:263
     // assert(payment.receiver === op.Global.currentApplicationAddress, 'Payment must be to contract')
     extract 0 32
     global CurrentApplicationAddress
     ==
     assert // Payment must be to contract
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:261
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:262
     // fundMbrPool(payment: { receiver: Account }): void {
     intc_2 // 1
     return
@@ -962,32 +975,32 @@ fundMbrPool:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.optInUsdc[routing]() -> void:
 optInUsdc:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:270
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:271
     // assert(Txn.sender === op.Global.creatorAddress, 'Only creator can opt in USDC')
     txn Sender
     global CreatorAddress
     ==
     assert // Only creator can opt in USDC
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:272-276
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:273-277
     // itxn.assetTransfer({
     //   xferAsset: Asset(USDC_ASSET_ID),
     //   assetReceiver: op.Global.currentApplicationAddress,
     //   assetAmount: 0,
     // }).submit()
     itxn_begin
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:273
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:274
     // xferAsset: Asset(USDC_ASSET_ID),
     intc 4 // TMPL_USDC_ASSET_ID
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:274
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:275
     // assetReceiver: op.Global.currentApplicationAddress,
     global CurrentApplicationAddress
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:275
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:276
     // assetAmount: 0,
     intc_0 // 0
     itxn_field AssetAmount
     itxn_field AssetReceiver
     itxn_field XferAsset
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:272-276
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:273-277
     // itxn.assetTransfer({
     //   xferAsset: Asset(USDC_ASSET_ID),
     //   assetReceiver: op.Global.currentApplicationAddress,
@@ -998,7 +1011,7 @@ optInUsdc:
     intc_0 // 0
     itxn_field Fee
     itxn_submit
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:269
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:270
     // optInUsdc(): void {
     intc_2 // 1
     return
@@ -1006,7 +1019,7 @@ optInUsdc:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.getSessionStaticData[routing]() -> void:
 getSessionStaticData:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:283
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:284
     // getSessionStaticData(channelId: bytes): [uint64, uint64] {
     txna ApplicationArgs 1
     dup
@@ -1019,30 +1032,30 @@ getSessionStaticData:
     ==
     assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
     extract 2 0
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:285
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:286
     // assert(channel.exists, 'Channel does not exist')
     dup
     box_len
     bury 1
     assert // Channel does not exist
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:287-288
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:288-289
     // const data = clone(channel.value)
     // return [data.startRound, data.startTimestamp]
     dup
     pushint 90 // 90
     intc_3 // 8
     box_extract
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:288
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:289
     // return [data.startRound, data.startTimestamp]
     btoi
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:287-288
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:288-289
     // const data = clone(channel.value)
     // return [data.startRound, data.startTimestamp]
     swap
     pushint 98 // 98
     intc_3 // 8
     box_extract
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:288
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:289
     // return [data.startRound, data.startTimestamp]
     btoi
     swap
@@ -1050,7 +1063,7 @@ getSessionStaticData:
     swap
     itob
     concat
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:283
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:284
     // getSessionStaticData(channelId: bytes): [uint64, uint64] {
     bytec_1 // 0x151f7c75
     swap
@@ -1062,7 +1075,7 @@ getSessionStaticData:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.getSessionDynamicData[routing]() -> void:
 getSessionDynamicData:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:295
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:296
     // getSessionDynamicData(channelId: bytes): [uint64, uint64, uint64] {
     txna ApplicationArgs 1
     dup
@@ -1075,40 +1088,40 @@ getSessionDynamicData:
     ==
     assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
     extract 2 0
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:297
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:298
     // assert(channel.exists, 'Channel does not exist')
     dup
     box_len
     bury 1
     assert // Channel does not exist
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:299-300
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:300-301
     // const data = clone(channel.value)
     // return [data.totalDeposit, data.lastSettled, data.latestVoucherAmount]
     dup
     pushint 66 // 66
     intc_3 // 8
     box_extract
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:300
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:301
     // return [data.totalDeposit, data.lastSettled, data.latestVoucherAmount]
     btoi
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:299-300
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:300-301
     // const data = clone(channel.value)
     // return [data.totalDeposit, data.lastSettled, data.latestVoucherAmount]
     dig 1
     pushint 74 // 74
     intc_3 // 8
     box_extract
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:300
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:301
     // return [data.totalDeposit, data.lastSettled, data.latestVoucherAmount]
     btoi
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:299-300
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:300-301
     // const data = clone(channel.value)
     // return [data.totalDeposit, data.lastSettled, data.latestVoucherAmount]
     uncover 2
     pushint 82 // 82
     intc_3 // 8
     box_extract
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:300
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:301
     // return [data.totalDeposit, data.lastSettled, data.latestVoucherAmount]
     btoi
     uncover 2
@@ -1119,7 +1132,7 @@ getSessionDynamicData:
     swap
     itob
     concat
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:295
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:296
     // getSessionDynamicData(channelId: bytes): [uint64, uint64, uint64] {
     bytec_1 // 0x151f7c75
     swap
@@ -1131,7 +1144,7 @@ getSessionDynamicData:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.computeChannelId[routing]() -> void:
 computeChannelId:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:307
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:308
     // computeChannelId(payer: Account, payee: Account, authorizedSigner: bytes, salt: bytes): bytes {
     txna ApplicationArgs 1
     dup
@@ -1167,7 +1180,7 @@ computeChannelId:
     ==
     assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
     extract 2 0
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:354
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:355
     // return op.sha256(payer.bytes.concat(payee.bytes).concat(op.itob(USDC_ASSET_ID)).concat(salt).concat(authorizedSigner))
     uncover 3
     uncover 3
@@ -1180,7 +1193,7 @@ computeChannelId:
     swap
     concat
     sha256
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:307
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:308
     // computeChannelId(payer: Account, payee: Account, authorizedSigner: bytes, salt: bytes): bytes {
     bytec_0 // 0x151f7c750020
     swap
@@ -1192,7 +1205,7 @@ computeChannelId:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.settleMessage[routing]() -> void:
 settleMessage:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:314
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:315
     // settleMessage(channelId: bytes, cumulativeAmount: uint64): bytes {
     txna ApplicationArgs 1
     dup
@@ -1212,10 +1225,10 @@ settleMessage:
     ==
     assert // invalid number of bytes for arc4.uint64
     btoi
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:315
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:316
     // return this.getSettleMessage(channelId, cumulativeAmount)
     callsub getSettleMessage
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:314
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:315
     // settleMessage(channelId: bytes, cumulativeAmount: uint64): bytes {
     dup
     len
@@ -1233,7 +1246,7 @@ settleMessage:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.verifySettleSignature[routing]() -> void:
 verifySettleSignature:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:322
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:323
     // verifySettleSignature(channelId: bytes, cumulativeAmount: uint64, signature: bytes): void {
     txna ApplicationArgs 1
     dup
@@ -1271,7 +1284,7 @@ verifySettleSignature:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.deriveChannelId[routing]() -> void:
 deriveChannelId:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:351
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:352
     // deriveChannelId(payer: Account, payee: Account, authorizedSigner: bytes, salt: bytes): bytes {
     txna ApplicationArgs 1
     dup
@@ -1307,7 +1320,7 @@ deriveChannelId:
     ==
     assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
     extract 2 0
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:354
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:355
     // return op.sha256(payer.bytes.concat(payee.bytes).concat(op.itob(USDC_ASSET_ID)).concat(salt).concat(authorizedSigner))
     uncover 3
     uncover 3
@@ -1320,7 +1333,7 @@ deriveChannelId:
     swap
     concat
     sha256
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:351
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:352
     // deriveChannelId(payer: Account, payee: Account, authorizedSigner: bytes, salt: bytes): bytes {
     bytec_0 // 0x151f7c750020
     swap
@@ -1332,22 +1345,22 @@ deriveChannelId:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.verifySettleSignature(channelId: bytes, cumulativeAmount: uint64, signature: bytes) -> void:
 smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.verifySettleSignature:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:322
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:323
     // verifySettleSignature(channelId: bytes, cumulativeAmount: uint64, signature: bytes): void {
     proto 3 0
     bytec_3 // ""
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:324
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:325
     // assert(channel.exists, 'Channel does not exist')
     frame_dig -3
     box_len
     bury 1
     assert // Channel does not exist
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:326
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:327
     // const data = clone(channel.value)
     frame_dig -3
     box_get
     pop
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:327
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:328
     // const message = this.getSettleMessage(channelId, cumulativeAmount)
     frame_dig -3
     frame_dig -2
@@ -1357,13 +1370,13 @@ smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaul
     pushbytes "p"
     frame_dig -3
     concat
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:330
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:331
     // assert(authorizedSignerPublicKey.exists, 'Authorized signer public key not set yet')
     dup
     box_len
     bury 1
     assert // Authorized signer public key not set yet
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:332
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:333
     // const authorizedSigner = authorizedSignerPublicKey.value
     box_get
     pop
@@ -1388,7 +1401,7 @@ smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaul
     b smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.verifySettleSignature_while_top@4
 
 smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.verifySettleSignature_after_while@9:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:335
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:336
     // assert(sha512_256(authorizedSigner) === data.authorizedSigner, 'Invalid signer pubkey')
     frame_dig 3
     sha512_256
@@ -1402,7 +1415,7 @@ smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaul
     extract 2 0
     ==
     assert // Invalid signer pubkey
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:337
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:338
     // if (signature.length > 64) {
     frame_dig -1
     len
@@ -1411,24 +1424,24 @@ smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaul
     pushint 64 // 64
     >
     bz smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.verifySettleSignature_after_if_else@2
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:339
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:340
     // return
     retsub
 
 smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.verifySettleSignature_after_if_else@2:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:342
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:343
     // assert(signature.length === 64, 'Invalid Ed25519 signature length')
     frame_dig 0
     pushint 64 // 64
     ==
     assert // Invalid Ed25519 signature length
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:343
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:344
     // const signatureIsValid = op.ed25519verifyBare(message, signature, authorizedSigner)
     frame_dig 2
     frame_dig -1
     frame_dig 3
     ed25519verify_bare
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:344
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:345
     // assert(signatureIsValid, 'Invalid signature')
     assert // Invalid signature
     retsub
@@ -1436,51 +1449,51 @@ smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaul
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.applyTopUp(data: bytes, cumulativeAmount: uint64) -> bytes:
 applyTopUp:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:363
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:364
     // private applyTopUp(data: ChannelInfo, cumulativeAmount: gtxn.AssetTransferTxn): void {
     proto 2 1
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:364
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:365
     // assert(cumulativeAmount.sender === Txn.sender, 'Payment sender mismatch')
     frame_dig -1
     gtxns Sender
     txn Sender
     ==
     assert // Payment sender mismatch
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:365
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:366
     // assert(cumulativeAmount.assetReceiver === op.Global.currentApplicationAddress, 'Payment must be to contract')
     frame_dig -1
     gtxns AssetReceiver
     global CurrentApplicationAddress
     ==
     assert // Payment must be to contract
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:366
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:367
     // assert(cumulativeAmount.xferAsset.id === USDC_ASSET_ID, 'Payment asset must be USDC')
     frame_dig -1
     gtxns XferAsset
     intc 4 // TMPL_USDC_ASSET_ID
     ==
     assert // Payment asset must be USDC
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:367
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:368
     // assert(cumulativeAmount.assetAmount > 0, 'Deposit must be > 0')
     frame_dig -1
     gtxns AssetAmount
     dup
     assert // Deposit must be > 0
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:368
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:369
     // assert(cumulativeAmount.assetSender === Account(), 'Clawback transfer not allowed')
     frame_dig -1
     gtxns AssetSender
     global ZeroAddress
     ==
     assert // Clawback transfer not allowed
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:369
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:370
     // assert(cumulativeAmount.assetCloseTo === Account(), 'Asset close not allowed')
     frame_dig -1
     gtxns AssetCloseTo
     global ZeroAddress
     ==
     assert // Asset close not allowed
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:371
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:372
     // data.totalDeposit += cumulativeAmount.assetAmount
     frame_dig -2
     pushint 66 // 66
@@ -1491,7 +1504,7 @@ applyTopUp:
     swap
     replace2 66
     frame_bury -2
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:373
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:374
     // data.closeRequestedAt = 0
     intc_0 // 0
     itob
@@ -1505,11 +1518,11 @@ applyTopUp:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.finalizeChannel(channelId: bytes, data: bytes) -> bytes:
 finalizeChannel:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:376
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:377
     // private finalizeChannel(channelId: bytes, data: ChannelInfo): void {
     proto 2 1
     bytec_3 // ""
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:377
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:378
     // const payeePayout: uint64 = data.latestVoucherAmount - data.lastSettled
     frame_dig -1
     pushint 82 // 82
@@ -1520,20 +1533,20 @@ finalizeChannel:
     extract_uint64
     -
     dup
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:378
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:379
     // if (payeePayout > 0) {
     bz finalizeChannel_after_if_else@3
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:379-383
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:380-384
     // itxn.assetTransfer({
     //   xferAsset: Asset(USDC_ASSET_ID),
     //   assetReceiver: data.payee,
     //   assetAmount: payeePayout,
     // }).submit()
     itxn_begin
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:380
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:381
     // xferAsset: Asset(USDC_ASSET_ID),
     intc 4 // TMPL_USDC_ASSET_ID
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:381
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:382
     // assetReceiver: data.payee,
     frame_dig -1
     extract 32 32
@@ -1541,7 +1554,7 @@ finalizeChannel:
     itxn_field AssetAmount
     itxn_field AssetReceiver
     itxn_field XferAsset
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:379-383
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:380-384
     // itxn.assetTransfer({
     //   xferAsset: Asset(USDC_ASSET_ID),
     //   assetReceiver: data.payee,
@@ -1554,7 +1567,7 @@ finalizeChannel:
     itxn_submit
 
 finalizeChannel_after_if_else@3:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:386
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:387
     // const payerRefund: uint64 = data.totalDeposit - data.latestVoucherAmount
     frame_dig -1
     pushint 66 // 66
@@ -1563,20 +1576,20 @@ finalizeChannel_after_if_else@3:
     -
     dup
     frame_bury 0
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:387
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:388
     // if (payerRefund > 0) {
     bz finalizeChannel_after_if_else@6
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:388-392
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:389-393
     // itxn.assetTransfer({
     //   xferAsset: Asset(USDC_ASSET_ID),
     //   assetReceiver: data.payer,
     //   assetAmount: payerRefund,
     // }).submit()
     itxn_begin
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:389
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:390
     // xferAsset: Asset(USDC_ASSET_ID),
     intc 4 // TMPL_USDC_ASSET_ID
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:390
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:391
     // assetReceiver: data.payer,
     frame_dig -1
     extract 0 32
@@ -1584,7 +1597,7 @@ finalizeChannel_after_if_else@3:
     itxn_field AssetAmount
     itxn_field AssetReceiver
     itxn_field XferAsset
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:388-392
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:389-393
     // itxn.assetTransfer({
     //   xferAsset: Asset(USDC_ASSET_ID),
     //   assetReceiver: data.payer,
@@ -1597,7 +1610,7 @@ finalizeChannel_after_if_else@3:
     itxn_submit
 
 finalizeChannel_after_if_else@6:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:395
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:396
     // this.channels(channelId).delete()
     frame_dig -2
     box_del
@@ -1609,19 +1622,19 @@ finalizeChannel_after_if_else@6:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.setAuthorizedSignerPublicKeyIfProvided(channelId: bytes, authorizedSignerPublicKey: bytes, expectedAuthorizedSignerHash: bytes) -> void:
 setAuthorizedSignerPublicKeyIfProvided:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:398-402
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:399-403
     // private setAuthorizedSignerPublicKeyIfProvided(
     //   channelId: bytes,
     //   authorizedSignerPublicKey: bytes,
     //   expectedAuthorizedSignerHash: bytes,
     // ): void {
     proto 3 0
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:403
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:404
     // if (authorizedSignerPublicKey.length > 0) {
     frame_dig -2
     len
     bz setAuthorizedSignerPublicKeyIfProvided_after_if_else@2
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:404
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:405
     // assert(sha512_256(authorizedSignerPublicKey) === expectedAuthorizedSignerHash, 'Authorized signer hash mismatch')
     frame_dig -2
     sha512_256
@@ -1633,7 +1646,7 @@ setAuthorizedSignerPublicKeyIfProvided:
     pushbytes "p"
     frame_dig -3
     concat
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:406
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:407
     // authorizedSignerKey.value = authorizedSignerPublicKey
     dup
     box_del
@@ -1647,36 +1660,36 @@ setAuthorizedSignerPublicKeyIfProvided_after_if_else@2:
 
 // smart_contracts/escrow_session_vault_manager/contract.algo.ts::EscrowSessionVaultManager.getSettleMessage(channelId: bytes, cumulativeAmount: uint64) -> bytes:
 getSettleMessage:
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:410
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:411
     // private getSettleMessage(channelId: bytes, cumulativeAmount: uint64): bytes {
     proto 2 1
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:412
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:413
     // .itob(op.Global.currentApplicationId.id)
     global CurrentApplicationID
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:411-412
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:412-413
     // return op
     //   .itob(op.Global.currentApplicationId.id)
     itob
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:411-413
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:412-414
     // return op
     //   .itob(op.Global.currentApplicationId.id)
     //   .concat(channelId)
     frame_dig -2
     concat
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:414
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:415
     // .concat(op.itob(cumulativeAmount))
     frame_dig -1
     itob
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:411-414
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:412-415
     // return op
     //   .itob(op.Global.currentApplicationId.id)
     //   .concat(channelId)
     //   .concat(op.itob(cumulativeAmount))
     concat
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:415
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:416
     // .concat(Bytes('settle'))
     pushbytes "settle"
-    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:411-415
+    // smart_contracts/escrow_session_vault_manager/contract.algo.ts:412-416
     // return op
     //   .itob(op.Global.currentApplicationId.id)
     //   .concat(channelId)

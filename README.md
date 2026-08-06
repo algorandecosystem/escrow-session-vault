@@ -2,9 +2,9 @@
 
 This project is an escrow session vault inspired by [https://paymentauth.org/draft-tempo-session-00#name-contract-functions](https://paymentauth.org/draft-tempo-session-00#name-contract-functions).
 
-futurenet app id: 17611410L
+futurenet app id: 17794007L
 
-futurenet app address: UL7AX7JBAU6EXRXYRVNKKHGZXNHTMDBUUNH7AX7KI3XLF5Q5VESIIV7I6I
+futurenet app address: XYDZ7A3PL2PSSM3FLATB2ZX5ACOCGMOQGHOS3S7HT2NYPOJ6K27NESS4XY
 
 testnet app id: 766375249L 
 
