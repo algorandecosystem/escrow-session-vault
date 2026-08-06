@@ -14,7 +14,6 @@ import {
   FALCON_1024_SCHEME,
 } from 'algosdk'
 import { createHash, randomBytes } from 'node:crypto'
-import { execFileSync } from 'node:child_process'
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
@@ -41,22 +40,9 @@ function falconAccount(falcon: FalconModule, mnemonic: string) {
     privateKey,
   }
 }
-function signAvmFalconVoucher(privateKey: Uint8Array, publicKey: Uint8Array, voucher: Uint8Array): Uint8Array {
-  const signatureBase64 = execFileSync(
-    'go',
-    [
-      '-C',
-      resolve(__dirname, '../tools/falcon-voucher-sign'),
-      'run',
-      '.',
-      Buffer.from(privateKey).toString('base64'),
-      Buffer.from(publicKey).toString('base64'),
-      Buffer.from(voucher).toString('base64'),
-    ],
-    { encoding: 'utf8' },
-  ).trim()
-  const signature = Buffer.from(signatureBase64, 'base64')
-  if (signature[0] !== 0xba) throw new Error('Go signer did not produce an AVM deterministic Falcon signature')
+function signAvmFalconVoucher(falcon: FalconModule, privateKey: Uint8Array, voucher: Uint8Array): Uint8Array {
+  const signature = falcon.falcon1024.signCompressed(privateKey, voucher)
+  if (signature[0] !== 0xba) throw new Error('Falcon signer did not produce an AVM deterministic signature')
   return signature
 }
 
@@ -278,7 +264,7 @@ async function main(): Promise<void> {
       decodeAddress(payeeAddress).publicKey,
       new TextEncoder().encode('settle-lsig-v1'),
     )
-    const signature = signAvmFalconVoucher(payer.privateKey, payer.publicKey, voucher)
+    const signature = signAvmFalconVoucher(falcon, payer.privateKey, voucher)
     if (!falcon.falcon1024.verifyCompressed(payer.publicKey, signature, voucher)) {
       throw new Error('AVM Falcon voucher failed cross-library verification')
     }
