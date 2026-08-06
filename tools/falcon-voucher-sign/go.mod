@@ -18,4 +18,4 @@ require (
 	golang.org/x/text v0.31.0 // indirect
 )
 
-replace github.com/algorand/go-mobile-algorand-sdk/v2 => ../falcon-address-parity/falcon-signatures-mobile
+replace github.com/algorand/go-mobile-algorand-sdk/v2 => ./falcon-signatures-mobile
