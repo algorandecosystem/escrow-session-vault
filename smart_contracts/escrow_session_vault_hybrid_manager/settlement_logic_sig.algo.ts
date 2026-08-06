@@ -2,6 +2,7 @@ import {
   Account,
   Application,
   Bytes,
+  gtxn,
   LogicSig,
   TemplateVar,
   Txn,
@@ -19,7 +20,10 @@ import { falconVerify } from '@algorandfoundation/algorand-typescript/op'
  * app-call shape, for one channel and one payee.
  */
 const HYBRID_APP_ID = TemplateVar<uint64>('HYBRID_APP_ID')
+// ARC-4 encodes the `byte[]` application argument with its two-byte length prefix.
 const CHANNEL_ID = TemplateVar<bytes>('CHANNEL_ID')
+// The voucher commits to the raw 32-byte channel ID used as the box key.
+const RAW_CHANNEL_ID = TemplateVar<bytes>('RAW_CHANNEL_ID')
 const PAYEE = TemplateVar<Account>('PAYEE')
 const AUTHORIZED_PUBLIC_KEY = TemplateVar<bytes>('AUTHORIZED_PUBLIC_KEY')
 
@@ -34,12 +38,22 @@ const ED25519_PUBLIC_KEY_LENGTH: uint64 = 32
  * `program()` validates the app call itself, so arguments cannot be replayed
  * against a different app, channel, recipient, or cumulative amount.
  */
-@logicsig({ avmVersion: 12, name: 'EscrowSessionSettlementLogicSig' })
+@logicsig({ avmVersion: 13, name: 'EscrowSessionSettlementLogicSig' })
 export class EscrowSessionSettlementLogicSig extends LogicSig {
   program(): boolean {
-    assert(op.Global.groupSize === 1, 'Settlement must be a standalone transaction')
+    // A second minimal LogicSig transaction contributes another 1,000-byte LogicSig-argument pool,
+    // allowing a compressed Falcon-1024 voucher to accompany this app call.
+    assert(op.Global.groupSize === 2, 'Settlement requires a two-LogicSig transaction group')
+    assert(Txn.groupIndex === 0, 'Settlement must be first in group')
     assert(Txn.rekeyTo === Account(), 'Rekey not allowed')
     assert(Txn.applicationId === Application(HYBRID_APP_ID), 'Wrong hybrid application')
+
+    // The only companion transaction is the argument-capacity padding LogicSig's no-op self-payment.
+    const paddingTxn = gtxn.PaymentTxn(1)
+    assert(paddingTxn.receiver === paddingTxn.sender, 'Padding payment must be self-payment')
+    assert(paddingTxn.amount === 0, 'Padding payment amount must be zero')
+    assert(paddingTxn.fee === 0, 'Padding payment fee must be zero')
+    assert(paddingTxn.rekeyTo === Account(), 'Padding rekey not allowed')
     assert(Txn.numAppArgs === 3, 'Unexpected settlement arguments')
     assert(Txn.applicationArgs(0) === op.sha512_256(Bytes('settleFromLogicSig(byte[],uint64)void')).slice(0, 4), 'Wrong method')
     assert(Txn.applicationArgs(1) === CHANNEL_ID, 'Wrong channel')
@@ -50,7 +64,7 @@ export class EscrowSessionSettlementLogicSig extends LogicSig {
 
     const message = op
       .itob(HYBRID_APP_ID)
-      .concat(CHANNEL_ID)
+      .concat(RAW_CHANNEL_ID)
       .concat(op.itob(cumulativeAmount))
       .concat(PAYEE.bytes)
       .concat(Bytes('settle-lsig-v1'))

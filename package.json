@@ -8,6 +8,9 @@
     "deploy:futurenet": "npm run build && DOTENV_CONFIG_PATH=.env.futurenet ts-node --transpile-only -r dotenv/config smart_contracts/index.ts",
     "deploy:testnet": "npm run build && DOTENV_CONFIG_PATH=.env.testnet ts-node --transpile-only -r dotenv/config smart_contracts/index.ts",
     "deploy:mainnet": "npm run build && DOTENV_CONFIG_PATH=.env.mainnet ts-node --transpile-only -r dotenv/config smart_contracts/index.ts",
+    "test:hybrid-falcon-lsig": "npm run build && ts-node --transpile-only -r dotenv/config smart_contracts/run-hybrid-falcon-lsig.ts",
+    "test:hybrid-falcon-lsig:futurenet": "DOTENV_CONFIG_PATH=.env.futurenet npm run test:hybrid-falcon-lsig",
+    "check:falcon-addresses:futurenet": "DOTENV_CONFIG_PATH=../../.env.futurenet go -C tools/falcon-address-parity run .",
     "check-types": "tsc --noEmit"
   },
   "engines": {
@@ -24,8 +27,9 @@
     "@algorandfoundation/puya-ts": "^1.1.0",
     "@rollup/plugin-typescript": "^12.1.2",
     "@tsconfig/node22": "^22.0.0",
-    "algosdk": "^3.0.0",
+    "algosdk": "github:algorand/js-algorand-sdk#bdc8b7f4bf2a54dbb9f4e9cc561bf5a73219c6e0",
     "dotenv": "^16.4.7",
+    "falcon-1024": "^1.0.0-beta.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.7.3"
   },
