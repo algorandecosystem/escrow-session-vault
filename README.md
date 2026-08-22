@@ -26,6 +26,9 @@ testnet app id: 766016034L
 
 testnet app address: XCEFSZXABJRUNTLPQGGXTHOW4M2WTOV3W7POEUBR5A2APARK2TPYDHSUYE
 
+mainnet app id: 3682593222L
+
+mainnet app address: IO3X3E5IERBUNFPZUR6RQ3FYKVYMARNRZXXO4RM5622L5R3PBPYIC2QPZM
 
 (These are not audited or verified and are for demonstration purposes only)
 
