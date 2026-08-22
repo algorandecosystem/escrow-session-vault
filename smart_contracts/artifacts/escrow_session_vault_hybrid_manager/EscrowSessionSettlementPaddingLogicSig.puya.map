@@ -1,0 +1,419 @@
+{
+  "version": 3,
+  "sources": [
+    "../../escrow_session_vault_hybrid_manager/padding_logic_sig.algo.ts"
+  ],
+  "mappings": "AAyBW;;AAAwB;;AAAxB;AAAP;AACO;;AAAmB;AAAnB;AAAP;AACO;;AAAiB;;AAAjB;AAAP;AACO;;AAAA;AAAP;AACO;;AAAA;AAAP;AACO;;AAAgB;;AAAhB;AAAP;AAG8C;AAAxB;;AAAA;;AAAA;AAAA;AAAwB;AACvC;;AAAoC;AAApC;AAAP;AAD8C;AAEvC;;AAA6B;;AAA7B;AAAP;AAF8C;AAItB;AAAtB;;AAA6B;;;;;;AAA7B;AADF;AAH8C;AAOjB;AAAtB;;AAA6B;AAA7B;AAAP;AACO;AAAP",
+  "op_pc_offset": 2,
+  "pc_events": {
+    "0": {
+      "op": "global GroupSize",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "2": {
+      "op": "pushint 2 // 2",
+      "defined_out": [
+        "2",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "2"
+      ]
+    },
+    "4": {
+      "op": "==",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "5": {
+      "error": "Padding requires a two-LogicSig transaction group",
+      "op": "assert // Padding requires a two-LogicSig transaction group",
+      "stack_out": []
+    },
+    "6": {
+      "op": "txn GroupIndex",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "8": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "1"
+      ]
+    },
+    "9": {
+      "op": "==",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "10": {
+      "error": "Padding must be second in group",
+      "op": "assert // Padding must be second in group",
+      "stack_out": []
+    },
+    "11": {
+      "op": "txn Receiver",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "13": {
+      "op": "txn Sender",
+      "defined_out": [
+        "tmp%4#0",
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%4#0",
+        "tmp%5#0"
+      ]
+    },
+    "15": {
+      "op": "==",
+      "defined_out": [
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "tmp%6#0"
+      ]
+    },
+    "16": {
+      "error": "Padding payment must be self-payment",
+      "op": "assert // Padding payment must be self-payment",
+      "stack_out": []
+    },
+    "17": {
+      "op": "txn Amount",
+      "defined_out": [
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%7#0"
+      ]
+    },
+    "19": {
+      "op": "!",
+      "defined_out": [
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%8#0"
+      ]
+    },
+    "20": {
+      "error": "Padding payment amount must be zero",
+      "op": "assert // Padding payment amount must be zero",
+      "stack_out": []
+    },
+    "21": {
+      "op": "txn Fee",
+      "defined_out": [
+        "tmp%9#0"
+      ],
+      "stack_out": [
+        "tmp%9#0"
+      ]
+    },
+    "23": {
+      "op": "!",
+      "defined_out": [
+        "tmp%10#0"
+      ],
+      "stack_out": [
+        "tmp%10#0"
+      ]
+    },
+    "24": {
+      "error": "Padding payment fee must be zero",
+      "op": "assert // Padding payment fee must be zero",
+      "stack_out": []
+    },
+    "25": {
+      "op": "txn RekeyTo",
+      "defined_out": [
+        "tmp%11#0"
+      ],
+      "stack_out": [
+        "tmp%11#0"
+      ]
+    },
+    "27": {
+      "op": "global ZeroAddress",
+      "defined_out": [
+        "tmp%11#0",
+        "tmp%12#0"
+      ],
+      "stack_out": [
+        "tmp%11#0",
+        "tmp%12#0"
+      ]
+    },
+    "29": {
+      "op": "==",
+      "defined_out": [
+        "tmp%13#0"
+      ],
+      "stack_out": [
+        "tmp%13#0"
+      ]
+    },
+    "30": {
+      "error": "Padding rekey not allowed",
+      "op": "assert // Padding rekey not allowed",
+      "stack_out": []
+    },
+    "31": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "32": {
+      "op": "gtxns TypeEnum",
+      "defined_out": [
+        "gtxn_type%0#0"
+      ],
+      "stack_out": [
+        "gtxn_type%0#0"
+      ]
+    },
+    "34": {
+      "op": "pushint 6 // appl",
+      "defined_out": [
+        "appl",
+        "gtxn_type%0#0"
+      ],
+      "stack_out": [
+        "gtxn_type%0#0",
+        "appl"
+      ]
+    },
+    "36": {
+      "op": "==",
+      "defined_out": [
+        "gtxn_type_matches%0#0"
+      ],
+      "stack_out": [
+        "gtxn_type_matches%0#0"
+      ]
+    },
+    "37": {
+      "error": "transaction type is appl",
+      "op": "assert // transaction type is appl",
+      "stack_out": []
+    },
+    "38": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "0"
+      ]
+    },
+    "39": {
+      "op": "gtxns ApplicationID",
+      "defined_out": [
+        "tmp%14#0"
+      ],
+      "stack_out": [
+        "tmp%14#0"
+      ]
+    },
+    "41": {
+      "op": "intc_2 // TMPL_HYBRID_APP_ID",
+      "defined_out": [
+        "TMPL_HYBRID_APP_ID",
+        "tmp%14#0"
+      ],
+      "stack_out": [
+        "tmp%14#0",
+        "TMPL_HYBRID_APP_ID"
+      ]
+    },
+    "42": {
+      "op": "==",
+      "defined_out": [
+        "tmp%15#0"
+      ],
+      "stack_out": [
+        "tmp%15#0"
+      ]
+    },
+    "43": {
+      "error": "Wrong hybrid application",
+      "op": "assert // Wrong hybrid application",
+      "stack_out": []
+    },
+    "44": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "0"
+      ]
+    },
+    "45": {
+      "op": "gtxns NumAppArgs",
+      "defined_out": [
+        "tmp%16#0"
+      ],
+      "stack_out": [
+        "tmp%16#0"
+      ]
+    },
+    "47": {
+      "op": "pushint 3 // 3",
+      "defined_out": [
+        "3",
+        "tmp%16#0"
+      ],
+      "stack_out": [
+        "tmp%16#0",
+        "3"
+      ]
+    },
+    "49": {
+      "op": "==",
+      "defined_out": [
+        "tmp%17#0"
+      ],
+      "stack_out": [
+        "tmp%17#0"
+      ]
+    },
+    "50": {
+      "error": "Unexpected settlement arguments",
+      "op": "assert // Unexpected settlement arguments",
+      "stack_out": []
+    },
+    "51": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "0"
+      ]
+    },
+    "52": {
+      "op": "dup",
+      "stack_out": [
+        "0",
+        "0"
+      ]
+    },
+    "53": {
+      "op": "gtxnsas ApplicationArgs",
+      "defined_out": [
+        "tmp%18#0"
+      ],
+      "stack_out": [
+        "tmp%18#0"
+      ]
+    },
+    "55": {
+      "op": "pushbytes 0x439c5fb1",
+      "defined_out": [
+        "0x439c5fb1",
+        "tmp%18#0"
+      ],
+      "stack_out": [
+        "tmp%18#0",
+        "0x439c5fb1"
+      ]
+    },
+    "61": {
+      "op": "==",
+      "defined_out": [
+        "tmp%21#0"
+      ],
+      "stack_out": [
+        "tmp%21#0"
+      ]
+    },
+    "62": {
+      "error": "Wrong method",
+      "op": "assert // Wrong method",
+      "stack_out": []
+    },
+    "63": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "0"
+      ]
+    },
+    "64": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "0",
+        "1"
+      ]
+    },
+    "65": {
+      "op": "gtxnsas ApplicationArgs",
+      "defined_out": [
+        "tmp%22#0"
+      ],
+      "stack_out": [
+        "tmp%22#0"
+      ]
+    },
+    "67": {
+      "op": "bytec_0 // TMPL_CHANNEL_ID",
+      "defined_out": [
+        "TMPL_CHANNEL_ID",
+        "tmp%22#0"
+      ],
+      "stack_out": [
+        "tmp%22#0",
+        "TMPL_CHANNEL_ID"
+      ]
+    },
+    "68": {
+      "op": "==",
+      "defined_out": [
+        "tmp%23#0"
+      ],
+      "stack_out": [
+        "tmp%23#0"
+      ]
+    },
+    "69": {
+      "error": "Wrong channel",
+      "op": "assert // Wrong channel",
+      "stack_out": []
+    },
+    "70": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "71": {
+      "op": "return",
+      "stack_out": []
+    }
+  }
+}
