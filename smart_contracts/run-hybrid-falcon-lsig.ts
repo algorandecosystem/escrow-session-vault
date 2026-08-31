@@ -13,8 +13,8 @@ import {
   signLogicSigTransactionObject,
   FALCON_1024_SCHEME,
 } from 'algosdk'
-import { createHash, randomBytes } from 'node:crypto'
-import { readFile } from 'node:fs/promises'
+import { createHash, randomUUID } from 'node:crypto'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 
 type FalconModule = typeof import('falcon-1024')
@@ -95,6 +95,34 @@ function sha512_256(value: Uint8Array): Uint8Array {
   return createHash('sha512-256').update(value).digest()
 }
 
+// Persists one UUID per device key (e.g. payer address) so repeated runs on the
+// same device derive the same channelId and reopen/top-up the existing channel
+// instead of creating a new one. Delete the entry (or the whole file) to reset.
+const DEVICE_SALT_STORE_PATH = resolve(__dirname, '.device-salts.json')
+
+async function getOrCreateDeviceSalt(deviceKey: string): Promise<Uint8Array> {
+  let store: Record<string, string> = {}
+  try {
+    store = JSON.parse(await readFile(DEVICE_SALT_STORE_PATH, 'utf8')) as Record<string, string>
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
+  }
+
+  let uuid = store[deviceKey]
+  if (!uuid) {
+    uuid = randomUUID()
+    store[deviceKey] = uuid
+    await mkdir(resolve(__dirname), { recursive: true })
+    await writeFile(DEVICE_SALT_STORE_PATH, JSON.stringify(store, null, 2))
+    console.log(`Generated new device salt for ${deviceKey}: ${uuid}`)
+  } else {
+    console.log(`Reusing existing device salt for ${deviceKey}: ${uuid}`)
+  }
+
+  // Salt just needs to be bytes for channelId derivation; use the UUID's raw 16 bytes.
+  return Uint8Array.from(Buffer.from(uuid.replace(/-/g, ''), 'hex'))
+}
+
 function formatDynamicData(data: readonly [bigint, bigint, bigint] | undefined): string {
   if (!data) return 'no return value'
   const [totalDeposit, lastSettled, latestVoucherAmount] = data
@@ -132,7 +160,7 @@ async function main(): Promise<void> {
   const appAddress = getApplicationAddress(appId).toString()
 
   const authorizedSigner = sha512_256(payer.publicKey)
-  const salt = randomBytes(32)
+  const salt = await getOrCreateDeviceSalt(payerAddress)
   // Must match contract.deriveChannelId(): sha256(payer || payee || assetId || salt || signerHash).
   const channelId = createHash('sha256').update(
     concat(
@@ -314,12 +342,21 @@ async function main(): Promise<void> {
   })
   console.log(`Balances after three settlements: ${formatDynamicData(afterSettlement.return)}`)
 
-  if (process.env.CLOSE_AFTER_SETTLEMENT === 'true') {
+  // Closes by default so the leftover (unsettled) deposit is refunded to the payer.
+  // Set CLOSE_AFTER_SETTLEMENT=false to leave the channel open for further settlements.
+  if (process.env.CLOSE_AFTER_SETTLEMENT !== 'false') {
+    if (afterSettlement.return) {
+      const [totalDeposit, , latestVoucherAmount] = afterSettlement.return
+      const expectedPayerRefund = totalDeposit - latestVoucherAmount
+      console.log(`Closing channel; expecting payer refund of ${expectedPayerRefund} USDC.`)
+    }
     await appClient.send.close({
       args: { channelId },
       sender: payee.address,
       signer: payee.txnSigner,
       staticFee: microAlgo(6_000),
+      // The payer refund inner-txn needs the payer account available to the app call.
+      accountReferences: [payerAddress],
       assetReferences: [usdcAssetId],
       boxReferences: [
         channelId,

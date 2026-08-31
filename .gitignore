@@ -57,6 +57,9 @@ coverage
 # Received approval test files
 *.received.*
 
+# Persisted per-device channel salts (smart_contracts/run-hybrid-falcon-lsig.ts)
+smart_contracts/.device-salts.json
+
 # AlgoKit
 debug_traces/
 .algokit/static-analysis/ # Replace with .algokit/static-analysis/tealer/ to enable snapshot checks in CI
