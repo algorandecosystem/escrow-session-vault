@@ -18,17 +18,17 @@ mainnet app address: 26XC5GSRN42CGA4JTX5GQULHONBTWGHIABRY3R4L6ZI3YPXRZIPN3BXDMQ
 
 ## Escrow Hybrid Session Vault
 
-futurenet app id: 17794220L
+futurenet app id: 18086245L
 
-futurenet app address: I6GHF2NFFQK5UVEG2SKBLVHCKEHNL73FCIU2EK3EINOW4RKOVLCWFO2UWA
+futurenet app address: AGJFWTU2P5YWFRVMXTKXGFW4ELJK7VGBPQRUP6ZV66X7KZ6XENFEVNK36Q
 
-testnet app id: 766016034L 
+testnet app id: 770746572L
 
-testnet app address: XCEFSZXABJRUNTLPQGGXTHOW4M2WTOV3W7POEUBR5A2APARK2TPYDHSUYE
+testnet app address: 24DZUPT3BBAO7N7KY7OCGSFFCTVXMHUCOVP3WEEFZEEMKKOO3H4AZIPPVU
 
-mainnet app id: 3682593222L
+mainnet app id: 3689924545L
 
-mainnet app address: IO3X3E5IERBUNFPZUR6RQ3FYKVYMARNRZXXO4RM5622L5R3PBPYIC2QPZM
+mainnet app address: D3Q3EXWL7HSVSA6GMWUQLQTEPPWDDS3NN6GFZYT2UV2GN34PRIDBYHKEZE
 
 (These are not audited or verified and are for demonstration purposes only)
 
@@ -64,6 +64,7 @@ The hybrid implementation is a separate application in `smart_contracts/escrow_s
 ```bash
 algokit compile ts ./smart_contracts/escrow_session_vault_hybrid_manager/contract.algo.ts
 npm run build
+npm run deploy:futurenet -- escrow_session_vault_hybrid_manager
 npm run deploy:testnet -- escrow_session_vault_hybrid_manager
 npm run deploy:mainnet -- escrow_session_vault_hybrid_manager
 ```

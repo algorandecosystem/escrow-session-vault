@@ -6,6 +6,7 @@ import {
   LogicSig,
   TemplateVar,
   Txn,
+  TransactionType,
   assert,
   bytes,
   logicsig,
@@ -26,6 +27,10 @@ const CHANNEL_ID = TemplateVar<bytes>('CHANNEL_ID')
 const RAW_CHANNEL_ID = TemplateVar<bytes>('RAW_CHANNEL_ID')
 const PAYEE = TemplateVar<Account>('PAYEE')
 const AUTHORIZED_PUBLIC_KEY = TemplateVar<bytes>('AUTHORIZED_PUBLIC_KEY')
+// Teardown sweep recipient: whoever pre-funded this LogicSig account's ALGO fee
+// buffer (the payer, by default) so any unused amount can be reclaimed once the
+// session is done settling. This can never move USDC or channel escrow funds.
+const SWEEP_DESTINATION = TemplateVar<Account>('SWEEP_DESTINATION')
 
 const ED25519_SIGNATURE_LENGTH: uint64 = 64
 const ED25519_PUBLIC_KEY_LENGTH: uint64 = 32
@@ -41,6 +46,18 @@ const ED25519_PUBLIC_KEY_LENGTH: uint64 = 32
 @logicsig({ avmVersion: 13, name: 'EscrowSessionSettlementLogicSig' })
 export class EscrowSessionSettlementLogicSig extends LogicSig {
   program(): boolean {
+    if (op.Global.groupSize === 1) {
+      // Teardown sweep: once settlement is done, return this account's unused ALGO
+      // fee balance to whoever funded it. Mirrors the self-payment shape used
+      // elsewhere so this stays a plain, non-USDC-touching account closeout.
+      assert(Txn.typeEnum === TransactionType.Payment, 'Sweep must be a payment')
+      assert(Txn.receiver === Txn.sender, 'Sweep receiver must be self')
+      assert(Txn.amount === 0, 'Sweep amount must be zero')
+      assert(Txn.closeRemainderTo === SWEEP_DESTINATION, 'Sweep must return funds to the funder')
+      assert(Txn.rekeyTo === Account(), 'Rekey not allowed')
+      return true
+    }
+
     // A second minimal LogicSig transaction contributes another 1,000-byte LogicSig-argument pool,
     // allowing a compressed Falcon-1024 voucher to accompany this app call.
     assert(op.Global.groupSize === 2, 'Settlement requires a two-LogicSig transaction group')

@@ -14,6 +14,7 @@ import {
   gtxn,
 } from '@algorandfoundation/algorand-typescript'
 import { sha512_256 } from '@algorandfoundation/algorand-typescript/op'
+import { abimethod } from '@algorandfoundation/algorand-typescript/arc4'
 
 /**
  * Compile-time network-specific USDC ASA id.
@@ -153,6 +154,24 @@ export class EscrowSessionVaultHybridManager extends Contract {
   }
 
   /**
+   * Emergency stop: payer immediately revokes the AI agent's settlement authority
+   * (e.g. if the ephemeral Falcon session key is suspected compromised) without
+   * closing the channel or losing the deposit. settleFromLogicSig will fail until
+   * the payer registers a fresh LogicSig via setSettlementLogicSig.
+   */
+  revokeSettlementLogicSig(channelId: bytes): void {
+    const channel = this.getChannel(channelId)
+    assert(channel.exists, 'Channel does not exist')
+
+    const data = clone(channel.value)
+    assert(Txn.sender === data.payer, 'Only payer can revoke LogicSig')
+
+    const logicSig = this.settlementLogicSig(channelId)
+    assert(logicSig.exists, 'Settlement LogicSig not set')
+    logicSig.delete()
+  }
+
+  /**
    * Settle through the registered LogicSig. Falcon verification occurs in the
    * LogicSig program; this call binds that authorization to the channel box and
    * advances its voucher watermark, preventing voucher replay.
@@ -243,6 +262,7 @@ export class EscrowSessionVaultHybridManager extends Contract {
    * Returns latest session static data tuple:
    * [startRound, startTimestamp]
    */
+  @abimethod({ readonly: true })
   getSessionStaticData(channelId: bytes): [uint64, uint64] {
     const channel = this.getChannel(channelId)
     assert(channel.exists, 'Channel does not exist')
@@ -253,28 +273,26 @@ export class EscrowSessionVaultHybridManager extends Contract {
 
   /**
    * Returns latest session dynamic data tuple:
-   * [totalDeposit, lastSettled, latestVoucherAmount]
+   * [totalDeposit, lastSettled, latestVoucherAmount, settlementLogicSig]
+   * settlementLogicSig is the zero address (Account()) if none is currently
+   * registered (never set, or revoked via revokeSettlementLogicSig) — callers
+   * can use that to detect when setSettlementLogicSig needs to be (re)called.
    */
-  getSessionDynamicData(channelId: bytes): [uint64, uint64, uint64] {
+  @abimethod({ readonly: true })
+  getSessionDynamicData(channelId: bytes): [uint64, uint64, uint64, Account] {
     const channel = this.getChannel(channelId)
     assert(channel.exists, 'Channel does not exist')
 
     const data = clone(channel.value)
-    return [data.totalDeposit, data.lastSettled, data.latestVoucherAmount]
-  }
-
-  /**
-   * Backwards-compatible alias for deterministic channelId derivation.
-   * authorizedSigner must be signer pubkey hash (32 bytes).
-   */
-  computeChannelId(payer: Account, payee: Account, authorizedSigner: bytes, salt: bytes): bytes {
-    return this.deriveChannelId(payer, payee, authorizedSigner, salt)
+    const logicSig = this.settlementLogicSig(channelId)
+    return [data.totalDeposit, data.lastSettled, data.latestVoucherAmount, logicSig.exists ? logicSig.value : Account()]
   }
 
   /**
    * Read-only helper for clients: deterministic channelId derivation.
    * authorizedSigner must be signer pubkey hash (32 bytes).
    */
+  @abimethod({ readonly: true })
   deriveChannelId(payer: Account, payee: Account, authorizedSigner: bytes, salt: bytes): bytes {
     // Algorand channel-id derivation:
     // sha256(payer || payee || assetId || salt || authorizedSignerHash)

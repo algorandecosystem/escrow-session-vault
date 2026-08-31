@@ -1,5 +1,6 @@
 import { AlgorandClient, microAlgo } from '@algorandfoundation/algokit-utils'
 import {
+  ALGORAND_ZERO_ADDRESS_STRING,
   LogicSigAccount,
   OnApplicationComplete,
   addressWithSignersFromRawFalcon1024Signer,
@@ -11,6 +12,7 @@ import {
   makePaymentTxnWithSuggestedParamsFromObject,
   pq25WordMnemonicToSeed,
   signLogicSigTransactionObject,
+  waitForConfirmation,
   FALCON_1024_SCHEME,
 } from 'algosdk'
 import { createHash, randomUUID } from 'node:crypto'
@@ -54,8 +56,9 @@ const PUBLIC_KEY_BOX_PREFIX = new TextEncoder().encode('p')
 const LOGIC_SIG_BOX_PREFIX = new TextEncoder().encode('l')
 const NATIVE_FALCON_FEE = 3_000n
 // Two outer LogicSig transactions and one inner ASA transfer need 3,000 microAlgos.
-// Hardened LogicSig programs add 18 microAlgos of encoded-byte fee on Futurenet.
-const LOGIC_SIG_SETTLEMENT_GROUP_FEE = 3_018n
+// Hardened LogicSig programs add encoded-byte fee on Futurenet; the teardown-sweep
+// branch grew the settlement LogicSig program, bumping this from 18 to 30 microAlgos.
+const LOGIC_SIG_SETTLEMENT_GROUP_FEE = 3_030n
 const SETTLEMENT_COUNT = 3n
 // The settlement LogicSig pays the pooled outer and inner-transfer fee; the padding LogicSig pays none.
 const MIN_SETTLEMENT_LOGIC_SIG_FUNDING = microAlgo(
@@ -123,10 +126,12 @@ async function getOrCreateDeviceSalt(deviceKey: string): Promise<Uint8Array> {
   return Uint8Array.from(Buffer.from(uuid.replace(/-/g, ''), 'hex'))
 }
 
-function formatDynamicData(data: readonly [bigint, bigint, bigint] | undefined): string {
+function formatDynamicData(data: readonly [bigint, bigint, bigint, string] | undefined): string {
   if (!data) return 'no return value'
-  const [totalDeposit, lastSettled, latestVoucherAmount] = data
-  return `totalDeposit=${totalDeposit}, lastSettled=${lastSettled}, latestVoucherAmount=${latestVoucherAmount}`
+  const [totalDeposit, lastSettled, latestVoucherAmount, settlementLogicSig] = data
+  const logicSigLabel =
+    settlementLogicSig === ALGORAND_ZERO_ADDRESS_STRING ? 'none (setSettlementLogicSig required)' : settlementLogicSig
+  return `totalDeposit=${totalDeposit}, lastSettled=${lastSettled}, latestVoucherAmount=${latestVoucherAmount}, settlementLogicSig=${logicSigLabel}`
 }
 
 async function main(): Promise<void> {
@@ -228,6 +233,8 @@ async function main(): Promise<void> {
     TMPL_RAW_CHANNEL_ID: channelId,
     TMPL_PAYEE: decodeAddress(payeeAddress).publicKey,
     TMPL_AUTHORIZED_PUBLIC_KEY: payer.publicKey,
+    // The payer funds this LogicSig's fee buffer, so it is also the sweep destination.
+    TMPL_SWEEP_DESTINATION: decodeAddress(payerAddress).publicKey,
   })
   const compiledLogic = compiled.compiledBase64ToBytes
   if (!Buffer.from(compiledLogic).includes(Buffer.from(payer.publicKey))) {
@@ -262,6 +269,7 @@ async function main(): Promise<void> {
   const paddingProgram = await algorand.app.compileTealTemplate(paddingTealTemplate, {
     TMPL_HYBRID_APP_ID: appId,
     TMPL_CHANNEL_ID: encodedChannelId,
+    TMPL_SWEEP_DESTINATION: decodeAddress(payerAddress).publicKey,
   })
   const paddingLogicSig = new LogicSigAccount(paddingProgram.compiledBase64ToBytes)
   const paddingLogicSigAddress = paddingLogicSig.address()
@@ -283,8 +291,10 @@ async function main(): Promise<void> {
   })
   console.log(`Balances after open: ${formatDynamicData(beforeSettlement.return)}`)
 
-  for (let settlementIndex = 1n; settlementIndex <= SETTLEMENT_COUNT; settlementIndex++) {
-    const cumulativeAmount = settlementAmount * settlementIndex
+  // Submits one settleFromLogicSig group signed with the agent's ephemeral Falcon
+  // session key. Reused both for the normal settlement loop and for the
+  // post-revoke negative test below.
+  async function submitSettlement(cumulativeAmount: bigint): Promise<string> {
     const voucher = concat(
       encodeUint64(appId),
       channelId,
@@ -327,10 +337,46 @@ async function main(): Promise<void> {
     const signedSettlement = signLogicSigTransactionObject(settlementTxn, logicSig)
     const signedPadding = signLogicSigTransactionObject(paddingTxn, paddingLogicSig)
     await algorand.client.algod.sendRawTransaction([signedSettlement.blob, signedPadding.blob]).do()
-    await algorand.client.algod.pendingTransactionInformation(signedSettlement.txID).do()
+    // Readonly getSessionDynamicData calls right after this run via simulate against the
+    // latest confirmed round, so we must actually wait for confirmation here (a single
+    // pendingTransactionInformation fetch does not block until confirmed).
+    await waitForConfirmation(algorand.client.algod, signedSettlement.txID, 4)
+    return signedSettlement.txID
+  }
+
+  // Sweeps a settlement/padding LogicSig account's leftover ALGO fee buffer back to
+  // whoever funded it (SWEEP_DESTINATION baked into the compiled program). This is a
+  // standalone (groupSize 1) self-payment closeout; it can never touch USDC or the
+  // channel's escrowed deposit, only this LogicSig account's own small ALGO balance.
+  async function sweepLogicSigAccount(logicSig: LogicSigAccount, address: string, label: string): Promise<void> {
+    const suggestedParams = await algorand.client.algod.getTransactionParams().do()
+    // Pad past the suggested min fee: Futurenet's fee-market congestion pricing can
+    // transiently require more than the plain minFee for a lone, ungrouped txn.
+    suggestedParams.fee = BigInt(suggestedParams.minFee) * 2n
+    suggestedParams.flatFee = true
+    const sweepTxn = makePaymentTxnWithSuggestedParamsFromObject({
+      sender: address,
+      receiver: address,
+      amount: 0,
+      closeRemainderTo: payerAddress,
+      suggestedParams,
+    })
+    // The sweep branch reads no LogicSig args; clear any stale settlement-voucher
+    // args left on this object so a solo (groupSize 1) txn doesn't exceed the
+    // single-LogicSig 1,000-byte argument pool.
+    logicSig.lsig.args = []
+    const signedSweep = signLogicSigTransactionObject(sweepTxn, logicSig)
+    await algorand.client.algod.sendRawTransaction(signedSweep.blob).do()
+    await waitForConfirmation(algorand.client.algod, signedSweep.txID, 4)
+    console.log(`Swept leftover ALGO from ${label} (${address}) back to payer.`)
+  }
+
+  for (let settlementIndex = 1n; settlementIndex <= SETTLEMENT_COUNT; settlementIndex++) {
+    const cumulativeAmount = settlementAmount * settlementIndex
+    const txId = await submitSettlement(cumulativeAmount)
     console.log(`Settlement ${settlementIndex}/${SETTLEMENT_COUNT}: cumulative=${cumulativeAmount} USDC`)
-    console.log(`Settlement transaction ID: ${signedSettlement.txID}`)
-    console.log(`FNet explorer: https://lora.algokit.io/fnet/transaction/${signedSettlement.txID}`)
+    console.log(`Settlement transaction ID: ${txId}`)
+    console.log(`FNet explorer: https://lora.algokit.io/fnet/transaction/${txId}`)
   }
 
   const afterSettlement = await appClient.send.getSessionDynamicData({
@@ -341,6 +387,30 @@ async function main(): Promise<void> {
     boxReferences: [channelId],
   })
   console.log(`Balances after three settlements: ${formatDynamicData(afterSettlement.return)}`)
+
+  // Emergency-stop test: payer revokes the agent's ephemeral Falcon session key
+  // mid-session, then confirms the now-orphaned LogicSig can no longer settle.
+  // Set TEST_REVOKE=false to skip.
+  if (process.env.TEST_REVOKE !== 'false') {
+    await appClient.send.revokeSettlementLogicSig({
+      args: { channelId },
+      sender: payer.address,
+      signer: payer.txnSigner,
+      staticFee: microAlgo(3_000),
+      boxReferences: [channelId, concat(LOGIC_SIG_BOX_PREFIX, channelId)],
+    })
+    console.log('Revoked settlement LogicSig; the ephemeral session key is now powerless.')
+
+    const revokedAttemptAmount = settlementAmount * (SETTLEMENT_COUNT + 1n)
+    try {
+      await submitSettlement(revokedAttemptAmount)
+      throw new Error('Settlement succeeded after revocation; revoke did not take effect!')
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      if (message.includes('Settlement succeeded after revocation')) throw error
+      console.log('Confirmed: settlement after revoke was rejected, as expected.')
+    }
+  }
 
   // Closes by default so the leftover (unsettled) deposit is refunded to the payer.
   // Set CLOSE_AFTER_SETTLEMENT=false to leave the channel open for further settlements.
@@ -367,6 +437,11 @@ async function main(): Promise<void> {
       maxFee: microAlgo(6_000),
     })
     console.log('Closed channel as payee; remaining USDC was refunded to payer.')
+
+    // Teardown: reclaim whatever unused ALGO fee buffer is left in both LogicSig
+    // accounts now that no more settlements will happen for this channel.
+    await sweepLogicSigAccount(logicSig, logicSigAddress.toString(), 'settlement LogicSig')
+    await sweepLogicSigAccount(paddingLogicSig, paddingLogicSigAddress.toString(), 'padding LogicSig')
   }
 }
 

@@ -3,7 +3,7 @@
   "sources": [
     "../../escrow_session_vault_hybrid_manager/padding_logic_sig.algo.ts"
   ],
-  "mappings": "AAyBW;;AAAwB;;AAAxB;AAAP;AACO;;AAAmB;AAAnB;AAAP;AACO;;AAAiB;;AAAjB;AAAP;AACO;;AAAA;AAAP;AACO;;AAAA;AAAP;AACO;;AAAgB;;AAAhB;AAAP;AAG8C;AAAxB;;AAAA;;AAAA;AAAA;AAAwB;AACvC;;AAAoC;AAApC;AAAP;AAD8C;AAEvC;;AAA6B;;AAA7B;AAAP;AAF8C;AAItB;AAAtB;;AAA6B;;;;;;AAA7B;AADF;AAH8C;AAOjB;AAAtB;;AAA6B;AAA7B;AAAP;AACO;AAAP",
+  "mappings": "AA8BQ;;AAAwB;AAAxB;AAAJ;;;AAGS;;AAAiB;AAAjB;AAAP;AACO;;AAAiB;;AAAjB;AAAP;AACO;;AAAA;AAAP;AACO;;AAAyB;AAAzB;AAAP;AACO;;AAAgB;;AAAhB;AAAP;AACO;AAAP;AAGK;;AAAwB;;AAAxB;AAAP;AACO;;AAAmB;AAAnB;AAAP;AACO;;AAAiB;;AAAjB;AAAP;AACO;;AAAA;AAAP;AACO;;AAAA;AAAP;AACO;;AAAgB;;AAAhB;AAAP;AAG8C;AAAxB;;AAAA;;AAAA;AAAA;AAAwB;AACvC;;AAAoC;AAApC;AAAP;AAD8C;AAEvC;;AAA6B;;AAA7B;AAAP;AAF8C;AAItB;AAAtB;;AAA6B;;;;;;AAA7B;AADF;AAH8C;AAOjB;AAAtB;;AAA6B;AAA7B;AAAP;AACO;AAAP",
   "op_pc_offset": 2,
   "pc_events": {
     "0": {
@@ -16,17 +16,17 @@
       ]
     },
     "2": {
-      "op": "pushint 2 // 2",
+      "op": "intc_0 // 1",
       "defined_out": [
-        "2",
+        "1",
         "tmp%0#0"
       ],
       "stack_out": [
         "tmp%0#0",
-        "2"
+        "1"
       ]
     },
-    "4": {
+    "3": {
       "op": "==",
       "defined_out": [
         "tmp%1#0"
@@ -35,13 +35,12 @@
         "tmp%1#0"
       ]
     },
-    "5": {
-      "error": "Padding requires a two-LogicSig transaction group",
-      "op": "assert // Padding requires a two-LogicSig transaction group",
+    "4": {
+      "op": "bz main_after_if_else@2",
       "stack_out": []
     },
-    "6": {
-      "op": "txn GroupIndex",
+    "7": {
+      "op": "txn TypeEnum",
       "defined_out": [
         "tmp%2#0"
       ],
@@ -49,18 +48,14 @@
         "tmp%2#0"
       ]
     },
-    "8": {
-      "op": "intc_1 // 1",
-      "defined_out": [
-        "1",
-        "tmp%2#0"
-      ],
+    "9": {
+      "op": "intc_0 // 1",
       "stack_out": [
         "tmp%2#0",
         "1"
       ]
     },
-    "9": {
+    "10": {
       "op": "==",
       "defined_out": [
         "tmp%3#0"
@@ -69,12 +64,12 @@
         "tmp%3#0"
       ]
     },
-    "10": {
-      "error": "Padding must be second in group",
-      "op": "assert // Padding must be second in group",
+    "11": {
+      "error": "Sweep must be a payment",
+      "op": "assert // Sweep must be a payment",
       "stack_out": []
     },
-    "11": {
+    "12": {
       "op": "txn Receiver",
       "defined_out": [
         "tmp%4#0"
@@ -83,7 +78,7 @@
         "tmp%4#0"
       ]
     },
-    "13": {
+    "14": {
       "op": "txn Sender",
       "defined_out": [
         "tmp%4#0",
@@ -94,7 +89,7 @@
         "tmp%5#0"
       ]
     },
-    "15": {
+    "16": {
       "op": "==",
       "defined_out": [
         "tmp%6#0"
@@ -103,12 +98,12 @@
         "tmp%6#0"
       ]
     },
-    "16": {
-      "error": "Padding payment must be self-payment",
-      "op": "assert // Padding payment must be self-payment",
+    "17": {
+      "error": "Sweep receiver must be self",
+      "op": "assert // Sweep receiver must be self",
       "stack_out": []
     },
-    "17": {
+    "18": {
       "op": "txn Amount",
       "defined_out": [
         "tmp%7#0"
@@ -117,7 +112,7 @@
         "tmp%7#0"
       ]
     },
-    "19": {
+    "20": {
       "op": "!",
       "defined_out": [
         "tmp%8#0"
@@ -125,36 +120,47 @@
       "stack_out": [
         "tmp%8#0"
       ]
-    },
-    "20": {
-      "error": "Padding payment amount must be zero",
-      "op": "assert // Padding payment amount must be zero",
-      "stack_out": []
     },
     "21": {
-      "op": "txn Fee",
-      "defined_out": [
-        "tmp%9#0"
-      ],
-      "stack_out": [
-        "tmp%9#0"
-      ]
+      "error": "Sweep amount must be zero",
+      "op": "assert // Sweep amount must be zero",
+      "stack_out": []
     },
-    "23": {
-      "op": "!",
+    "22": {
+      "op": "txn CloseRemainderTo",
       "defined_out": [
-        "tmp%10#0"
+        "tmp%9#0"
       ],
       "stack_out": [
-        "tmp%10#0"
+        "tmp%9#0"
       ]
     },
     "24": {
-      "error": "Padding payment fee must be zero",
-      "op": "assert // Padding payment fee must be zero",
-      "stack_out": []
+      "op": "bytec_0 // TMPL_SWEEP_DESTINATION",
+      "defined_out": [
+        "TMPL_SWEEP_DESTINATION",
+        "tmp%9#0"
+      ],
+      "stack_out": [
+        "tmp%9#0",
+        "TMPL_SWEEP_DESTINATION"
+      ]
     },
     "25": {
+      "op": "==",
+      "defined_out": [
+        "tmp%10#0"
+      ],
+      "stack_out": [
+        "tmp%10#0"
+      ]
+    },
+    "26": {
+      "error": "Sweep must return funds to the funder",
+      "op": "assert // Sweep must return funds to the funder",
+      "stack_out": []
+    },
+    "27": {
       "op": "txn RekeyTo",
       "defined_out": [
         "tmp%11#0"
@@ -163,7 +169,7 @@
         "tmp%11#0"
       ]
     },
-    "27": {
+    "29": {
       "op": "global ZeroAddress",
       "defined_out": [
         "tmp%11#0",
@@ -174,7 +180,7 @@
         "tmp%12#0"
       ]
     },
-    "29": {
+    "31": {
       "op": "==",
       "defined_out": [
         "tmp%13#0"
@@ -183,13 +189,207 @@
         "tmp%13#0"
       ]
     },
-    "30": {
+    "32": {
+      "error": "Rekey not allowed",
+      "op": "assert // Rekey not allowed",
+      "stack_out": []
+    },
+    "33": {
+      "op": "intc_0 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "34": {
+      "op": "return",
+      "stack_out": []
+    },
+    "35": {
+      "block": "main_after_if_else@2",
+      "stack_in": [],
+      "op": "global GroupSize",
+      "defined_out": [
+        "tmp%14#0"
+      ],
+      "stack_out": [
+        "tmp%14#0"
+      ]
+    },
+    "37": {
+      "op": "pushint 2 // 2",
+      "defined_out": [
+        "2",
+        "tmp%14#0"
+      ],
+      "stack_out": [
+        "tmp%14#0",
+        "2"
+      ]
+    },
+    "39": {
+      "op": "==",
+      "defined_out": [
+        "tmp%15#0"
+      ],
+      "stack_out": [
+        "tmp%15#0"
+      ]
+    },
+    "40": {
+      "error": "Padding requires a two-LogicSig transaction group",
+      "op": "assert // Padding requires a two-LogicSig transaction group",
+      "stack_out": []
+    },
+    "41": {
+      "op": "txn GroupIndex",
+      "defined_out": [
+        "tmp%16#0"
+      ],
+      "stack_out": [
+        "tmp%16#0"
+      ]
+    },
+    "43": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1",
+        "tmp%16#0"
+      ],
+      "stack_out": [
+        "tmp%16#0",
+        "1"
+      ]
+    },
+    "44": {
+      "op": "==",
+      "defined_out": [
+        "tmp%17#0"
+      ],
+      "stack_out": [
+        "tmp%17#0"
+      ]
+    },
+    "45": {
+      "error": "Padding must be second in group",
+      "op": "assert // Padding must be second in group",
+      "stack_out": []
+    },
+    "46": {
+      "op": "txn Receiver",
+      "defined_out": [
+        "tmp%18#0"
+      ],
+      "stack_out": [
+        "tmp%18#0"
+      ]
+    },
+    "48": {
+      "op": "txn Sender",
+      "defined_out": [
+        "tmp%18#0",
+        "tmp%19#0"
+      ],
+      "stack_out": [
+        "tmp%18#0",
+        "tmp%19#0"
+      ]
+    },
+    "50": {
+      "op": "==",
+      "defined_out": [
+        "tmp%20#0"
+      ],
+      "stack_out": [
+        "tmp%20#0"
+      ]
+    },
+    "51": {
+      "error": "Padding payment must be self-payment",
+      "op": "assert // Padding payment must be self-payment",
+      "stack_out": []
+    },
+    "52": {
+      "op": "txn Amount",
+      "defined_out": [
+        "tmp%21#0"
+      ],
+      "stack_out": [
+        "tmp%21#0"
+      ]
+    },
+    "54": {
+      "op": "!",
+      "defined_out": [
+        "tmp%22#0"
+      ],
+      "stack_out": [
+        "tmp%22#0"
+      ]
+    },
+    "55": {
+      "error": "Padding payment amount must be zero",
+      "op": "assert // Padding payment amount must be zero",
+      "stack_out": []
+    },
+    "56": {
+      "op": "txn Fee",
+      "defined_out": [
+        "tmp%23#0"
+      ],
+      "stack_out": [
+        "tmp%23#0"
+      ]
+    },
+    "58": {
+      "op": "!",
+      "defined_out": [
+        "tmp%24#0"
+      ],
+      "stack_out": [
+        "tmp%24#0"
+      ]
+    },
+    "59": {
+      "error": "Padding payment fee must be zero",
+      "op": "assert // Padding payment fee must be zero",
+      "stack_out": []
+    },
+    "60": {
+      "op": "txn RekeyTo",
+      "defined_out": [
+        "tmp%25#0"
+      ],
+      "stack_out": [
+        "tmp%25#0"
+      ]
+    },
+    "62": {
+      "op": "global ZeroAddress",
+      "defined_out": [
+        "tmp%25#0",
+        "tmp%26#0"
+      ],
+      "stack_out": [
+        "tmp%25#0",
+        "tmp%26#0"
+      ]
+    },
+    "64": {
+      "op": "==",
+      "defined_out": [
+        "tmp%27#0"
+      ],
+      "stack_out": [
+        "tmp%27#0"
+      ]
+    },
+    "65": {
       "error": "Padding rekey not allowed",
       "op": "assert // Padding rekey not allowed",
       "stack_out": []
     },
-    "31": {
-      "op": "intc_0 // 0",
+    "66": {
+      "op": "intc_1 // 0",
       "defined_out": [
         "0"
       ],
@@ -197,7 +397,7 @@
         "0"
       ]
     },
-    "32": {
+    "67": {
       "op": "gtxns TypeEnum",
       "defined_out": [
         "gtxn_type%0#0"
@@ -206,7 +406,7 @@
         "gtxn_type%0#0"
       ]
     },
-    "34": {
+    "69": {
       "op": "pushint 6 // appl",
       "defined_out": [
         "appl",
@@ -217,7 +417,7 @@
         "appl"
       ]
     },
-    "36": {
+    "71": {
       "op": "==",
       "defined_out": [
         "gtxn_type_matches%0#0"
@@ -226,192 +426,192 @@
         "gtxn_type_matches%0#0"
       ]
     },
-    "37": {
+    "72": {
       "error": "transaction type is appl",
       "op": "assert // transaction type is appl",
       "stack_out": []
     },
-    "38": {
-      "op": "intc_0 // 0",
+    "73": {
+      "op": "intc_1 // 0",
       "stack_out": [
         "0"
       ]
     },
-    "39": {
+    "74": {
       "op": "gtxns ApplicationID",
       "defined_out": [
-        "tmp%14#0"
+        "tmp%28#0"
       ],
       "stack_out": [
-        "tmp%14#0"
+        "tmp%28#0"
       ]
     },
-    "41": {
+    "76": {
       "op": "intc_2 // TMPL_HYBRID_APP_ID",
       "defined_out": [
         "TMPL_HYBRID_APP_ID",
-        "tmp%14#0"
+        "tmp%28#0"
       ],
       "stack_out": [
-        "tmp%14#0",
+        "tmp%28#0",
         "TMPL_HYBRID_APP_ID"
       ]
     },
-    "42": {
+    "77": {
       "op": "==",
       "defined_out": [
-        "tmp%15#0"
+        "tmp%29#0"
       ],
       "stack_out": [
-        "tmp%15#0"
+        "tmp%29#0"
       ]
     },
-    "43": {
+    "78": {
       "error": "Wrong hybrid application",
       "op": "assert // Wrong hybrid application",
       "stack_out": []
     },
-    "44": {
-      "op": "intc_0 // 0",
+    "79": {
+      "op": "intc_1 // 0",
       "stack_out": [
         "0"
       ]
     },
-    "45": {
+    "80": {
       "op": "gtxns NumAppArgs",
       "defined_out": [
-        "tmp%16#0"
+        "tmp%30#0"
       ],
       "stack_out": [
-        "tmp%16#0"
+        "tmp%30#0"
       ]
     },
-    "47": {
+    "82": {
       "op": "pushint 3 // 3",
       "defined_out": [
         "3",
-        "tmp%16#0"
+        "tmp%30#0"
       ],
       "stack_out": [
-        "tmp%16#0",
+        "tmp%30#0",
         "3"
       ]
     },
-    "49": {
+    "84": {
       "op": "==",
       "defined_out": [
-        "tmp%17#0"
+        "tmp%31#0"
       ],
       "stack_out": [
-        "tmp%17#0"
+        "tmp%31#0"
       ]
     },
-    "50": {
+    "85": {
       "error": "Unexpected settlement arguments",
       "op": "assert // Unexpected settlement arguments",
       "stack_out": []
     },
-    "51": {
-      "op": "intc_0 // 0",
+    "86": {
+      "op": "intc_1 // 0",
       "stack_out": [
         "0"
       ]
     },
-    "52": {
+    "87": {
       "op": "dup",
       "stack_out": [
         "0",
         "0"
       ]
     },
-    "53": {
+    "88": {
       "op": "gtxnsas ApplicationArgs",
       "defined_out": [
-        "tmp%18#0"
+        "tmp%32#0"
       ],
       "stack_out": [
-        "tmp%18#0"
+        "tmp%32#0"
       ]
     },
-    "55": {
+    "90": {
       "op": "pushbytes 0x439c5fb1",
       "defined_out": [
         "0x439c5fb1",
-        "tmp%18#0"
+        "tmp%32#0"
       ],
       "stack_out": [
-        "tmp%18#0",
+        "tmp%32#0",
         "0x439c5fb1"
       ]
     },
-    "61": {
+    "96": {
       "op": "==",
       "defined_out": [
-        "tmp%21#0"
+        "tmp%35#0"
       ],
       "stack_out": [
-        "tmp%21#0"
+        "tmp%35#0"
       ]
     },
-    "62": {
+    "97": {
       "error": "Wrong method",
       "op": "assert // Wrong method",
       "stack_out": []
     },
-    "63": {
-      "op": "intc_0 // 0",
+    "98": {
+      "op": "intc_1 // 0",
       "stack_out": [
         "0"
       ]
     },
-    "64": {
-      "op": "intc_1 // 1",
+    "99": {
+      "op": "intc_0 // 1",
       "stack_out": [
         "0",
         "1"
       ]
     },
-    "65": {
+    "100": {
       "op": "gtxnsas ApplicationArgs",
       "defined_out": [
-        "tmp%22#0"
+        "tmp%36#0"
       ],
       "stack_out": [
-        "tmp%22#0"
+        "tmp%36#0"
       ]
     },
-    "67": {
-      "op": "bytec_0 // TMPL_CHANNEL_ID",
+    "102": {
+      "op": "bytec_1 // TMPL_CHANNEL_ID",
       "defined_out": [
         "TMPL_CHANNEL_ID",
-        "tmp%22#0"
+        "tmp%36#0"
       ],
       "stack_out": [
-        "tmp%22#0",
+        "tmp%36#0",
         "TMPL_CHANNEL_ID"
       ]
     },
-    "68": {
+    "103": {
       "op": "==",
       "defined_out": [
-        "tmp%23#0"
+        "tmp%37#0"
       ],
       "stack_out": [
-        "tmp%23#0"
+        "tmp%37#0"
       ]
     },
-    "69": {
+    "104": {
       "error": "Wrong channel",
       "op": "assert // Wrong channel",
       "stack_out": []
     },
-    "70": {
-      "op": "intc_1 // 1",
+    "105": {
+      "op": "intc_0 // 1",
       "stack_out": [
         "1"
       ]
     },
-    "71": {
+    "106": {
       "op": "return",
       "stack_out": []
     }
