@@ -21,16 +21,19 @@ import { falconVerify } from '@algorandfoundation/algorand-typescript/op'
  * app-call shape, for one channel and one payee.
  */
 const HYBRID_APP_ID = TemplateVar<uint64>('HYBRID_APP_ID')
-// ARC-4 encodes the `byte[]` application argument with its two-byte length prefix.
+// ARC-4 encodes the `byte[]` application argument with its two-byte length prefix:
+// [0x00, 0x20] + the raw 32-byte channel ID. The voucher message needs the raw
+// 32-byte form (matching the off-chain box key / signed voucher), which is just
+// this value with the fixed 2-byte length prefix sliced off - no separate
+// template var needed since one is fully derivable from the other.
 const CHANNEL_ID = TemplateVar<bytes>('CHANNEL_ID')
-// The voucher commits to the raw 32-byte channel ID used as the box key.
-const RAW_CHANNEL_ID = TemplateVar<bytes>('RAW_CHANNEL_ID')
+// The payee doubles as the teardown sweep recipient: whoever funds this LogicSig
+// account's ALGO fee buffer is expected to be (or be reimbursed by) the payee, so
+// reusing this template var avoids baking in a second redundant 32-byte account
+// constant. The sweep can never move USDC or channel escrow funds - only this
+// account's own pre-funded ALGO.
 const PAYEE = TemplateVar<Account>('PAYEE')
 const AUTHORIZED_PUBLIC_KEY = TemplateVar<bytes>('AUTHORIZED_PUBLIC_KEY')
-// Teardown sweep recipient: whoever pre-funded this LogicSig account's ALGO fee
-// buffer (the payer, by default) so any unused amount can be reclaimed once the
-// session is done settling. This can never move USDC or channel escrow funds.
-const SWEEP_DESTINATION = TemplateVar<Account>('SWEEP_DESTINATION')
 
 const ED25519_SIGNATURE_LENGTH: uint64 = 64
 const ED25519_PUBLIC_KEY_LENGTH: uint64 = 32
@@ -53,7 +56,7 @@ export class EscrowSessionSettlementLogicSig extends LogicSig {
       assert(Txn.typeEnum === TransactionType.Payment, 'Sweep must be a payment')
       assert(Txn.receiver === Txn.sender, 'Sweep receiver must be self')
       assert(Txn.amount === 0, 'Sweep amount must be zero')
-      assert(Txn.closeRemainderTo === SWEEP_DESTINATION, 'Sweep must return funds to the funder')
+      assert(Txn.closeRemainderTo === PAYEE, 'Sweep must return funds to the payee')
       assert(Txn.rekeyTo === Account(), 'Rekey not allowed')
       return true
     }
@@ -81,7 +84,7 @@ export class EscrowSessionSettlementLogicSig extends LogicSig {
 
     const message = op
       .itob(HYBRID_APP_ID)
-      .concat(RAW_CHANNEL_ID)
+      .concat(CHANNEL_ID.slice(2))
       .concat(op.itob(cumulativeAmount))
       .concat(PAYEE.bytes)
       .concat(Bytes('settle-lsig-v1'))

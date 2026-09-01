@@ -230,11 +230,11 @@ async function main(): Promise<void> {
   const compiled = await algorand.app.compileTealTemplate(tealTemplate, {
     TMPL_HYBRID_APP_ID: appId,
     TMPL_CHANNEL_ID: encodedChannelId,
-    TMPL_RAW_CHANNEL_ID: channelId,
+    // TMPL_PAYEE doubles as the teardown sweep destination for this LogicSig - see
+    // settlement_logic_sig.algo.ts. Whoever funds this account's fee buffer should
+    // do so expecting the payee to reclaim any unspent remainder, not themselves.
     TMPL_PAYEE: decodeAddress(payeeAddress).publicKey,
     TMPL_AUTHORIZED_PUBLIC_KEY: payer.publicKey,
-    // The payer funds this LogicSig's fee buffer, so it is also the sweep destination.
-    TMPL_SWEEP_DESTINATION: decodeAddress(payerAddress).publicKey,
   })
   const compiledLogic = compiled.compiledBase64ToBytes
   if (!Buffer.from(compiledLogic).includes(Buffer.from(payer.publicKey))) {
@@ -243,6 +243,7 @@ async function main(): Promise<void> {
   const logicSig = new LogicSigAccount(compiledLogic)
   const logicSigAddress = logicSig.address()
 
+  // Payer-signed: only the payer can register a settlement LogicSig for this channel.
   await appClient.send.setSettlementLogicSig({
     args: { channelId, logicSig: logicSigAddress.toString() },
     sender: payer.address,
@@ -250,9 +251,35 @@ async function main(): Promise<void> {
     staticFee: microAlgo(3_000),
     boxReferences: [channelId, concat(LOGIC_SIG_BOX_PREFIX, channelId)],
   })
+
+  // Payee-side check: confirm the payer actually registered *this* LogicSig address
+  // before funding it. getSessionDynamicData is readonly, so this is a free simulate
+  // call - no fee, no signature required in practice (staticFee/signer here only
+  // matter if a client falls back to a real send).
+  const afterRegistration = await appClient.send.getSessionDynamicData({
+    args: { channelId },
+    sender: payee.address,
+    signer: payee.txnSigner,
+    staticFee: microAlgo(3_000),
+    boxReferences: [channelId, concat(LOGIC_SIG_BOX_PREFIX, channelId)],
+  })
+  const registeredLogicSig = afterRegistration.return?.[3]
+  if (!registeredLogicSig || registeredLogicSig === ALGORAND_ZERO_ADDRESS_STRING) {
+    throw new Error('Payee check failed: no settlement LogicSig is registered on-chain yet')
+  }
+  if (registeredLogicSig !== logicSigAddress.toString()) {
+    throw new Error(
+      `Payee check failed: registered LogicSig ${registeredLogicSig} does not match the expected ${logicSigAddress.toString()}`,
+    )
+  }
+  console.log(`Payee confirmed settlement LogicSig is registered: ${registeredLogicSig}`)
+
+  // Payee funds the settlement LogicSig's fee buffer, since the payee is also the
+  // hardcoded sweep destination baked into the compiled program (see
+  // settlement_logic_sig.algo.ts) - whoever funds it is who reclaims it at teardown.
   await algorand.send.payment({
-    sender: payer.address,
-    signer: payer.txnSigner,
+    sender: payee.address,
+    signer: payee.txnSigner,
     receiver: logicSigAddress,
     amount: MIN_SETTLEMENT_LOGIC_SIG_FUNDING,
     staticFee: microAlgo(3_000),
@@ -269,26 +296,21 @@ async function main(): Promise<void> {
   const paddingProgram = await algorand.app.compileTealTemplate(paddingTealTemplate, {
     TMPL_HYBRID_APP_ID: appId,
     TMPL_CHANNEL_ID: encodedChannelId,
-    TMPL_SWEEP_DESTINATION: decodeAddress(payerAddress).publicKey,
+    // Payee funds the padding LogicSig too, so it should also reclaim the leftover.
+    TMPL_SWEEP_DESTINATION: decodeAddress(payeeAddress).publicKey,
   })
   const paddingLogicSig = new LogicSigAccount(paddingProgram.compiledBase64ToBytes)
   const paddingLogicSigAddress = paddingLogicSig.address()
   await algorand.send.payment({
-    sender: payer.address,
-    signer: payer.txnSigner,
+    sender: payee.address,
+    signer: payee.txnSigner,
     receiver: paddingLogicSigAddress,
     amount: MIN_PADDING_LOGIC_SIG_FUNDING,
     staticFee: microAlgo(3_000),
   })
   console.log(`Registered and funded LogicSig: ${logicSigAddress}`)
 
-  const beforeSettlement = await appClient.send.getSessionDynamicData({
-    args: { channelId },
-    sender: payee.address,
-    signer: payee.txnSigner,
-    staticFee: microAlgo(3_000),
-    boxReferences: [channelId],
-  })
+  const beforeSettlement = afterRegistration
   console.log(`Balances after open: ${formatDynamicData(beforeSettlement.return)}`)
 
   // Submits one settleFromLogicSig group signed with the agent's ephemeral Falcon
@@ -348,7 +370,12 @@ async function main(): Promise<void> {
   // whoever funded it (SWEEP_DESTINATION baked into the compiled program). This is a
   // standalone (groupSize 1) self-payment closeout; it can never touch USDC or the
   // channel's escrowed deposit, only this LogicSig account's own small ALGO balance.
-  async function sweepLogicSigAccount(logicSig: LogicSigAccount, address: string, label: string): Promise<void> {
+  async function sweepLogicSigAccount(
+    logicSig: LogicSigAccount,
+    address: string,
+    label: string,
+    destination: string,
+  ): Promise<void> {
     const suggestedParams = await algorand.client.algod.getTransactionParams().do()
     // Pad past the suggested min fee: Futurenet's fee-market congestion pricing can
     // transiently require more than the plain minFee for a lone, ungrouped txn.
@@ -358,7 +385,7 @@ async function main(): Promise<void> {
       sender: address,
       receiver: address,
       amount: 0,
-      closeRemainderTo: payerAddress,
+      closeRemainderTo: destination,
       suggestedParams,
     })
     // The sweep branch reads no LogicSig args; clear any stale settlement-voucher
@@ -368,7 +395,7 @@ async function main(): Promise<void> {
     const signedSweep = signLogicSigTransactionObject(sweepTxn, logicSig)
     await algorand.client.algod.sendRawTransaction(signedSweep.blob).do()
     await waitForConfirmation(algorand.client.algod, signedSweep.txID, 4)
-    console.log(`Swept leftover ALGO from ${label} (${address}) back to payer.`)
+    console.log(`Swept leftover ALGO from ${label} (${address}) to ${destination}.`)
   }
 
   for (let settlementIndex = 1n; settlementIndex <= SETTLEMENT_COUNT; settlementIndex++) {
@@ -440,8 +467,12 @@ async function main(): Promise<void> {
 
     // Teardown: reclaim whatever unused ALGO fee buffer is left in both LogicSig
     // accounts now that no more settlements will happen for this channel.
-    await sweepLogicSigAccount(logicSig, logicSigAddress.toString(), 'settlement LogicSig')
-    await sweepLogicSigAccount(paddingLogicSig, paddingLogicSigAddress.toString(), 'padding LogicSig')
+    // Both LogicSigs are now funded by (and sweep back to) the payee, since the
+    // payee is funding settlement fees moving forward. Settlement's destination is
+    // hardcoded to PAYEE on-chain (see settlement_logic_sig.algo.ts); padding's
+    // SWEEP_DESTINATION is an independent template var, compiled to the payee above.
+    await sweepLogicSigAccount(logicSig, logicSigAddress.toString(), 'settlement LogicSig', payeeAddress)
+    await sweepLogicSigAccount(paddingLogicSig, paddingLogicSigAddress.toString(), 'padding LogicSig', payeeAddress)
   }
 }
 
