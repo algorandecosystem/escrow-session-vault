@@ -74,6 +74,23 @@ function required(name: string): string {
   return value
 }
 
+// Derives the lora.algokit.io network path segment (testnet/mainnet/fnet/...) from
+// ALGOD_SERVER so explorer links stay correct regardless of which .env.* file is loaded.
+// Set ALGOD_NETWORK to override the detected segment if a server URL doesn't self-identify.
+function loraExplorerNetworkSegment(): string {
+  const override = process.env.ALGOD_NETWORK?.trim().toLowerCase()
+  if (override) return override
+  const server = (process.env.ALGOD_SERVER ?? '').toLowerCase()
+  if (server.includes('mainnet')) return 'mainnet'
+  if (server.includes('testnet')) return 'testnet'
+  if (server.includes('fnet') || server.includes('futurenet')) return 'fnet'
+  if (server.includes('betanet')) return 'betanet'
+  if (server.includes('localhost') || server.includes('127.0.0.1')) return 'localnet'
+  throw new Error(
+    `Unable to determine network from ALGOD_SERVER "${process.env.ALGOD_SERVER ?? ''}"; set ALGOD_NETWORK explicitly.`,
+  )
+}
+
 function positiveBigInt(name: string): bigint {
   // Algorand tooling commonly displays IDs as e.g. `17794220L`; accept that display suffix in env files.
   const rawValue = required(name).trim()
@@ -398,12 +415,14 @@ async function main(): Promise<void> {
     console.log(`Swept leftover ALGO from ${label} (${address}) to ${destination}.`)
   }
 
+  const explorerNetworkSegment = loraExplorerNetworkSegment()
+
   for (let settlementIndex = 1n; settlementIndex <= SETTLEMENT_COUNT; settlementIndex++) {
     const cumulativeAmount = settlementAmount * settlementIndex
     const txId = await submitSettlement(cumulativeAmount)
     console.log(`Settlement ${settlementIndex}/${SETTLEMENT_COUNT}: cumulative=${cumulativeAmount} USDC`)
     console.log(`Settlement transaction ID: ${txId}`)
-    console.log(`FNet explorer: https://lora.algokit.io/fnet/transaction/${txId}`)
+    console.log(`${explorerNetworkSegment} explorer: https://lora.algokit.io/${explorerNetworkSegment}/transaction/${txId}`)
   }
 
   const afterSettlement = await appClient.send.getSessionDynamicData({

@@ -9,6 +9,7 @@
     "deploy:testnet": "npm run build && DOTENV_CONFIG_PATH=.env.testnet ts-node --transpile-only -r dotenv/config smart_contracts/index.ts",
     "deploy:mainnet": "npm run build && DOTENV_CONFIG_PATH=.env.mainnet ts-node --transpile-only -r dotenv/config smart_contracts/index.ts",
     "test:hybrid-falcon-lsig": "npm run build && ts-node --transpile-only -r dotenv/config smart_contracts/run-hybrid-falcon-lsig.ts",
+    "test:hybrid-falcon-lsig:testnet": "DOTENV_CONFIG_PATH=.env.testnet npm run test:hybrid-falcon-lsig",
     "test:hybrid-falcon-lsig:futurenet": "DOTENV_CONFIG_PATH=.env.futurenet npm run test:hybrid-falcon-lsig",
     "check:falcon-addresses:futurenet": "DOTENV_CONFIG_PATH=../../.env.futurenet go -C tools/falcon-address-parity run .",
     "check-types": "tsc --noEmit"
