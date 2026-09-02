@@ -67,6 +67,11 @@ npm run build
 npm run deploy:futurenet -- escrow_session_vault_hybrid_manager
 npm run deploy:testnet -- escrow_session_vault_hybrid_manager
 npm run deploy:mainnet -- escrow_session_vault_hybrid_manager
+
+# Test the hybrid Falcon LogicSig
+npm run test:hybrid-falcon-lsig:futurenet
+npm run test:hybrid-falcon-lsig:testnet
+npm run test:hybrid-falcon-lsig:mainnet
 ```
 
 #### Creating and Registering a Channel LogicSig
