@@ -57,8 +57,14 @@ coverage
 # Received approval test files
 *.received.*
 
-# Persisted per-device channel salts (smart_contracts/run-hybrid-falcon-lsig.ts)
+# Persisted per-device channel salts (hybrid manager runner; original store location preserved)
 smart_contracts/.device-salts.json
+
+# Solana build artifacts, validator state, and private keys
+smart_contracts/escrow_session_vault_solana_manager/target/
+smart_contracts/escrow_session_vault_solana_manager/.anchor/
+smart_contracts/escrow_session_vault_solana_manager/test-ledger/
+smart_contracts/escrow_session_vault_solana_manager/*keypair*.json
 
 # AlgoKit
 debug_traces/

@@ -8,12 +8,17 @@
     "deploy:futurenet": "npm run build && DOTENV_CONFIG_PATH=.env.futurenet ts-node --transpile-only -r dotenv/config smart_contracts/index.ts",
     "deploy:testnet": "npm run build && DOTENV_CONFIG_PATH=.env.testnet ts-node --transpile-only -r dotenv/config smart_contracts/index.ts",
     "deploy:mainnet": "npm run build && DOTENV_CONFIG_PATH=.env.mainnet ts-node --transpile-only -r dotenv/config smart_contracts/index.ts",
-    "test:hybrid-falcon-lsig": "npm run build && ts-node --transpile-only -r dotenv/config smart_contracts/run-hybrid-falcon-lsig.ts",
+    "test:hybrid-falcon-lsig": "npm run build && ts-node --transpile-only -r dotenv/config smart_contracts/escrow_session_vault_hybrid_manager/run-hybrid-falcon-lsig.ts",
     "test:hybrid-falcon-lsig:mainnet": "DOTENV_CONFIG_PATH=.env.mainnet npm run test:hybrid-falcon-lsig",
     "test:hybrid-falcon-lsig:testnet": "DOTENV_CONFIG_PATH=.env.testnet npm run test:hybrid-falcon-lsig",
     "test:hybrid-falcon-lsig:futurenet": "DOTENV_CONFIG_PATH=.env.futurenet npm run test:hybrid-falcon-lsig",
     "check:falcon-addresses:futurenet": "DOTENV_CONFIG_PATH=../../.env.futurenet go -C tools/falcon-address-parity run .",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "setup:solana": "npm --prefix smart_contracts/escrow_session_vault_solana_manager ci",
+    "test:solana": "npm --prefix smart_contracts/escrow_session_vault_solana_manager test",
+    "deploy:solana:devnet": "npm --prefix smart_contracts/escrow_session_vault_solana_manager run deploy:devnet",
+    "test:solana:devnet": "npm --prefix smart_contracts/escrow_session_vault_solana_manager run test:devnet",
+    "check-types:solana": "npm --prefix smart_contracts/escrow_session_vault_solana_manager run check-types"
   },
   "engines": {
     "node": ">=22.0",

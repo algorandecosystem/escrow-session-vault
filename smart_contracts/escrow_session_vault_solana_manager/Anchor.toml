@@ -1,0 +1,19 @@
+[toolchain]
+anchor_version = "0.31.1"
+
+[features]
+resolution = false
+skip-lint = false
+
+[programs.localnet]
+escrow_session_vault_solana_manager = "EJkkvypbdeRWdFQuf8gm7K65xPsHTUtDsFxsKZceW71B"
+
+[programs.devnet]
+escrow_session_vault_solana_manager = "EJkkvypbdeRWdFQuf8gm7K65xPsHTUtDsFxsKZceW71B"
+
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "npm run test:local"

@@ -22,5 +22,5 @@
     ],
   },
   "include": ["smart_contracts/**/*.ts"],
-  "exclude": ["node_modules", "dist", "coverage"]
+  "exclude": ["node_modules", "dist", "coverage", "smart_contracts/escrow_session_vault_solana_manager"]
 }

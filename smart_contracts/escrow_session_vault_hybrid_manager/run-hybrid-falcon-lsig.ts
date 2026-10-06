@@ -48,7 +48,7 @@ function signAvmFalconVoucher(falcon: FalconModule, privateKey: Uint8Array, vouc
   return signature
 }
 
-import { EscrowSessionVaultHybridManagerClient } from './artifacts/escrow_session_vault_hybrid_manager/EscrowSessionVaultHybridManagerClient'
+import { EscrowSessionVaultHybridManagerClient } from '../artifacts/escrow_session_vault_hybrid_manager/EscrowSessionVaultHybridManagerClient'
 
 const METHOD_SELECTOR = Uint8Array.from([0x43, 0x9c, 0x5f, 0xb1])
 const CHANNEL_BOX_PREFIX = new Uint8Array()
@@ -118,7 +118,8 @@ function sha512_256(value: Uint8Array): Uint8Array {
 // Persists one UUID per device key (e.g. payer address) so repeated runs on the
 // same device derive the same channelId and reopen/top-up the existing channel
 // instead of creating a new one. Delete the entry (or the whole file) to reset.
-const DEVICE_SALT_STORE_PATH = resolve(__dirname, '.device-salts.json')
+// Keep the original location so moving this runner does not reset existing device salts.
+const DEVICE_SALT_STORE_PATH = resolve(__dirname, '..', '.device-salts.json')
 
 async function getOrCreateDeviceSalt(deviceKey: string): Promise<Uint8Array> {
   let store: Record<string, string> = {}
@@ -236,7 +237,7 @@ async function main(): Promise<void> {
 
   // Use the build artifact. The legacy `out/` copy was still AVM 12 and does not represent
   // the AVM 13 LogicSig source compiled by `npm run build`.
-  const tealPath = resolve(__dirname, 'artifacts/escrow_session_vault_hybrid_manager/EscrowSessionSettlementLogicSig.teal')
+  const tealPath = resolve(__dirname, '../artifacts/escrow_session_vault_hybrid_manager/EscrowSessionSettlementLogicSig.teal')
   const tealTemplate = await readFile(tealPath, 'utf8')
   // ABI encodes a dynamic `byte[]` as a 2-byte length followed by its contents.
   // The raw channel ID remains the box key, while this form is passed to the app method.
@@ -304,7 +305,7 @@ async function main(): Promise<void> {
   // Compile a constrained second LogicSig to pool another 1,000 bytes of LogicSig-argument capacity.
   const paddingTealPath = resolve(
     __dirname,
-    'artifacts/escrow_session_vault_hybrid_manager/EscrowSessionSettlementPaddingLogicSig.teal',
+    '../artifacts/escrow_session_vault_hybrid_manager/EscrowSessionSettlementPaddingLogicSig.teal',
   )
   const paddingTealTemplate = await readFile(paddingTealPath, 'utf8')
   if (!paddingTealTemplate.startsWith('#pragma version 13\n')) {
