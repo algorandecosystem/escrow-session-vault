@@ -54,6 +54,9 @@ const METHOD_SELECTOR = Uint8Array.from([0x43, 0x9c, 0x5f, 0xb1])
 const CHANNEL_BOX_PREFIX = new Uint8Array()
 const PUBLIC_KEY_BOX_PREFIX = new TextEncoder().encode('p')
 const LOGIC_SIG_BOX_PREFIX = new TextEncoder().encode('l')
+const PAYEE_SIGNER_BOX_PREFIX = new TextEncoder().encode('e')
+// MBR for the optional payee-signer box: 2,500 + 400 * (1 + 32 key bytes + 32 value bytes).
+const PAYEE_SIGNER_BOX_MBR_FUNDING = 28_500n
 const NATIVE_FALCON_FEE = 3_000n
 // Two outer LogicSig transactions and one inner ASA transfer need 3,000 microAlgos.
 // Hardened LogicSig programs add encoded-byte fee on Futurenet; the teardown-sweep
@@ -467,23 +470,123 @@ async function main(): Promise<void> {
       const expectedPayerRefund = totalDeposit - latestVoucherAmount
       console.log(`Closing channel; expecting payer refund of ${expectedPayerRefund} USDC.`)
     }
+    const payeeSignerBox = concat(PAYEE_SIGNER_BOX_PREFIX, channelId)
+
+    // Delegated close (default on; TEST_PAYEE_SIGNER=false closes as the payee directly):
+    // the payee registers a delegate via setAuthorizedPayeeSigner and the delegate
+    // closes instead, e.g. a hot key for a Seed Vault payee that would otherwise need
+    // a fingerprint. Payouts still go to the payee. PAYEE_SIGNER_MNEMONIC (standard
+    // 25-word ed25519) selects the delegate; otherwise an ephemeral one is generated,
+    // funded by the payee, and closed back out to the payee afterwards.
+    const payeeSignerMnemonic = process.env.PAYEE_SIGNER_MNEMONIC
+    const payeeSigner = process.env.TEST_PAYEE_SIGNER === 'false'
+      ? undefined
+      : payeeSignerMnemonic ? algorand.account.fromMnemonic(payeeSignerMnemonic) : algorand.account.random()
+    const ephemeralPayeeSigner = Boolean(payeeSigner && !payeeSignerMnemonic)
+
+    async function expectRejected(label: string, action: () => Promise<unknown>): Promise<void> {
+      try {
+        await action()
+      } catch (error) {
+        console.log(`Confirmed rejection: ${label}`)
+        return
+      }
+      throw new Error(`Expected rejection but succeeded: ${label}`)
+    }
+
+    if (payeeSigner) {
+      await algorand.send.payment({
+        sender: payee.address,
+        signer: payee.txnSigner,
+        receiver: appAddress,
+        amount: microAlgo(PAYEE_SIGNER_BOX_MBR_FUNDING),
+        staticFee: microAlgo(NATIVE_FALCON_FEE),
+      })
+      if (ephemeralPayeeSigner) {
+        // Min balance plus headroom for the 6,000 microAlgo close and one rejected attempt.
+        await algorand.send.payment({
+          sender: payee.address,
+          signer: payee.txnSigner,
+          receiver: payeeSigner.addr,
+          amount: microAlgo(120_000),
+          staticFee: microAlgo(NATIVE_FALCON_FEE),
+        })
+      }
+
+      // Only the payee controls the payee signer: payer must be rejected.
+      await expectRejected('payer cannot setAuthorizedPayeeSigner', () =>
+        appClient.send.setAuthorizedPayeeSigner({
+          args: { channelId, payeeSigner: payerAddress },
+          sender: payer.address,
+          signer: payer.txnSigner,
+          staticFee: microAlgo(3_000),
+          boxReferences: [channelId, payeeSignerBox],
+        }),
+      )
+
+      await appClient.send.setAuthorizedPayeeSigner({
+        args: { channelId, payeeSigner: payeeSigner.addr.toString() },
+        sender: payee.address,
+        signer: payee.txnSigner,
+        staticFee: microAlgo(3_000),
+        boxReferences: [channelId, payeeSignerBox],
+      })
+
+      // The delegate may close but must not be able to re-delegate.
+      await expectRejected('payee signer cannot setAuthorizedPayeeSigner', () =>
+        appClient.send.setAuthorizedPayeeSigner({
+          args: { channelId, payeeSigner: payerAddress },
+          sender: payeeSigner.addr,
+          signer: payeeSigner.signer,
+          staticFee: microAlgo(1_000),
+          boxReferences: [channelId, payeeSignerBox],
+        }),
+      )
+      const registered = await appClient.send.getAuthorizedPayeeSigner({
+        args: { channelId },
+        sender: payee.address,
+        signer: payee.txnSigner,
+        staticFee: microAlgo(3_000),
+        boxReferences: [channelId, payeeSignerBox],
+      })
+      if (registered.return !== payeeSigner.addr.toString()) {
+        throw new Error(`Payee signer registration mismatch: ${registered.return}`)
+      }
+      console.log(`Payee registered delegated close signer: ${payeeSigner.addr}`)
+    }
+
+    const closer = payeeSigner
+      ? { address: payeeSigner.addr, signer: payeeSigner.signer, label: 'payee signer' }
+      : { address: payee.address, signer: payee.txnSigner, label: 'payee' }
     await appClient.send.close({
       args: { channelId },
-      sender: payee.address,
-      signer: payee.txnSigner,
+      sender: closer.address,
+      signer: closer.signer,
       staticFee: microAlgo(6_000),
-      // The payer refund inner-txn needs the payer account available to the app call.
-      accountReferences: [payerAddress],
+      // The payout/refund inner-txns need the payee and payer accounts available to the app call.
+      accountReferences: [payerAddress, payeeAddress],
       assetReferences: [usdcAssetId],
       boxReferences: [
         channelId,
         concat(PUBLIC_KEY_BOX_PREFIX, channelId),
         concat(LOGIC_SIG_BOX_PREFIX, channelId),
+        payeeSignerBox,
       ],
       coverAppCallInnerTransactionFees: true,
       maxFee: microAlgo(6_000),
     })
-    console.log('Closed channel as payee; remaining USDC was refunded to payer.')
+    console.log(`Closed channel as ${closer.label}; remaining USDC was refunded to payer.`)
+
+    if (payeeSigner && ephemeralPayeeSigner) {
+      await algorand.send.payment({
+        sender: payeeSigner.addr,
+        signer: payeeSigner.signer,
+        receiver: payee.address,
+        amount: microAlgo(0),
+        closeRemainderTo: payee.address,
+      })
+      console.log('Returned ephemeral payee signer ALGO to payee.')
+    }
 
     // Teardown: reclaim whatever unused ALGO fee buffer is left in both LogicSig
     // accounts now that no more settlements will happen for this channel.

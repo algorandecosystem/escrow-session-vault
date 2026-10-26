@@ -2,35 +2,35 @@
 
 This project is an escrow session vault inspired by [https://paymentauth.org/draft-tempo-session-00#name-contract-functions](https://paymentauth.org/draft-tempo-session-00#name-contract-functions).
 
-## Escrow Session Vault
+## Escrow Hybrid Session Vault
+
+futurenet app id: 22036926L
+
+futurenet app address: XQ33IGR7VFEPHDUJJQXVYPYIR45SYKDITJVH7BHTWG2LTJU3PUSEYC3AOY
+
+testnet app id: 774980888L
+
+testnet app address: E3ZNL56TVWXKAFYTXQ7MBG2EBVVSCLAS7MHNMZC5AS5HPF4G4CHL2PA7ZI
+
+mainnet app id: 3754764671L
+
+mainnet app address: 6AHE47KT37NF6GFJWXSQJGU2UHFYOAMPEQSETDD7OHMUL7OLJIOWCDKH6I
+
+(These are not audited or verified and are for demonstration purposes only)
+
+## Escrow Session Vault (older version)
 
 futurenet app id: 17794007L
 
 futurenet app address: XYDZ7A3PL2PSSM3FLATB2ZX5ACOCGMOQGHOS3S7HT2NYPOJ6K27NESS4XY
 
-testnet app id: 766375249L 
+testnet app id: 766375249L
 
 testnet app address: 3VPDN27EUFKI3M7W2RTHNUMP7OF6H6EHON4RW7CPFO6OJDCHYT2F5RXGM4
 
 mainnet app id: 3617483943L
 
 mainnet app address: 26XC5GSRN42CGA4JTX5GQULHONBTWGHIABRY3R4L6ZI3YPXRZIPN3BXDMQ
-
-## Escrow Hybrid Session Vault
-
-futurenet app id: 18086245L
-
-futurenet app address: AGJFWTU2P5YWFRVMXTKXGFW4ELJK7VGBPQRUP6ZV66X7KZ6XENFEVNK36Q
-
-testnet app id: 770746572L
-
-testnet app address: 24DZUPT3BBAO7N7KY7OCGSFFCTVXMHUCOVP3WEEFZEEMKKOO3H4AZIPPVU
-
-mainnet app id: 3689924545L
-
-mainnet app address: D3Q3EXWL7HSVSA6GMWUQLQTEPPWDDS3NN6GFZYT2UV2GN34PRIDBYHKEZE
-
-(These are not audited or verified and are for demonstration purposes only)
 
 # Setup
 
