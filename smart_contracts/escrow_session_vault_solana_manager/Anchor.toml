@@ -11,6 +11,9 @@ escrow_session_vault_solana_manager = "EJkkvypbdeRWdFQuf8gm7K65xPsHTUtDsFxsKZceW
 [programs.devnet]
 escrow_session_vault_solana_manager = "EJkkvypbdeRWdFQuf8gm7K65xPsHTUtDsFxsKZceW71B"
 
+[programs.mainnet]
+escrow_session_vault_solana_manager = "EJkkvypbdeRWdFQuf8gm7K65xPsHTUtDsFxsKZceW71B"
+
 [provider]
 cluster = "localnet"
 wallet = "~/.config/solana/id.json"

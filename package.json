@@ -17,6 +17,7 @@
     "setup:solana": "npm --prefix smart_contracts/escrow_session_vault_solana_manager ci",
     "test:solana": "npm --prefix smart_contracts/escrow_session_vault_solana_manager test",
     "deploy:solana:devnet": "npm --prefix smart_contracts/escrow_session_vault_solana_manager run deploy:devnet",
+    "deploy:solana:mainnet": "npm --prefix smart_contracts/escrow_session_vault_solana_manager run deploy:mainnet",
     "test:solana:devnet": "npm --prefix smart_contracts/escrow_session_vault_solana_manager run test:devnet",
     "check-types:solana": "npm --prefix smart_contracts/escrow_session_vault_solana_manager run check-types"
   },

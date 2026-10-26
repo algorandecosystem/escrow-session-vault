@@ -53,13 +53,21 @@ export async function environmentWallet(role: 'PAYER' | 'PAYEE'): Promise<Keypai
   return wallet
 }
 
-// Public devnet RPC rate-limits deploys/tests heavily; prefer Helius when a key is configured.
-export function devnetRpc(): { url: string, label: string } {
+export type Cluster = 'devnet' | 'mainnet'
+
+// Public RPCs rate-limit deploys/tests heavily; prefer Helius when a key is configured.
+export function clusterRpc(cluster: Cluster): { url: string, label: string } {
   const heliusKey = process.env.SOLANA_HELIUS_API_KEY?.trim()
+  const heliusHost = cluster === 'mainnet' ? 'mainnet.helius-rpc.com' : 'devnet.helius-rpc.com'
+  const publicUrl = cluster === 'mainnet' ? 'https://api.mainnet-beta.solana.com' : 'https://api.devnet.solana.com'
   const url = process.env.SOLANA_RPC_URL ?? (heliusKey
-    ? `https://devnet.helius-rpc.com/?api-key=${encodeURIComponent(heliusKey)}`
-    : 'https://api.devnet.solana.com')
+    ? `https://${heliusHost}/?api-key=${encodeURIComponent(heliusKey)}`
+    : publicUrl)
   return { url, label: redact(url) }
+}
+
+export function devnetRpc(): { url: string, label: string } {
+  return clusterRpc('devnet')
 }
 
 export function redact(text: string): string {

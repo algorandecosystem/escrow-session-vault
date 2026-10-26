@@ -8,6 +8,7 @@
     "check-types": "tsc --noEmit",
     "test:local": "SOLANA_LOCAL_TEST=true ts-node -r dotenv/config run-lifecycle.ts",
     "deploy:devnet": "DOTENV_CONFIG_PATH=../../.env.testnet ts-node -r dotenv/config deploy.ts",
+    "deploy:mainnet": "SOLANA_CLUSTER=mainnet DOTENV_CONFIG_PATH=../../.env.mainnet ts-node -r dotenv/config deploy.ts",
     "test:devnet": "DOTENV_CONFIG_PATH=../../.env.testnet ts-node -r dotenv/config run-lifecycle.ts",
     "test": "anchor test -- --features local-testing"
   },
