@@ -22,6 +22,12 @@ import { abimethod } from '@algorandfoundation/algorand-typescript/arc4'
  */
 const USDC_ASSET_ID = TemplateVar<uint64>('USDC_ASSET_ID')
 const CLOSE_GRACE_PERIOD_SECONDS: uint64 = 888 // ~15 minutes
+/**
+ * Box MBR for one payee-signer entry (account- or channel-level, same size):
+ * 2500 + 400 * (keyLen + valueLen), key = 1-byte prefix + 32-byte payee address
+ * or channelId, value = 32-byte signer address.
+ */
+const PAYEE_SIGNER_BOX_MBR: uint64 = 2_500 + 400 * (1 + 32 + 32)
 
 /**
  * ChannelInfo: source of truth for a single payment channel.
@@ -47,34 +53,36 @@ export class EscrowSessionVaultHybridManager extends Contract {
   channels = BoxMap<bytes, ChannelInfo>({ keyPrefix: '' })
 
   /**
-   * Full authorized signer public key storage, keyed by channelId.
-   */
-  authorizedSignerPublicKey = BoxMap<bytes, bytes>({ keyPrefix: 'p' })
-
-  /**
    * Address of the channel-specific Falcon-verifying LogicSig, keyed by channelId.
    */
   settlementLogicSig = BoxMap<bytes, Account>({ keyPrefix: 'l' })
 
   /**
-   * Optional payee-controlled delegate allowed to call close on the payee's behalf
-   * (e.g. a hot key when the payee is a Seed Vault / biometric-gated account), keyed by channelId.
+   * Optional payee-controlled ACCOUNT-LEVEL delegate allowed to call close on the
+   * payee's behalf for every channel where that account is the payee (e.g. a hot key
+   * when the payee is a Seed Vault / biometric-gated account). Keyed by payee account
+   * so a creator signs once, not once per viewer channel.
    */
-  authorizedPayeeSigner = BoxMap<bytes, Account>({ keyPrefix: 'e' })
+  authorizedPayeeSigner = BoxMap<Account, Account>({ keyPrefix: 'd' })
+
+  /**
+   * Optional payee-controlled CHANNEL-LEVEL delegate, keyed by channelId. When set,
+   * it overrides the account-level delegate for that channel only.
+   */
+  channelPayeeSigner = BoxMap<bytes, Account>({ keyPrefix: 'e' })
 
   /**
    * Opens a channel with initial USDC deposit and returns derived channelId.
    * Caller becomes payer.
-   * authorizedSigner is signer pubkey hash (32 bytes) computed client-side.
-   * authorizedSignerPublicKey is optional: if provided, stores full signer pubkey in box.
+   * authorizedSigner is signer pubkey hash (32 bytes) computed client-side. The full
+   * public key is not stored on-chain: it is compiled into the settlement LogicSig,
+   * which performs voucher verification.
    */
   open(
     payee: Account,
     deposit: gtxn.AssetTransferTxn,
     salt: bytes,
     authorizedSigner: bytes,
-    authorizedSignerPublicKey: bytes,
-
   ): bytes {
     assert(authorizedSigner.length === 32, 'Signer hash must be 32 bytes')
 
@@ -93,7 +101,6 @@ export class EscrowSessionVaultHybridManager extends Contract {
         startTimestamp: op.Global.latestTimestamp,
         closeRequestedAt: 0,
       }
-      this.setAuthorizedSignerPublicKeyIfProvided(channelId, authorizedSignerPublicKey, authorizedSigner)
       this.applyTopUp(data, deposit)
       channel.value = clone(data)
       return channelId
@@ -104,7 +111,6 @@ export class EscrowSessionVaultHybridManager extends Contract {
     assert(payee === data.payee, 'Payee mismatch')
     assert(authorizedSigner === data.authorizedSigner, 'Authorized signer hash mismatch')
 
-    this.setAuthorizedSignerPublicKeyIfProvided(channelId, authorizedSignerPublicKey, data.authorizedSigner)
     this.applyTopUp(data, deposit)
     channel.value = clone(data)
 
@@ -126,8 +132,10 @@ export class EscrowSessionVaultHybridManager extends Contract {
   }
 
   /**
-   * Payer-controlled: set full authorized payer signer public key and update
-   * channel.authorizedSigner hash.
+   * Payer-controlled: records a new payer signer by updating channel.authorizedSigner
+   * to sha512_256(authorizedSignerPublicKey). Record only: voucher authority is the
+   * registered settlement LogicSig, so also call setSettlementLogicSig with a LogicSig
+   * compiled for the new key (or revokeSettlementLogicSig) to actually switch signers.
    */
   setAuthorizedPayerSigner(channelId: bytes, authorizedSignerPublicKey: bytes): void {
     const channel = this.getChannel(channelId)
@@ -137,43 +145,69 @@ export class EscrowSessionVaultHybridManager extends Contract {
     assert(Txn.sender === data.payer, 'Only payer can set authorized signer')
     assert(authorizedSignerPublicKey.length > 0, 'Authorized signer pubkey required')
 
-    const authorizedSignerHash = sha512_256(authorizedSignerPublicKey)
-    this.setAuthorizedSignerPublicKeyIfProvided(channelId, authorizedSignerPublicKey, authorizedSignerHash)
-
-    data.authorizedSigner = authorizedSignerHash
+    data.authorizedSigner = sha512_256(authorizedSignerPublicKey)
     channel.value = clone(data)
   }
 
   /**
    * Payee-controlled: registers a delegate account that may call close on the
    * payee's behalf (e.g. so a Seed Vault payee can close without a fingerprint).
-   * If unset, only the payee account itself can close. Only the payee (never the
-   * delegate) can set, replace, or revoke it.
+   *
+   * - channelId empty  -> ACCOUNT-LEVEL default: applies to every channel (current
+   *   and future) where the sender is the payee, so the payee signs once.
+   * - channelId set    -> CHANNEL-LEVEL: applies to that channel only and overrides
+   *   the account-level default for it. Sender must be that channel's payee.
+   *
+   * The sender pays the box MBR via the grouped payment (required only when first
+   * creating the entry; replacing an existing delegate accepts any amount).
+   * Only the payee account itself (never a delegate) can set, replace, or revoke.
    */
-  setAuthorizedPayeeSigner(channelId: bytes, payeeSigner: Account): void {
-    const channel = this.getChannel(channelId)
-    assert(channel.exists, 'Channel does not exist')
-
-    const data = clone(channel.value)
-    assert(Txn.sender === data.payee, 'Only payee can set payee signer')
+  setAuthorizedPayeeSigner(mbrPayment: gtxn.PaymentTxn, payeeSigner: Account, channelId: bytes): void {
     assert(payeeSigner !== Account(), 'Payee signer account required')
+    assert(payeeSigner !== Txn.sender, 'Payee signer must differ from payee')
+    assert(mbrPayment.sender === Txn.sender, 'MBR payment sender mismatch')
+    assert(mbrPayment.receiver === op.Global.currentApplicationAddress, 'MBR payment must be to contract')
+    assert(mbrPayment.closeRemainderTo === Account(), 'Close remainder not allowed')
+    assert(mbrPayment.rekeyTo === Account(), 'Rekey not allowed')
 
-    this.authorizedPayeeSigner(channelId).value = payeeSigner
+    if (channelId.length === 0) {
+      const entry = this.authorizedPayeeSigner(Txn.sender)
+      if (!entry.exists) {
+        assert(mbrPayment.amount >= PAYEE_SIGNER_BOX_MBR, 'Insufficient MBR payment')
+      }
+      entry.value = payeeSigner
+      return
+    }
+
+    this.assertSenderIsChannelPayee(channelId)
+    const entry = this.channelPayeeSigner(channelId)
+    if (!entry.exists) {
+      assert(mbrPayment.amount >= PAYEE_SIGNER_BOX_MBR, 'Insufficient MBR payment')
+    }
+    entry.value = payeeSigner
   }
 
   /**
-   * Payee-controlled: removes the payee delegate so only the payee can close.
+   * Payee-controlled: removes a delegate and refunds its box MBR to the payee.
+   * channelId empty -> removes the account-level default; channelId set -> removes
+   * that channel's override (the channel then falls back to the account-level default).
    */
   revokeAuthorizedPayeeSigner(channelId: bytes): void {
-    const channel = this.getChannel(channelId)
-    assert(channel.exists, 'Channel does not exist')
+    if (channelId.length === 0) {
+      const entry = this.authorizedPayeeSigner(Txn.sender)
+      assert(entry.exists, 'Payee signer not set')
+      entry.delete()
+    } else {
+      this.assertSenderIsChannelPayee(channelId)
+      const entry = this.channelPayeeSigner(channelId)
+      assert(entry.exists, 'Channel payee signer not set')
+      entry.delete()
+    }
 
-    const data = clone(channel.value)
-    assert(Txn.sender === data.payee, 'Only payee can revoke payee signer')
-
-    const payeeSigner = this.authorizedPayeeSigner(channelId)
-    assert(payeeSigner.exists, 'Payee signer not set')
-    payeeSigner.delete()
+    itxn.payment({
+      receiver: Txn.sender,
+      amount: PAYEE_SIGNER_BOX_MBR,
+    }).submit()
   }
 
   /**
@@ -239,8 +273,8 @@ export class EscrowSessionVaultHybridManager extends Contract {
 
     const data = clone(channel.value)
 
-    const payeeSigner = this.authorizedPayeeSigner(channelId)
-    const isPayeeSigner = payeeSigner.exists ? Txn.sender === payeeSigner.value : false
+    const payeeSigner = this.effectivePayeeSigner(channelId, data.payee)
+    const isPayeeSigner = payeeSigner !== Account() && Txn.sender === payeeSigner
     assert(Txn.sender === data.payee || isPayeeSigner, 'Only payee or payee signer can close')
 
     this.finalizeChannel(channelId, data)
@@ -331,15 +365,23 @@ export class EscrowSessionVaultHybridManager extends Contract {
   }
 
   /**
-   * Returns the payee's delegated close signer, or the zero address if unset.
+   * Returns a delegated close signer, or the zero address if none applies.
+   * channelId empty -> the payee account's account-level default.
+   * channelId set   -> the signer effective for that channel (channel-level override
+   *                    if set, otherwise the channel payee's account-level default);
+   *                    the payee argument is ignored in this case.
    */
   @abimethod({ readonly: true })
-  getAuthorizedPayeeSigner(channelId: bytes): Account {
+  getAuthorizedPayeeSigner(payee: Account, channelId: bytes): Account {
+    if (channelId.length === 0) {
+      const payeeSigner = this.authorizedPayeeSigner(payee)
+      return payeeSigner.exists ? payeeSigner.value : Account()
+    }
+
     const channel = this.getChannel(channelId)
     assert(channel.exists, 'Channel does not exist')
-
-    const payeeSigner = this.authorizedPayeeSigner(channelId)
-    return payeeSigner.exists ? payeeSigner.value : Account()
+    const data = clone(channel.value)
+    return this.effectivePayeeSigner(channelId, data.payee)
   }
 
   /**
@@ -357,6 +399,26 @@ export class EscrowSessionVaultHybridManager extends Contract {
 
   private getChannel(channelId: bytes) {
     return this.channels(channelId)
+  }
+
+  private assertSenderIsChannelPayee(channelId: bytes): void {
+    const channel = this.getChannel(channelId)
+    assert(channel.exists, 'Channel does not exist')
+    const data = clone(channel.value)
+    assert(Txn.sender === data.payee, 'Only payee can manage payee signer')
+  }
+
+  /**
+   * Channel-level delegate overrides the payee's account-level default.
+   * Returns the zero address if neither is set.
+   */
+  private effectivePayeeSigner(channelId: bytes, payee: Account): Account {
+    const channelSigner = this.channelPayeeSigner(channelId)
+    if (channelSigner.exists) {
+      return channelSigner.value
+    }
+    const accountSigner = this.authorizedPayeeSigner(payee)
+    return accountSigner.exists ? accountSigner.value : Account()
   }
 
   /**
@@ -414,29 +476,19 @@ export class EscrowSessionVaultHybridManager extends Contract {
     }
 
     this.channels(channelId).delete()
-    const signerPublicKey = this.authorizedSignerPublicKey(channelId)
-    if (signerPublicKey.exists) {
-      signerPublicKey.delete()
-    }
     const logicSig = this.settlementLogicSig(channelId)
     if (logicSig.exists) {
       logicSig.delete()
     }
-    const payeeSigner = this.authorizedPayeeSigner(channelId)
-    if (payeeSigner.exists) {
-      payeeSigner.delete()
-    }
-  }
-
-  private setAuthorizedSignerPublicKeyIfProvided(
-    channelId: bytes,
-    authorizedSignerPublicKey: bytes,
-    expectedAuthorizedSignerHash: bytes,
-  ): void {
-    if (authorizedSignerPublicKey.length > 0) {
-      assert(sha512_256(authorizedSignerPublicKey) === expectedAuthorizedSignerHash, 'Authorized signer hash mismatch')
-      const authorizedSignerKey = this.authorizedSignerPublicKey(channelId)
-      authorizedSignerKey.value = authorizedSignerPublicKey
+    // Channel-level payee signer dies with the channel; the payee paid its MBR, so
+    // refund it. (The account-level default is kept for the payee's other channels.)
+    const channelSigner = this.channelPayeeSigner(channelId)
+    if (channelSigner.exists) {
+      channelSigner.delete()
+      itxn.payment({
+        receiver: data.payee,
+        amount: PAYEE_SIGNER_BOX_MBR,
+      }).submit()
     }
   }
 

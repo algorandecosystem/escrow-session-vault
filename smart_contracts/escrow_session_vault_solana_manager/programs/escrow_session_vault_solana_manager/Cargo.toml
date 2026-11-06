@@ -20,5 +20,5 @@ mainnet = []
 local-testing = []
 
 [dependencies]
-anchor-lang = "=0.31.1"
+anchor-lang = { version = "=0.31.1", features = ["init-if-needed"] }
 anchor-spl = { version = "=0.31.1", default-features = false, features = ["token", "associated_token"] }

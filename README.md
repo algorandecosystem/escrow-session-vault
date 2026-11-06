@@ -4,17 +4,17 @@ This project is an escrow session vault inspired by [https://paymentauth.org/dra
 
 ## Escrow Hybrid Session Vault
 
-futurenet app id: 22036926L
+futurenet app id: 22054698L
 
-futurenet app address: XQ33IGR7VFEPHDUJJQXVYPYIR45SYKDITJVH7BHTWG2LTJU3PUSEYC3AOY
+futurenet app address: 3KHLXFDRBBYDFS6AIVX636UKQ2XZXC5FIORF5NNGEFOL6Q7JXS5XJUFM7Q
 
-testnet app id: 774980888L
+testnet app id: 775517352L
 
-testnet app address: E3ZNL56TVWXKAFYTXQ7MBG2EBVVSCLAS7MHNMZC5AS5HPF4G4CHL2PA7ZI
+testnet app address: BRGWZXTJ4BYUTRV3AVRYY4K7RULMDYTILIPISUEBM6BTUQUGGQUCN3EJWA
 
-mainnet app id: 3754764671L
+mainnet app id: 3763739926L
 
-mainnet app address: 6AHE47KT37NF6GFJWXSQJGU2UHFYOAMPEQSETDD7OHMUL7OLJIOWCDKH6I
+mainnet app address: YVEPSLZDEMUBGLCIJ3CL2VWVENVE7NIW3PXKUK6EHI5Q3F2GQWDRWZPEFY
 
 (These are not audited or verified and are for demonstration purposes only)
 
@@ -87,7 +87,7 @@ Compile it after the hybrid app has been deployed, supplying these template valu
 
 Then perform these steps from Kotlin:
 
-1. Open the hybrid channel, supplying `authorizedSigner = sha512_256(authorizedPublicKey)` and the full `authorizedSignerPublicKey`.
+1. Open the hybrid channel, supplying `authorizedSigner = sha512_256(authorizedPublicKey)`. The full public key is not stored on-chain; it is compiled into the LogicSig.
 2. Compile the per-channel LogicSig and obtain its address.
 3. Call `setSettlementLogicSig(channelId, logicSigAddress)` from the payer account.
 4. Fund the LogicSig address with ALGO for its outer application-call fee and the app's inner USDC transfer fee.
